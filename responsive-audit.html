@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neoball Responsive Audit</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; background: #0d1117; color: #e6edf3; }
+      body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+      header { padding: 16px 16px 8px; }
+      h1 { margin: 0 0 6px; font-size: 16px; font-weight: 700; letter-spacing: 0.02em; }
+      p { margin: 0; font-size: 12px; opacity: 0.85; }
+      .wrap { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px 16px 20px; }
+      table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; }
+      th, td { padding: 10px 10px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); vertical-align: top; }
+      th { text-align: left; font-weight: 700; background: rgba(255,255,255,0.03); }
+      tr:last-child td { border-bottom: none; }
+      .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-weight: 700; font-size: 11px; }
+      .ok { background: rgba(35, 134, 54, 0.25); color: #7ee787; border: 1px solid rgba(126, 231, 135, 0.25); }
+      .fail { background: rgba(248, 81, 73, 0.18); color: #ff7b72; border: 1px solid rgba(255, 123, 114, 0.25); }
+      .muted { opacity: 0.8; }
+      .frames { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+      .frameCard { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; }
+      .frameTitle { font-size: 12px; font-weight: 700; margin: 0 0 8px; display: flex; justify-content: space-between; gap: 8px; }
+      iframe { display: block; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; background: #111827; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Neoball Responsive Audit</h1>
+      <p>
+        This harness loads <span class="muted">index.html?debug=1&amp;report=1</span> inside fixed-size iframes and reports key layout metrics.
+      </p>
+    </header>
+
+    <div class="wrap">
+      <div id="a11y-report" role="status" aria-live="polite" style="position: fixed; left: 12px; bottom: 12px; z-index: 10000; max-width: calc(100vw - 24px); padding: 10px 12px; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.16); border-radius: 10px; font: 12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; white-space: pre-wrap;">
+        Waiting for viewport reports…
+      </div>
+
+      <table aria-label="Responsive checks table">
+        <thead>
+          <tr>
+            <th>Viewport</th>
+            <th>Status</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+
+      <div class="frames" id="frames" aria-label="Iframe previews"></div>
+    </div>
+
+    <script>
+      const TESTS = [
+        { id: "m320", label: "Mobile 320×568", w: 320, h: 568 },
+        { id: "m360", label: "Mobile 360×800", w: 360, h: 800 },
+        { id: "m390", label: "iPhone 390×844", w: 390, h: 844 },
+        { id: "tab768", label: "Tablet 768×1024", w: 768, h: 1024 },
+        { id: "desk1024", label: "Desktop 1024×768", w: 1024, h: 768 },
+        { id: "desk1440", label: "Desktop 1440×900", w: 1440, h: 900 }
+      ];
+
+      const rows = document.getElementById("rows");
+      const frames = document.getElementById("frames");
+      const stateByHref = new Map();
+      const a11y = document.getElementById("a11y-report");
+
+      function esc(s) {
+        return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
+      }
+
+      function upsertRow(test, data) {
+        const rowId = `row-${test.id}`;
+        let tr = document.getElementById(rowId);
+        if (!tr) {
+          tr = document.createElement("tr");
+          tr.id = rowId;
+          tr.innerHTML = `
+            <td>${esc(test.label)}</td>
+            <td><span class="badge muted">WAIT</span></td>
+            <td class="muted">Waiting for report…</td>
+          `;
+          rows.appendChild(tr);
+        }
+
+        const ok = !!(data?.metrics?.fits && data?.metrics?.bottomClearMeetsSafeArea);
+        const badge = ok
+          ? `<span class="badge ok">OK</span>`
+          : `<span class="badge fail">FAIL</span>`;
+
+        const m = data?.metrics;
+        const details = m
+          ? `inner: ${m.w}×${m.h}, safeB: ${Math.round(m.safeB)}px, btnFits: ${m.fits ? "OK" : "FAIL"}, safeClear: ${m.bottomClearMeetsSafeArea ? "OK" : "FAIL"}`
+          : "No metrics";
+
+        tr.children[1].innerHTML = badge;
+        tr.children[2].textContent = details;
+      }
+
+      function updateA11yReport() {
+        const lines = [];
+        let okCount = 0;
+        for (const t of TESTS) {
+          const data = stateByHref.get(t.id);
+          const ok = !!(data?.metrics?.fits && data?.metrics?.bottomClearMeetsSafeArea);
+          if (data) okCount += ok ? 1 : 0;
+          lines.push(`${t.id}: ${data ? (ok ? "OK" : "FAIL") : "WAIT"}`);
+        }
+        const summary = `neoball responsive summary: ${okCount}/${TESTS.length} OK`;
+        const body = lines.join(" | ");
+        a11y.textContent = `${summary}\n${body}`;
+        a11y.setAttribute("aria-label", `${summary} | ${body}`);
+      }
+
+      function makeFrame(test) {
+        const card = document.createElement("div");
+        card.className = "frameCard";
+
+        const title = document.createElement("div");
+        title.className = "frameTitle";
+        title.innerHTML = `<span>${esc(test.label)}</span><span class="muted">${test.w}×${test.h}</span>`;
+        card.appendChild(title);
+
+        const iframe = document.createElement("iframe");
+        iframe.width = String(test.w);
+        iframe.height = String(test.h);
+        iframe.title = test.label;
+        iframe.src = `./?debug=1&report=1&case=${encodeURIComponent(test.id)}`;
+        card.appendChild(iframe);
+
+        frames.appendChild(card);
+        upsertRow(test, null);
+        updateA11yReport();
+      }
+
+      TESTS.forEach(makeFrame);
+
+      window.addEventListener("message", (event) => {
+        const data = event.data;
+        if (!data || data.type !== "NEOBALL_UI_METRICS") return;
+        // Best-effort association by href query param case=...
+        try {
+          const url = new URL(data.href);
+          const caseId = url.searchParams.get("case");
+          const test = TESTS.find((t) => t.id === caseId);
+          if (!test) return;
+          stateByHref.set(caseId, data);
+          upsertRow(test, data);
+          updateA11yReport();
+        } catch (_) {
+          // ignore
+        }
+      });
+    </script>
+  </body>
+</html>
+
+

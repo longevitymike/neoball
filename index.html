@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEOBALL — Silent Basketball</title>
+  <meta name="description" content="NEOBALL is the world’s best silent basketball — 1:1 regulation weight, patented microfiber fleece, AI‑ready training ball." />
+  <meta name="theme-color" content="#0F1B22" />
+  <link rel="canonical" href="https://neoball.co/" />
+
+  <!-- Performance -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="./fonts/powergrotesk/PowerGroteskTrial-Bold.woff" as="font" type="font/woff" crossorigin />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="NEOBALL" />
+  <meta property="og:title" content="NEOBALL — Silent Basketball" />
+  <meta property="og:description" content="World’s best silent basketball. 1:1 regulation weight. Patented microfiber fleece. AI‑ready training ball." />
+  <meta property="og:url" content="https://neoball.co/" />
+  <!-- TODO: Add og:image once you pick the share image -->
+  <!-- <meta property="og:image" content="https://neoball.co/og.jpg" /> -->
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NEOBALL — Silent Basketball" />
+  <meta name="twitter:description" content="World’s best silent basketball. 1:1 regulation weight. Patented microfiber fleece. AI‑ready training ball." />
+
+  <script src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.5.3/dist/unicornStudio.umd.js"></script>
+  <style>
+    /* Fonts to match Unicorn text styling */
+    @font-face {
+      font-family: "PowerGroteskTrial";
+      src: url("./fonts/powergrotesk/PowerGroteskTrial-Bold.woff") format("woff");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* iOS safe-area (0px fallback on non-notch devices) */
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #1a2025;
+    }
+
+    #neoball-scene {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    /* Text overlay (keeps typography crisp + avoids Unicorn layout overlap issues) */
+    .hero {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      padding-top: calc(var(--safe-top) + clamp(18px, 6vh, 64px));
+      padding-bottom: calc(var(--safe-bottom) + clamp(18px, 6vh, 64px));
+      padding-left: calc(var(--safe-left) + 16px);
+      padding-right: calc(var(--safe-right) + 16px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: space-between;
+      gap: clamp(10px, 2vh, 18px);
+    }
+
+    .hero-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: clamp(10px, 2vh, 18px);
+      pointer-events: none;
+    }
+
+    .hero-title {
+      font-family: "PowerGroteskTrial", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      /* ~3% letter spacing */
+      letter-spacing: 0.03em;
+      color: #f1f6f8;
+      font-size: clamp(56px, 12vw, 120px);
+      line-height: 0.92;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    .hero-tagline {
+      font-family: "Bebas Neue", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      color: rgba(174, 187, 195, 0.92);
+      font-size: clamp(22px, 5.5vw, 54px);
+      line-height: 0.95;
+      letter-spacing: 0.01em;
+      margin: 0;
+      text-transform: uppercase;
+      max-width: min(92vw, 780px);
+      position: relative;
+      display: inline-block;
+      pointer-events: auto;
+    }
+
+    /* Subtle accent line under the tagline (design detail) */
+    .hero-tagline::after {
+      content: "";
+      display: block;
+      width: clamp(96px, 22vw, 160px);
+      height: 2px;
+      background: rgba(22, 199, 190, 0.65); /* faint teal-cyan */
+      border-radius: 999px;
+      margin: clamp(10px, 2.2vh, 14px) auto 0;
+      box-shadow: 0 0 10px rgba(22, 199, 190, 0.18);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    /* Feature callouts (Space Grotesk) */
+    .callouts {
+      position: absolute;
+      inset: 0;
+      z-index: 9; /* under text/CTA but above scene */
+      pointer-events: none;
+    }
+
+    .callouts svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .callout {
+      position: absolute;
+      font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(241, 246, 248, 0.92);
+      text-shadow: 0 1px 0 rgba(0,0,0,0.12);
+      line-height: 1.05;
+      font-weight: 700;
+      font-size: clamp(12px, 2.6vw, 16px);
+      max-width: 46vw;
+      /* Prevent line “bleed through” if the layout ever gets tight */
+      background: rgba(15, 27, 34, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 8px 10px;
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .callout-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(22, 199, 190, 0.95);
+      box-shadow: 0 0 12px rgba(22, 199, 190, 0.22);
+      flex: 0 0 12px;
+      margin-top: 2px;
+    }
+
+    .callout-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .callout-text {
+      font-weight: 700;
+      opacity: 0.95;
+      letter-spacing: 0.12em;
+    }
+
+    .callout--left {
+      left: calc(var(--safe-left) + clamp(14px, 4vw, 28px));
+      top: clamp(44vh, 48vh, 52vh);
+      text-align: left;
+    }
+
+    .callout--right {
+      right: calc(var(--safe-right) + clamp(14px, 4vw, 28px));
+      top: clamp(44vh, 48vh, 52vh);
+      text-align: right;
+      justify-content: flex-end;
+    }
+
+    .callout--bottom {
+      right: calc(var(--safe-right) + clamp(14px, 4vw, 28px));
+      top: clamp(66vh, 70vh, 76vh);
+      text-align: right;
+      justify-content: flex-end;
+    }
+    /* Premium static gradient beam (no tacky motion) */
+    .beam-base {
+      stroke: url(#tealBeam);
+      stroke-linecap: round;
+      opacity: 0.9;
+      filter: drop-shadow(0 0 8px rgba(22, 199, 190, 0.22));
+    }
+
+
+    @media (min-width: 768px) {
+      .callout--left { top: 56vh; }
+      .callout--right { top: 56vh; }
+      .callout--bottom { top: 78vh; }
+      .callout { font-size: clamp(12px, 1.4vw, 16px); }
+    }
+
+    .cta {
+      background: #0F1B22;
+      color: #B9FAF5;
+      border: 2px solid #16C7BE;
+      box-shadow: 0 0 0 rgba(22,199,190,0);
+      border-radius: 14px;
+      padding: 16px 42px;
+      font-family: "PowerGroteskTrial", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 200ms ease;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .cta:hover {
+        box-shadow: 0 0 24px rgba(22,199,190,.35), inset 0 0 12px rgba(22,199,190,.2);
+        transform: translateY(-1px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cta { transition: none; }
+    }
+
+    /* Optional micro-motion */
+    @media (prefers-reduced-motion: no-preference) {
+      #neoball-scene {
+        animation: sceneFloat 10s ease-in-out infinite;
+        transform-origin: center;
+        will-change: transform;
+      }
+    }
+
+    @keyframes sceneFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(0.8deg); }
+    }
+
+    /* Accent bar shimmer on tagline hover (desktop only) */
+    @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+      .hero-tagline::after {
+        background: linear-gradient(
+          90deg,
+          rgba(22, 199, 190, 0.45),
+          rgba(22, 199, 190, 0.85),
+          rgba(22, 199, 190, 0.45)
+        );
+        background-size: 200% 100%;
+        background-position: 0% 50%;
+      }
+      .hero-tagline:hover::after {
+        animation: shimmer 700ms linear infinite;
+      }
+      @keyframes shimmer {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+      }
+    }
+
+    /* Optional dev overlay: enabled via ?debug=1 */
+    #ui-debug {
+      position: fixed;
+      top: calc(var(--safe-top) + 8px);
+      left: calc(var(--safe-left) + 8px);
+      z-index: 9999;
+      font: 12px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      color: rgba(241, 246, 248, 0.95);
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      padding: 10px 12px;
+      max-width: calc(100vw - (var(--safe-left) + var(--safe-right) + 16px));
+      pointer-events: none;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <div id="neoball-scene"></div>
+  <header class="hero">
+    <div class="callouts" aria-hidden="true">
+      <!-- SVG lines/nodes in viewport-relative coordinates -->
+      <svg id="callout-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <!-- Subtle teal-cyan beam gradient -->
+          <linearGradient id="tealBeam" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="rgba(22, 199, 190, 0.0)"/>
+            <stop offset="15%" stop-color="rgba(22, 199, 190, 0.65)"/>
+            <stop offset="50%" stop-color="rgba(185, 250, 245, 0.85)"/>
+            <stop offset="85%" stop-color="rgba(22, 199, 190, 0.65)"/>
+            <stop offset="100%" stop-color="rgba(22, 199, 190, 0.0)"/>
+          </linearGradient>
+        </defs>
+        <!-- Left callout line -->
+        <line id="line-left-h" class="beam-base" x1="7.2" y1="60" x2="36" y2="60" stroke-width="0.25"/>
+        <line x1="36" y1="60" x2="43" y2="68" stroke="rgba(241,246,248,0.85)" stroke-width="0.22"/>
+
+        <!-- Right callout line -->
+        <line id="line-right-h" class="beam-base" x1="92.8" y1="60" x2="64" y2="60" stroke-width="0.25"/>
+        <line x1="64" y1="60" x2="57" y2="68" stroke="rgba(241,246,248,0.85)" stroke-width="0.22"/>
+
+        <!-- Bottom-right callout line -->
+        <line id="line-bottom-h" class="beam-base" x1="92.8" y1="88" x2="72" y2="88" stroke-width="0.25"/>
+        <line x1="72" y1="88" x2="62" y2="76" stroke="rgba(241,246,248,0.85)" stroke-width="0.22"/>
+      </svg>
+
+      <div class="callout callout--left" role="note" aria-label="Worlds first one to one regulation weight">
+        <span class="callout-dot" aria-hidden="true"></span>
+        <div class="callout-lines">
+          <div class="callout-text">WORLDS FIRST 1:1</div>
+          <div class="callout-text">REGULATION WEIGHT</div>
+        </div>
+      </div>
+
+      <div class="callout callout--right" role="note" aria-label="Patented microfiber fleece">
+        <span class="callout-dot" aria-hidden="true"></span>
+        <div class="callout-lines">
+          <div class="callout-text">PATENTED</div>
+          <div class="callout-text">MICROFIBER FLEECE</div>
+        </div>
+      </div>
+
+      <div class="callout callout--bottom" role="note" aria-label="AI ready training ball">
+        <span class="callout-dot" aria-hidden="true"></span>
+        <div class="callout-lines">
+          <div class="callout-text">AI READY</div>
+          <div class="callout-text">TRAINING BALL</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-top">
+      <h1 class="hero-title">NEOBALL</h1>
+      <p class="hero-tagline">"WORLD'S BEST"<br />SILENT BASKETBALL</p>
+    </div>
+
+    <div class="hero-actions">
+      <a
+        class="cta"
+        aria-label="Buy Now"
+        href="https://shop.youthperformance.com/products/neoball"
+        rel="noopener"
+      >BUY NOW</a>
+    </div>
+  </header>
+
+  <script>
+    // Dev-only UI metrics overlay (use ?debug=1)
+    (function initUIDebugOverlay() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("debug") !== "1") return;
+
+      const el = document.createElement("pre");
+      el.id = "ui-debug";
+      // In debug mode we intentionally expose this to the a11y tree so MCP snapshots can read it.
+      el.setAttribute("role", "status");
+      el.setAttribute("aria-live", "polite");
+      document.body.appendChild(el);
+
+      const btn = document.querySelector(".cta");
+      const root = document.documentElement;
+      let lastReportTs = 0;
+
+      const px = (n) => Math.round(n);
+      const getSafe = (name) => {
+        const v = getComputedStyle(root).getPropertyValue(name).trim();
+        const num = Number.parseFloat(v);
+        return Number.isFinite(num) ? num : 0;
+      };
+
+      const render = () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const vvH = window.visualViewport?.height ?? h;
+        const safeB = getSafe("--safe-bottom");
+        const safeT = getSafe("--safe-top");
+
+        const rect = btn?.getBoundingClientRect?.();
+        const fits =
+          rect
+            ? rect.left >= 0 &&
+              rect.right <= w &&
+              rect.top >= 0 &&
+              rect.bottom <= h
+            : false;
+
+        const bottomClear =
+          rect ? (h - rect.bottom) >= safeB : 0;
+
+        // Callout vs line collision check (puppeteer-style visual sanity)
+        const svg = document.getElementById("callout-svg");
+        const calloutBoxes = Array.from(document.querySelectorAll(".callout")).map((n) => ({
+          el: n,
+          rect: n.getBoundingClientRect()
+        }));
+
+        const svgRect = svg?.getBoundingClientRect?.();
+        const toPx = (x100, y100) => {
+          if (!svgRect) return null;
+          return {
+            x: svgRect.left + (x100 / 100) * svgRect.width,
+            y: svgRect.top + (y100 / 100) * svgRect.height
+          };
+        };
+
+        const segments = [
+          // horizontal teal segments (where overlap is most visible)
+          { a: toPx(7.2, 60), b: toPx(36, 60) },
+          { a: toPx(92.8, 60), b: toPx(64, 60) },
+          { a: toPx(92.8, 88), b: toPx(72, 88) }
+        ].filter((s) => s.a && s.b);
+
+        const rectIntersectsSegment = (r, a, b, pad = 2) => {
+          // Inflate rect slightly so we catch “almost” overlaps
+          const left = r.left - pad, right = r.right + pad, top = r.top - pad, bottom = r.bottom + pad;
+          // Quick reject by segment bbox
+          const minX = Math.min(a.x, b.x), maxX = Math.max(a.x, b.x);
+          const minY = Math.min(a.y, b.y), maxY = Math.max(a.y, b.y);
+          if (maxX < left || minX > right || maxY < top || minY > bottom) return false;
+          // Segment is nearly horizontal; check y within rect and x-range overlaps
+          const y = (a.y + b.y) / 2;
+          if (y < top || y > bottom) return false;
+          return !(maxX < left || minX > right);
+        };
+
+        let collisions = 0;
+        for (const box of calloutBoxes) {
+          for (const s of segments) {
+            if (rectIntersectsSegment(box.rect, s.a, s.b)) collisions++;
+          }
+        }
+
+        const calloutStatus = collisions === 0 ? "OK" : `FAIL (${collisions})`;
+
+        el.textContent =
+          `viewport: ${w}x${h} (visualViewportH: ${px(vvH)})\n` +
+          `safeArea: top=${px(safeT)} bottom=${px(safeB)}\n` +
+          `calloutLineOverlap: ${calloutStatus}\n` +
+          (rect
+            ? `btnRect: l=${px(rect.left)} r=${px(rect.right)} t=${px(rect.top)} b=${px(rect.bottom)}\n`
+            : `btnRect: (missing)\n`) +
+          `btnFitsViewport: ${fits ? "OK" : "FAIL"}\n` +
+          `btnAboveSafeBottom: ${bottomClear >= 0 ? "OK" : "FAIL"} (clear=${px(bottomClear)})`;
+
+        // Ensure the snapshot shows the values (some a11y snapshots omit raw textContent).
+        el.setAttribute("aria-label", el.textContent.replace(/\n/g, " | "));
+
+        // Optional postMessage reporting for responsive harnesses (debug=1&report=1).
+        if (params.get("report") === "1" && window.parent && window.parent !== window) {
+          const now = Date.now();
+          if (now - lastReportTs > 250) {
+            lastReportTs = now;
+            window.parent.postMessage(
+              {
+                type: "NEOBALL_UI_METRICS",
+                href: window.location.href,
+                metrics: {
+                  w,
+                  h,
+                  vvH,
+                  safeT,
+                  safeB,
+                  rect: rect
+                    ? { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom }
+                    : null,
+                  fits,
+                  bottomClearPx: (h - (rect?.bottom ?? h)),
+                  bottomClearMeetsSafeArea: bottomClear >= 0
+                }
+              },
+              "*"
+            );
+          }
+        }
+      };
+
+      render();
+      window.addEventListener("resize", render, { passive: true });
+      window.visualViewport?.addEventListener("resize", render, { passive: true });
+      window.visualViewport?.addEventListener("scroll", render, { passive: true });
+      setInterval(render, 500);
+    })();
+
+    UnicornStudio.addScene({
+      elementId: "neoball-scene",
+      fps: 60,
+      scale: 1,
+      dpi: 1.5,
+      filePath: (() => {
+        const p = new URLSearchParams(window.location.search);
+        // Use ?cb=1 to force reload of neoball.json (cache-buster), e.g. http://localhost:8080/?cb=1
+        if (p.get("cb") === "1") return `./neoball.json?cb=${Date.now()}`;
+        return "./neoball.json";
+      })(),
+      lazyLoad: false,
+      altText: "Neoball - Interactive WebGL Experience",
+      ariaLabel: "Neoball canvas scene with gradient background and interactive effects",
+      interactivity: {
+        mouse: {
+          disableMobile: false,
+          disabled: false
+        }
+      }
+    })
+    .then((scene) => {
+      console.log("Neoball scene loaded successfully");
+
+      // Handle window resize
+      const onResize = () => scene.resize();
+      window.addEventListener("resize", onResize, { passive: true });
+      // iOS address bar + zoom can change visual viewport without firing window resize reliably.
+      window.visualViewport?.addEventListener("resize", onResize, { passive: true });
+    })
+    .catch((err) => {
+      console.error("Failed to load Neoball scene:", err);
+    });
+  </script>
+</body>
+</html>
