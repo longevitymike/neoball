@@ -1,0 +1,10 @@
+name = "neoball"
+compatibility_date = "2025-12-16"
+
+# Cloudflare Pages deploys static assets from this directory.
+# We'll deploy the repo root (index.html, neoball.json, etc.)
+
+[pages]
+build_output_dir = "."
+
+
