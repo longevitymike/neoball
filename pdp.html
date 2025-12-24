@@ -1,0 +1,2987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Neoball Pro Basketball | Lock In. Level Up.</title>
+  <meta name="description" content="The future of basketball. Premium grip technology meets iconic design. Shop the Neoball Pro - trusted by 726,000+ players worldwide.">
+
+  <!-- Fonts: Bebas Neue (display), Nunito Sans (body), Space Mono (numbers) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Splide CSS for carousel -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+
+  <style>
+    :root {
+      /* Neoball Brand Colors */
+      --c-primary: #00FFFF;
+      --c-primary-dark: #00CCCC;
+      --c-primary-glow: rgba(0, 255, 255, 0.3);
+      --c-bg: #0A0A0A;
+      --c-bg-card: #111111;
+      --c-bg-elevated: #1A1A1A;
+      --c-text: #FFFFFF;
+      --c-text-muted: #888888;
+      --c-text-dim: #555555;
+      --c-border: #222222;
+      --c-border-light: #333333;
+      --c-success: #00FF88;
+      --c-error: #FF4444;
+      --c-warning: #FFAA00;
+      --c-sale: #FF6B6B;
+
+      /* Typography */
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+
+      /* Transitions */
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.25s ease;
+      --transition-slow: 0.4s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--c-bg);
+      color: var(--c-text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========================================
+       TRUST BAR (Top)
+    ======================================== */
+    .trust-bar {
+      background: var(--c-bg-card);
+      border-bottom: 1px solid var(--c-border);
+      padding: var(--space-sm) var(--space-md);
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--c-text-muted);
+    }
+
+    .trust-bar-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+    }
+
+    .trust-bar-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .trust-bar-item strong {
+      color: var(--c-primary);
+      font-family: var(--font-mono);
+    }
+
+    .trust-bar-divider {
+      color: var(--c-border-light);
+    }
+
+    /* ========================================
+       HEADER / NAVIGATION
+    ======================================== */
+    .header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--c-border);
+      z-index: 1000;
+      transition: transform var(--transition-normal);
+    }
+
+    .header.hidden {
+      transform: translateY(-100%);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-lg);
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--c-primary);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--space-xl);
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--c-text);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-links a:hover {
+      color: var(--c-primary);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .cart-btn {
+      position: relative;
+      background: none;
+      border: none;
+      color: var(--c-text);
+      cursor: pointer;
+      padding: var(--space-sm);
+    }
+
+    .cart-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--c-primary);
+      color: var(--c-bg);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--c-text);
+      cursor: pointer;
+      padding: var(--space-sm);
+    }
+
+    /* ========================================
+       PROMO ANNOUNCEMENT BAR
+    ======================================== */
+    .promo-bar {
+      background: linear-gradient(90deg, var(--c-primary) 0%, #00DDDD 50%, var(--c-primary) 100%);
+      color: var(--c-bg);
+      text-align: center;
+      padding: var(--space-sm) var(--space-md);
+      font-weight: 700;
+      font-size: 0.9375rem;
+    }
+
+    .promo-bar a {
+      color: var(--c-bg);
+      text-decoration: underline;
+      margin-left: var(--space-sm);
+    }
+
+    /* ========================================
+       RETAILERS BAR
+    ======================================== */
+    .retailers-bar {
+      background: var(--c-bg-card);
+      padding: var(--space-md) var(--space-lg);
+      text-align: center;
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .retailers-bar-label {
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      letter-spacing: 0.15em;
+      color: var(--c-text-muted);
+      margin-bottom: var(--space-sm);
+    }
+
+    .retailers-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-2xl);
+      flex-wrap: wrap;
+      opacity: 0.7;
+    }
+
+    .retailers-logos img {
+      height: 24px;
+      filter: brightness(0) invert(1);
+    }
+
+    .retailer-placeholder {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: 0.1em;
+      color: var(--c-text-muted);
+    }
+
+    /* ========================================
+       PRODUCT HERO SECTION
+    ======================================== */
+    .product-hero {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--space-2xl) var(--space-lg);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-3xl);
+      align-items: start;
+    }
+
+    /* Image Gallery with Splide */
+    .product-gallery {
+      position: sticky;
+      top: 100px;
+    }
+
+    .gallery-main {
+      position: relative;
+      background: var(--c-bg-card);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: var(--space-md);
+    }
+
+    .gallery-main .splide__slide {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--c-bg-card);
+    }
+
+    .gallery-main img,
+    .gallery-main video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-badge {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      background: var(--c-primary);
+      color: var(--c-bg);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: 4px;
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+      z-index: 10;
+    }
+
+    .gallery-badge-sale {
+      background: var(--c-sale);
+      color: white;
+      top: calc(var(--space-md) + 32px);
+    }
+
+    .gallery-badge-holiday {
+      background: #C41E3A;
+      color: #00C853;
+      font-weight: 700;
+    }
+
+    .gallery-thumbnails {
+      display: flex;
+      gap: var(--space-sm);
+      overflow-x: auto;
+      padding-bottom: var(--space-sm);
+    }
+
+    .thumbnail {
+      flex-shrink: 0;
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color var(--transition-fast);
+      background: var(--c-bg-card);
+    }
+
+    .thumbnail.active,
+    .thumbnail:hover {
+      border-color: var(--c-primary);
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumbnail.video-thumb {
+      position: relative;
+    }
+
+    .thumbnail.video-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .thumbnail.video-thumb::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid white;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      z-index: 1;
+    }
+
+    /* Product Info */
+    .product-info {
+      padding-top: var(--space-md);
+    }
+
+    .product-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-bestseller {
+      background: var(--c-warning);
+      color: var(--c-bg);
+    }
+
+    .badge-save {
+      background: var(--c-success);
+      color: var(--c-bg);
+    }
+
+    .badge-holiday {
+      background: #C41E3A;
+      color: #00C853;
+      font-weight: 700;
+    }
+
+    .badge-bogo {
+      background: var(--c-sale);
+      color: white;
+    }
+
+    .product-title {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: var(--space-sm);
+      letter-spacing: 0.02em;
+    }
+
+    .product-subtitle {
+      color: var(--c-text-muted);
+      font-size: 1rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Rating */
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+      color: var(--c-primary);
+    }
+
+    .rating-text {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.9375rem;
+    }
+
+    .review-count {
+      color: var(--c-text-muted);
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.9375rem;
+    }
+
+    /* Pricing */
+    .product-pricing {
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-sm);
+      flex-wrap: wrap;
+    }
+
+    .price-current {
+      font-family: var(--font-mono);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--c-text);
+    }
+
+    .price-original {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      color: var(--c-text-dim);
+      text-decoration: line-through;
+    }
+
+    .price-savings {
+      background: var(--c-success);
+      color: var(--c-bg);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .financing-note {
+      font-size: 0.875rem;
+      color: var(--c-text-muted);
+      margin-top: var(--space-xs);
+    }
+
+    .financing-note strong {
+      color: var(--c-text);
+      font-family: var(--font-mono);
+    }
+
+    /* Benefits List */
+    .benefits-list {
+      list-style: none;
+      margin-bottom: var(--space-lg);
+    }
+
+    .benefits-list li {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) 0;
+      font-size: 0.9375rem;
+    }
+
+    .benefits-list li svg {
+      flex-shrink: 0;
+      color: var(--c-primary);
+    }
+
+    /* Promo Banner */
+    .promo-banner {
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.15) 0%, rgba(0, 255, 255, 0.05) 100%);
+      border: 1px solid var(--c-primary);
+      border-radius: 12px;
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .promo-banner-text {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .promo-banner-text span {
+      color: var(--c-primary);
+    }
+
+    .promo-banner-link {
+      color: var(--c-primary);
+      text-decoration: underline;
+      font-size: 0.875rem;
+      white-space: nowrap;
+    }
+
+    /* Add to Cart Section */
+    .atc-section {
+      margin-bottom: var(--space-lg);
+    }
+
+    .atc-btn {
+      width: 100%;
+      padding: var(--space-lg);
+      background: var(--c-primary);
+      color: var(--c-bg);
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .atc-btn:hover {
+      background: var(--c-primary-dark);
+      box-shadow: 0 0 30px var(--c-primary-glow);
+    }
+
+    .atc-btn:active {
+      transform: scale(0.98);
+    }
+
+    .atc-btn.loading {
+      pointer-events: none;
+    }
+
+    .atc-btn.loading .btn-text {
+      opacity: 0;
+    }
+
+    .atc-btn .spinner {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .atc-btn.loading .spinner {
+      display: flex;
+    }
+
+    .atc-subtext {
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--c-text-muted);
+      margin-top: var(--space-sm);
+    }
+
+    .atc-subtext svg {
+      vertical-align: middle;
+      margin-right: var(--space-xs);
+    }
+
+    /* Trust Icons Row */
+    .trust-icons-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+
+    .trust-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .trust-icon-item svg {
+      color: var(--c-primary);
+    }
+
+    .trust-icon-item span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--c-text-muted);
+    }
+
+    /* Awards Section */
+    .awards-section {
+      background: var(--c-bg-card);
+      border-radius: 12px;
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+
+    .awards-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+      color: var(--c-primary);
+    }
+
+    .awards-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+      opacity: 0.6;
+    }
+
+    .award-placeholder {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--c-text-muted);
+    }
+
+    /* ========================================
+       BEFORE/AFTER SECTION
+    ======================================== */
+    .before-after-section {
+      background: var(--c-bg-card);
+      padding: var(--space-3xl) var(--space-lg);
+    }
+
+    .before-after-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .before-after-header {
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: rgba(0, 255, 255, 0.1);
+      color: var(--c-primary);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      letter-spacing: 0.02em;
+      margin-bottom: var(--space-md);
+    }
+
+    .section-subtitle {
+      color: var(--c-text-muted);
+      font-size: 1.125rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Tabs */
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      color: var(--c-text-muted);
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .tab-btn:hover {
+      border-color: var(--c-primary);
+      color: var(--c-text);
+    }
+
+    .tab-btn.active {
+      background: var(--c-primary);
+      border-color: var(--c-primary);
+      color: var(--c-bg);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .before-after-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .before-after-card {
+      background: var(--c-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--c-border);
+    }
+
+    .before-after-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--c-border);
+    }
+
+    .before-after-images .before,
+    .before-after-images .after {
+      aspect-ratio: 1;
+      background: var(--c-bg-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--c-text-muted);
+      position: relative;
+    }
+
+    .before-after-images .before::after {
+      content: 'BEFORE';
+      position: absolute;
+      bottom: var(--space-sm);
+      left: var(--space-sm);
+      font-size: 0.625rem;
+      background: rgba(0,0,0,0.7);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .before-after-images .after::after {
+      content: 'AFTER';
+      position: absolute;
+      bottom: var(--space-sm);
+      right: var(--space-sm);
+      font-size: 0.625rem;
+      background: var(--c-primary);
+      color: var(--c-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .before-after-info {
+      padding: var(--space-md);
+    }
+
+    .before-after-name {
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+
+    .before-after-duration {
+      font-size: 0.8125rem;
+      color: var(--c-text-muted);
+    }
+
+    /* ========================================
+       EXPERTS SECTION
+    ======================================== */
+    .experts-section {
+      padding: var(--space-3xl) var(--space-lg);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .experts-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-2xl);
+    }
+
+    .expert-card {
+      text-align: center;
+    }
+
+    .expert-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--c-bg-card);
+      margin: 0 auto var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      color: var(--c-text-muted);
+      font-size: 0.875rem;
+    }
+
+    .expert-name {
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+
+    .expert-title {
+      font-size: 0.8125rem;
+      color: var(--c-text-muted);
+      margin-bottom: var(--space-sm);
+    }
+
+    .expert-quote {
+      font-size: 0.875rem;
+      font-style: italic;
+      color: var(--c-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       QUIZ CTA SECTION
+    ======================================== */
+    .quiz-section {
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 255, 0.02) 100%);
+      padding: var(--space-3xl) var(--space-lg);
+      text-align: center;
+    }
+
+    .quiz-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .quiz-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .quiz-subtitle {
+      color: var(--c-text-muted);
+      margin-bottom: var(--space-xl);
+    }
+
+    .quiz-btn {
+      display: inline-block;
+      background: var(--c-primary);
+      color: var(--c-bg);
+      padding: var(--space-md) var(--space-2xl);
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+
+    .quiz-btn:hover {
+      background: var(--c-primary-dark);
+      box-shadow: 0 0 30px var(--c-primary-glow);
+    }
+
+    /* ========================================
+       FEATURES SECTION
+    ======================================== */
+    .features-section {
+      background: var(--c-bg-card);
+      padding: var(--space-3xl) var(--space-lg);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto var(--space-2xl);
+    }
+
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .feature-card {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: 16px;
+      padding: var(--space-xl);
+      text-align: center;
+      transition: all var(--transition-normal);
+    }
+
+    .feature-card:hover {
+      border-color: var(--c-primary);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto var(--space-md);
+      background: rgba(0, 255, 255, 0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-primary);
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      letter-spacing: 0.02em;
+      margin-bottom: var(--space-sm);
+    }
+
+    .feature-description {
+      color: var(--c-text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* ========================================
+       REVIEWS SECTION
+    ======================================== */
+    .reviews-section {
+      padding: var(--space-3xl) var(--space-lg);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .reviews-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-2xl);
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+    }
+
+    .reviews-summary {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+    }
+
+    .reviews-score {
+      font-family: var(--font-mono);
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--c-primary);
+      line-height: 1;
+    }
+
+    .reviews-meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .review-card {
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: 12px;
+      padding: var(--space-lg);
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: var(--space-md);
+    }
+
+    .reviewer-name {
+      font-weight: 700;
+    }
+
+    .reviewer-verified {
+      font-size: 0.75rem;
+      color: var(--c-success);
+    }
+
+    .review-stars {
+      color: var(--c-primary);
+      font-size: 0.875rem;
+    }
+
+    .review-title {
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+
+    .review-text {
+      color: var(--c-text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .review-date {
+      font-size: 0.75rem;
+      color: var(--c-text-dim);
+      margin-top: var(--space-md);
+    }
+
+    /* ========================================
+       CONFIDENCE SECTION
+    ======================================== */
+    .confidence-section {
+      background: var(--c-bg-card);
+      padding: var(--space-3xl) var(--space-lg);
+    }
+
+    .confidence-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .confidence-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .confidence-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-2xl);
+    }
+
+    .confidence-item {
+      text-align: center;
+    }
+
+    .confidence-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto var(--space-md);
+      background: rgba(0, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-primary);
+    }
+
+    .confidence-item h4 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .confidence-item p {
+      font-size: 0.875rem;
+      color: var(--c-text-muted);
+    }
+
+    /* ========================================
+       FAQ SECTION
+    ======================================== */
+    .faq-section {
+      padding: var(--space-3xl) var(--space-lg);
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: var(--space-lg) 0;
+      background: none;
+      border: none;
+      color: var(--c-text);
+      font-size: 1.125rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-body);
+    }
+
+    .faq-question:hover {
+      color: var(--c-primary);
+    }
+
+    .faq-icon {
+      font-size: 1.5rem;
+      transition: transform var(--transition-fast);
+      color: var(--c-primary);
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-normal);
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 500px;
+    }
+
+    .faq-answer-inner {
+      padding-bottom: var(--space-lg);
+      color: var(--c-text-muted);
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       STICKY ADD TO CART
+    ======================================== */
+    .sticky-atc {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--c-border);
+      padding: var(--space-md) var(--space-lg);
+      transform: translateY(100%);
+      transition: transform var(--transition-normal);
+      z-index: 999;
+    }
+
+    .sticky-atc.visible {
+      transform: translateY(0);
+    }
+
+    .sticky-atc-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-lg);
+    }
+
+    .sticky-atc-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .sticky-atc-image {
+      width: 56px;
+      height: 56px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--c-bg-card);
+    }
+
+    .sticky-atc-title {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+    }
+
+    .sticky-atc-price {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+    }
+
+    .sticky-atc-price .current {
+      color: var(--c-text);
+      font-weight: 700;
+    }
+
+    .sticky-atc-price .original {
+      color: var(--c-text-dim);
+      text-decoration: line-through;
+      margin-left: var(--space-sm);
+    }
+
+    .sticky-atc-btn {
+      padding: var(--space-md) var(--space-2xl);
+      background: var(--c-primary);
+      color: var(--c-bg);
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .sticky-atc-btn:hover {
+      background: var(--c-primary-dark);
+    }
+
+    /* ========================================
+       CART DRAWER
+    ======================================== */
+    .cart-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-normal);
+      z-index: 2000;
+    }
+
+    .cart-drawer-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 420px;
+      max-width: 100%;
+      background: var(--c-bg);
+      transform: translateX(100%);
+      transition: transform var(--transition-normal);
+      z-index: 2001;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-drawer.open {
+      transform: translateX(0);
+    }
+
+    .cart-drawer-header {
+      padding: var(--space-lg);
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-drawer-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .cart-drawer-close {
+      background: none;
+      border: none;
+      color: var(--c-text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Free Shipping Progress */
+    .shipping-progress {
+      padding: var(--space-md) var(--space-lg);
+      background: var(--c-bg-card);
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .shipping-progress-text {
+      font-size: 0.8125rem;
+      margin-bottom: var(--space-sm);
+      text-align: center;
+    }
+
+    .shipping-progress-text strong {
+      color: var(--c-primary);
+      font-family: var(--font-mono);
+    }
+
+    .shipping-progress-bar {
+      height: 4px;
+      background: var(--c-border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .shipping-progress-fill {
+      height: 100%;
+      background: var(--c-primary);
+      width: 60%;
+      transition: width var(--transition-normal);
+    }
+
+    .cart-drawer-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-lg);
+    }
+
+    .cart-item {
+      display: flex;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-md);
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .cart-item-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--c-bg-card);
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+
+    .cart-item-variant {
+      font-size: 0.8125rem;
+      color: var(--c-text-muted);
+    }
+
+    .cart-item-price {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      margin-top: var(--space-sm);
+    }
+
+    /* Subscribe & Save */
+    .subscribe-save {
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-primary);
+      border-radius: 8px;
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .subscribe-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .subscribe-title {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .subscribe-title svg {
+      color: var(--c-primary);
+    }
+
+    .subscribe-discount {
+      background: var(--c-success);
+      color: var(--c-bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .subscribe-desc {
+      font-size: 0.8125rem;
+      color: var(--c-text-muted);
+      margin-bottom: var(--space-sm);
+    }
+
+    .subscribe-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      cursor: pointer;
+    }
+
+    .subscribe-toggle input {
+      width: 40px;
+      height: 20px;
+      appearance: none;
+      background: var(--c-border);
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+
+    .subscribe-toggle input::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      transition: transform var(--transition-fast);
+    }
+
+    .subscribe-toggle input:checked {
+      background: var(--c-primary);
+    }
+
+    .subscribe-toggle input:checked::after {
+      transform: translateX(20px);
+    }
+
+    /* Upsells */
+    .cart-upsells {
+      border-top: 1px solid var(--c-border);
+      padding-top: var(--space-md);
+    }
+
+    .upsells-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-md);
+    }
+
+    .upsell-item {
+      display: flex;
+      gap: var(--space-md);
+      align-items: center;
+      padding: var(--space-sm);
+      background: var(--c-bg-card);
+      border-radius: 8px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .upsell-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      background: var(--c-bg-elevated);
+    }
+
+    .upsell-info {
+      flex: 1;
+    }
+
+    .upsell-name {
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+
+    .upsell-price {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--c-text-muted);
+    }
+
+    .upsell-add {
+      background: transparent;
+      border: 1px solid var(--c-primary);
+      color: var(--c-primary);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .upsell-add:hover {
+      background: var(--c-primary);
+      color: var(--c-bg);
+    }
+
+    .cart-drawer-footer {
+      padding: var(--space-lg);
+      border-top: 1px solid var(--c-border);
+      background: var(--c-bg-card);
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: var(--space-sm);
+      font-size: 1.125rem;
+    }
+
+    .cart-total-price {
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .cart-savings {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      color: var(--c-success);
+      margin-bottom: var(--space-md);
+    }
+
+    .cart-checkout-btn {
+      width: 100%;
+      padding: var(--space-md);
+      background: var(--c-primary);
+      color: var(--c-bg);
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      margin-bottom: var(--space-sm);
+    }
+
+    .cart-checkout-sub {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--c-text-muted);
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: var(--space-2xl);
+      color: var(--c-text-muted);
+    }
+
+    /* ========================================
+       FOOTER
+    ======================================== */
+    .footer {
+      background: var(--c-bg-card);
+      padding: var(--space-3xl) var(--space-lg) var(--space-lg);
+      border-top: 1px solid var(--c-border);
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-2xl);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--c-primary);
+      margin-bottom: var(--space-md);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-tagline {
+      color: var(--c-text-muted);
+      margin-bottom: var(--space-lg);
+      font-size: 0.9375rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: var(--space-md);
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--c-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-text);
+      transition: all var(--transition-fast);
+    }
+
+    .footer-social a:hover {
+      border-color: var(--c-primary);
+      color: var(--c-primary);
+    }
+
+    .footer-column h4 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      margin-bottom: var(--space-md);
+      font-size: 1.125rem;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-links a {
+      color: var(--c-text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-links a:hover {
+      color: var(--c-primary);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--c-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      color: var(--c-text-muted);
+    }
+
+    .payment-icons {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .payment-icon {
+      width: 40px;
+      height: 25px;
+      background: var(--c-bg-elevated);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.5rem;
+      color: var(--c-text-dim);
+    }
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+    @media (max-width: 1024px) {
+      .product-hero {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+      }
+
+      .product-gallery {
+        position: relative;
+        top: 0;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .before-after-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .experts-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .confidence-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .trust-bar-inner {
+        flex-direction: column;
+        gap: var(--space-xs);
+      }
+
+      .trust-bar-divider {
+        display: none;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .retailers-logos {
+        gap: var(--space-lg);
+      }
+
+      .product-title {
+        font-size: 2.25rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .before-after-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .experts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-icons-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+
+      .sticky-atc-info {
+        display: none;
+      }
+
+      .sticky-atc-btn {
+        width: 100%;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-brand {
+        max-width: 100%;
+      }
+
+      .footer-social {
+        justify-content: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: var(--space-md);
+        text-align: center;
+      }
+    }
+
+    /* ========================================
+       ANIMATIONS
+    ======================================== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner-icon {
+      animation: spin 1s linear infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-bar-inner">
+      <div class="trust-bar-item"><strong>726,000+</strong> players worldwide</div>
+      <span class="trust-bar-divider">|</span>
+      <div class="trust-bar-item">Free Returns until Jan 31</div>
+      <span class="trust-bar-divider">|</span>
+      <div class="trust-bar-item">1-Year Warranty</div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="/" class="logo"><img src="images/neoballyp.png" alt="Neoball by YP" style="height: 40px;"></a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#technology">Technology</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 01-8 0"></path>
+          </svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+
+        <button class="mobile-menu-btn" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROMO BAR -->
+  <div class="promo-bar">
+    Black Friday: Buy 1, Get 1 FREE! <a href="#">Learn More</a>
+  </div>
+
+  <!-- RETAILERS BAR -->
+  <div class="retailers-bar">
+    <div class="retailers-bar-label">#1 BASKETBALL BRAND AVAILABLE AT</div>
+    <div class="retailers-logos">
+      <span class="retailer-placeholder">DICK'S</span>
+      <span class="retailer-placeholder">FOOT LOCKER</span>
+      <span class="retailer-placeholder">FINISH LINE</span>
+      <span class="retailer-placeholder">ACADEMY</span>
+    </div>
+  </div>
+
+  <!-- PRODUCT HERO -->
+  <section class="product-hero" id="productHero">
+    <!-- Gallery -->
+    <div class="product-gallery">
+      <div class="gallery-main" id="galleryMain">
+        <span class="gallery-badge gallery-badge-holiday">HOLIDAY SALE</span>
+        <img src="./balls/balls1.png" alt="Neoball Pro Basketball" id="mainImage">
+      </div>
+
+      <div class="gallery-thumbnails" id="galleryThumbnails">
+        <div class="thumbnail active" data-index="0">
+          <img src="./balls/balls1.png" alt="Front view">
+        </div>
+        <div class="thumbnail video-thumb" data-index="1" data-video="true">
+          <img src="./balls/balls2.png" alt="Video">
+        </div>
+        <div class="thumbnail" data-index="2">
+          <img src="./balls/balls3.png" alt="Before/After">
+        </div>
+        <div class="thumbnail" data-index="3">
+          <img src="./balls/balls4.png" alt="Detail view">
+        </div>
+        <div class="thumbnail" data-index="4">
+          <img src="./balls/balls5.png" alt="Angle view">
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <div class="product-badges">
+        <span class="badge badge-holiday">HOLIDAY SALE</span>
+      </div>
+
+      <h1 class="product-title">NEOBALL PRO BASKETBALL</h1>
+      <p class="product-subtitle">Premium grip technology meets iconic design. The ball that elevates your game.</p>
+
+      <div class="product-rating">
+        <div class="stars">★★★★★</div>
+        <span class="rating-text">4.9</span>
+        <span class="review-count" data-scroll-to="reviews">2,847 Reviews</span>
+      </div>
+
+      <div class="product-pricing">
+        <div class="price-row">
+          <span class="price-current">$78</span>
+          <span class="price-original">$88</span>
+        </div>
+        <p class="financing-note">Starting at <strong>$7.42/mo</strong> or 0% APR with Affirm. <a href="#" style="color: var(--c-primary);">Prequalify now</a></p>
+      </div>
+
+      <!-- Benefits List -->
+      <ul class="benefits-list">
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20,6 9,17 4,12"></polyline>
+          </svg>
+          HyperGrip Technology - 40% more control
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20,6 9,17 4,12"></polyline>
+          </svg>
+          Indoor/Outdoor versatility
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20,6 9,17 4,12"></polyline>
+          </svg>
+          Trusted by 726,000+ players
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20,6 9,17 4,12"></polyline>
+          </svg>
+          1-Year warranty included
+        </li>
+      </ul>
+
+      <!-- Promo Banner -->
+      <div class="promo-banner">
+        <span class="promo-banner-text"><span>Black Friday:</span> Buy 1, Get 1 Free!</span>
+        <a href="#" class="promo-banner-link">Learn More</a>
+      </div>
+
+      <!-- Add to Cart -->
+      <div class="atc-section">
+        <button class="atc-btn" id="addToCartBtn">
+          <span class="btn-text">ADD TO CART – SHIPS TODAY</span>
+          <span class="spinner">
+            <svg class="spinner-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+            </svg>
+          </span>
+        </button>
+        <p class="atc-subtext">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="3" width="22" height="18" rx="2"></rect>
+            <line x1="1" y1="10" x2="23" y2="10"></line>
+          </svg>
+          Pay in 4 interest-free payments with Shop Pay
+        </p>
+      </div>
+
+      <!-- Trust Icons Row -->
+      <div class="trust-icons-row">
+        <div class="trust-icon-item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+            <polyline points="9,22 9,12 15,12 15,22"></polyline>
+          </svg>
+          <span>Free 60-Day Returns</span>
+        </div>
+        <div class="trust-icon-item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>1-Year Warranty</span>
+        </div>
+        <div class="trust-icon-item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <span>Free Expedited Shipping</span>
+        </div>
+      </div>
+
+      <!-- Awards Section -->
+      <div class="awards-section">
+        <div class="awards-title">27+ AWARDS AND COUNTING</div>
+        <div class="awards-logos">
+          <span class="award-placeholder">ESPN</span>
+          <span class="award-placeholder">SLAM</span>
+          <span class="award-placeholder">SI</span>
+          <span class="award-placeholder">BLEACHER</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE/AFTER SECTION -->
+  <section class="before-after-section">
+    <div class="before-after-inner">
+      <div class="before-after-header">
+        <span class="section-tag">Real Results</span>
+        <h2 class="section-title">SEE THE DIFFERENCE</h2>
+        <p class="section-subtitle">Players report improved performance in just weeks of switching to Neoball.</p>
+      </div>
+
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="handles">Ball Handling</button>
+        <button class="tab-btn" data-tab="shooting">Shooting</button>
+        <button class="tab-btn" data-tab="control">Control</button>
+        <button class="tab-btn" data-tab="durability">Durability</button>
+      </div>
+
+      <div class="tab-content active" data-tab-content="handles">
+        <div class="before-after-grid">
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Marcus J.</div>
+              <div class="before-after-duration">After 4 weeks</div>
+            </div>
+          </div>
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">DeShawn W.</div>
+              <div class="before-after-duration">After 6 weeks</div>
+            </div>
+          </div>
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Sarah T.</div>
+              <div class="before-after-duration">After 8 weeks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" data-tab-content="shooting">
+        <div class="before-after-grid">
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Tyler R.</div>
+              <div class="before-after-duration">After 3 weeks</div>
+            </div>
+          </div>
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">James K.</div>
+              <div class="before-after-duration">After 5 weeks</div>
+            </div>
+          </div>
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Mike L.</div>
+              <div class="before-after-duration">After 4 weeks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" data-tab-content="control">
+        <div class="before-after-grid">
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Chris P.</div>
+              <div class="before-after-duration">After 2 weeks</div>
+            </div>
+          </div>
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Andre M.</div>
+              <div class="before-after-duration">After 6 weeks</div>
+            </div>
+          </div>
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Jordan H.</div>
+              <div class="before-after-duration">After 4 weeks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" data-tab-content="durability">
+        <div class="before-after-grid">
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Standard Ball</div>
+              <div class="before-after-duration">After 6 months outdoor</div>
+            </div>
+          </div>
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Neoball Pro</div>
+              <div class="before-after-duration">After 6 months outdoor</div>
+            </div>
+          </div>
+          <div class="before-after-card">
+            <div class="before-after-images">
+              <div class="before">IMG</div>
+              <div class="after">IMG</div>
+            </div>
+            <div class="before-after-info">
+              <div class="before-after-name">Grip Comparison</div>
+              <div class="before-after-duration">Day 1 vs 1 Year</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTS SECTION -->
+  <section class="experts-section">
+    <div class="section-header">
+      <span class="section-tag">Expert Endorsed</span>
+      <h2 class="section-title">TRUSTED BY THE PROS</h2>
+      <p class="section-subtitle">Professional trainers and coaches recommend Neoball for serious players.</p>
+    </div>
+
+    <div class="experts-grid">
+      <div class="expert-card">
+        <div class="expert-photo">PHOTO</div>
+        <div class="expert-name">Coach Mike Williams</div>
+        <div class="expert-title">NBA Skills Trainer</div>
+        <p class="expert-quote">"The grip consistency is unlike anything I've seen. My players improve faster with Neoball."</p>
+      </div>
+      <div class="expert-card">
+        <div class="expert-photo">PHOTO</div>
+        <div class="expert-name">Dr. Sarah Chen</div>
+        <div class="expert-title">Sports Biomechanist</div>
+        <p class="expert-quote">"The weight distribution and surface texture are scientifically optimized for performance."</p>
+      </div>
+      <div class="expert-card">
+        <div class="expert-photo">PHOTO</div>
+        <div class="expert-name">James "The Shot" Davis</div>
+        <div class="expert-title">Former Pro Player</div>
+        <p class="expert-quote">"I wish this ball existed when I was playing. It's a game changer for ball handling."</p>
+      </div>
+      <div class="expert-card">
+        <div class="expert-photo">PHOTO</div>
+        <div class="expert-name">Lisa Rodriguez</div>
+        <div class="expert-title">WNBA Coach</div>
+        <p class="expert-quote">"We use Neoball exclusively for training. The results speak for themselves."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ CTA SECTION -->
+  <section class="quiz-section">
+    <div class="quiz-inner">
+      <span class="section-tag">Find Your Ball</span>
+      <h2 class="quiz-title">NOT SURE WHICH BALL IS RIGHT FOR YOU?</h2>
+      <p class="quiz-subtitle">Take our 60-second quiz to get personalized recommendations based on your play style and needs.</p>
+      <a href="#" class="quiz-btn">TAKE THE QUIZ</a>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="features-section" id="technology">
+    <div class="section-header">
+      <span class="section-tag">Technology</span>
+      <h2 class="section-title">INSIDE THE INNOVATION</h2>
+      <p class="section-subtitle">Every element engineered for peak performance</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2a10 10 0 0 1 0 20"></path>
+          </svg>
+        </div>
+        <h3 class="feature-title">HYPERGRIP SURFACE</h3>
+        <p class="feature-description">Proprietary microfiber composite provides 40% more grip in all conditions.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+        </div>
+        <h3 class="feature-title">AEROCORE CONSTRUCTION</h3>
+        <p class="feature-description">Precision-balanced core delivers consistent bounce and flight path.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.24 12.24a6 6 0 00-8.49-8.49L5 10.5V19h8.5z"></path>
+            <line x1="16" y1="8" x2="2" y2="22"></line>
+            <line x1="17.5" y1="15" x2="9" y2="15"></line>
+          </svg>
+        </div>
+        <h3 class="feature-title">DURASHELL EXTERIOR</h3>
+        <p class="feature-description">Military-grade materials built to last 3x longer than standard balls.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3v18"></path>
+            <path d="M3 12h18"></path>
+            <circle cx="12" cy="12" r="9"></circle>
+          </svg>
+        </div>
+        <h3 class="feature-title">TRUETOUCH CHANNELS</h3>
+        <p class="feature-description">Ergonomic channel design for natural ball handling and control.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="M4.93 4.93l1.41 1.41"></path>
+            <path d="M17.66 17.66l1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="M6.34 17.66l-1.41 1.41"></path>
+            <path d="M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+        </div>
+        <h3 class="feature-title">NIGHTGLOW TECH</h3>
+        <p class="feature-description">High-visibility design performs in any lighting condition.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+          </svg>
+        </div>
+        <h3 class="feature-title">PERFORMANCE TESTED</h3>
+        <p class="feature-description">Validated by 500+ pro players across 20+ countries.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS SECTION -->
+  <section class="reviews-section" id="reviews">
+    <div class="reviews-header">
+      <div class="section-header" style="text-align: left; margin: 0;">
+        <span class="section-tag">Reviews</span>
+        <h2 class="section-title">WHAT PLAYERS SAY</h2>
+      </div>
+      <div class="reviews-summary">
+        <div class="reviews-score">4.9</div>
+        <div class="reviews-meta">
+          <div class="stars" style="font-size: 1.25rem;">★★★★★</div>
+          <div style="color: var(--c-text-muted);">Based on 2,847 reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-header">
+          <div>
+            <div class="reviewer-name">Marcus J.</div>
+            <div class="reviewer-verified">✓ Verified Buyer</div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <div class="review-title">Game changer</div>
+        <p class="review-text">The grip on this ball is insane. I've tried every premium ball out there and nothing comes close. My handles have improved noticeably since switching.</p>
+        <div class="review-date">December 10, 2025</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-header">
+          <div>
+            <div class="reviewer-name">Sarah T.</div>
+            <div class="reviewer-verified">✓ Verified Buyer</div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <div class="review-title">Perfect for outdoor courts</div>
+        <p class="review-text">Finally a ball that holds up on asphalt AND feels great. Most outdoor balls are bricks but this one has real touch. Worth every penny.</p>
+        <div class="review-date">December 8, 2025</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-header">
+          <div>
+            <div class="reviewer-name">DeShawn W.</div>
+            <div class="reviewer-verified">✓ Verified Buyer</div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <div class="review-title">Bought 3 more</div>
+        <p class="review-text">Started with one, now I have them at home, work, and in my car. The consistency of the bounce and the feel is just chef's kiss. 10/10.</p>
+        <div class="review-date">December 5, 2025</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIDENCE SECTION -->
+  <section class="confidence-section">
+    <div class="confidence-inner">
+      <h2 class="confidence-title">SHOP WITH TOTAL CONFIDENCE</h2>
+      <div class="confidence-grid">
+        <div class="confidence-item">
+          <div class="confidence-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+              <polyline points="9,22 9,12 15,12 15,22"></polyline>
+            </svg>
+          </div>
+          <h4>60-DAY FREE RETURNS</h4>
+          <p>Not satisfied? Return it within 60 days for a full refund. We'll even cover the shipping.</p>
+        </div>
+        <div class="confidence-item">
+          <div class="confidence-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9,12 11,14 15,10"></polyline>
+            </svg>
+          </div>
+          <h4>1-YEAR WARRANTY</h4>
+          <p>Your purchase is protected. If anything goes wrong, we'll replace it free of charge.</p>
+        </div>
+        <div class="confidence-item">
+          <div class="confidence-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12,6 12,12 16,14"></polyline>
+            </svg>
+          </div>
+          <h4>FAST FREE SHIPPING</h4>
+          <p>Orders ship within 1-2 business days. Free expedited shipping on all orders.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="faq-section" id="faq">
+    <div class="section-header">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">GOT QUESTIONS?</h2>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>What size should I get?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Size 7 (29.5") is the official men's size used in NBA, NCAA, and most adult leagues. Size 6 (28.5") is the official women's size. Size 5 (27.5") is recommended for youth players ages 9-11. When in doubt, Size 7 is the most versatile choice for adult recreational play.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Is this ball good for indoor and outdoor?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes! The Neoball Pro is specifically engineered for both surfaces. Our DuraShell exterior provides excellent abrasion resistance for outdoor courts while maintaining the soft touch you need for indoor play. It's the only ball you need.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>What's your return policy?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            We offer a 60-day money-back guarantee. If you're not completely satisfied with your Neoball, return it within 60 days for a full refund, no questions asked. We'll even cover return shipping.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How does the Buy 1 Get 1 Free offer work?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Simply add one Neoball Pro to your cart and you'll automatically receive a second one free! The free ball will be added during checkout. This offer is valid for a limited time during our Black Friday promotion. Mix and match sizes available.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How long does shipping take?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Orders ship within 1-2 business days. Free expedited shipping takes 2-4 business days. Express shipping (1-2 days) is available at checkout for an additional fee. International shipping is available to 50+ countries.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>What does the warranty cover?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Our 1-year warranty covers manufacturing defects including delamination, air leakage, and shape deformation under normal use. Simply contact us with photos and we'll send a replacement. Extended 2-year warranty available with registration.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">NEOBALL</div>
+        <p class="footer-tagline">Lock In. Level Up. The future of basketball, engineered for players who demand more.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="18" cy="6" r="1" fill="currentColor"></circle>
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="TikTok">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"></path>
+              <polygon points="9.75,15.02 15.5,11.75 9.75,8.48"></polygon>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h4>SHOP</h4>
+        <ul class="footer-links">
+          <li><a href="#">Pro Basketball</a></li>
+          <li><a href="#">Elite Basketball</a></li>
+          <li><a href="#">Bundles</a></li>
+          <li><a href="#">Accessories</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>SUPPORT</h4>
+        <ul class="footer-links">
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns & Exchanges</a></li>
+          <li><a href="#">Warranty</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>COMPANY</h4>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Affiliate Program</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Neoball. All rights reserved.</p>
+      <div class="payment-icons">
+        <div class="payment-icon">VISA</div>
+        <div class="payment-icon">MC</div>
+        <div class="payment-icon">AMEX</div>
+        <div class="payment-icon">PYPL</div>
+        <div class="payment-icon">SHOP</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- STICKY ADD TO CART -->
+  <div class="sticky-atc" id="stickyAtc">
+    <div class="sticky-atc-inner">
+      <div class="sticky-atc-info">
+        <img src="./balls/balls1.png" alt="Neoball" class="sticky-atc-image">
+        <div>
+          <div class="sticky-atc-title">NEOBALL PRO</div>
+          <div class="sticky-atc-price">
+            <span class="current">$78</span>
+            <span class="original">$88</span>
+          </div>
+        </div>
+      </div>
+      <button class="sticky-atc-btn" id="stickyAtcBtn">ADD TO CART – SHIPS TODAY</button>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <span class="cart-drawer-title">YOUR CART (<span id="drawerCartCount">0</span>)</span>
+      <button class="cart-drawer-close" id="cartClose">&times;</button>
+    </div>
+
+    <!-- Free Shipping Progress -->
+    <div class="shipping-progress">
+      <p class="shipping-progress-text">You're <strong>$36</strong> away from FREE shipping!</p>
+      <div class="shipping-progress-bar">
+        <div class="shipping-progress-fill" id="shippingProgressFill"></div>
+      </div>
+    </div>
+
+    <div class="cart-drawer-items" id="cartItems">
+      <div class="cart-empty">Your cart is empty</div>
+    </div>
+
+    <div class="cart-drawer-footer">
+      <!-- Subscribe & Save -->
+      <div class="subscribe-save" id="subscribeSave" style="display: none;">
+        <div class="subscribe-header">
+          <span class="subscribe-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 4v6h-6"></path>
+              <path d="M1 20v-6h6"></path>
+              <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"></path>
+            </svg>
+            Subscribe & Save
+          </span>
+          <span class="subscribe-discount">SAVE 15%</span>
+        </div>
+        <p class="subscribe-desc">Get a new ball every 6 months and save 15% on every order.</p>
+        <label class="subscribe-toggle">
+          <input type="checkbox" id="subscribeToggle">
+          <span>Enable subscription</span>
+        </label>
+      </div>
+
+      <!-- Upsells -->
+      <div class="cart-upsells" id="cartUpsells" style="display: none;">
+        <div class="upsells-title">COMPLETE YOUR SETUP</div>
+        <div class="upsell-item">
+          <div class="upsell-image"></div>
+          <div class="upsell-info">
+            <div class="upsell-name">Ball Pump Pro</div>
+            <div class="upsell-price">$24.99</div>
+          </div>
+          <button class="upsell-add">ADD</button>
+        </div>
+        <div class="upsell-item">
+          <div class="upsell-image"></div>
+          <div class="upsell-info">
+            <div class="upsell-name">Grip Enhancer Spray</div>
+            <div class="upsell-price">$14.99</div>
+          </div>
+          <button class="upsell-add">ADD</button>
+        </div>
+      </div>
+
+      <div class="cart-savings" id="cartSavings" style="display: none;">
+        <span>You're saving</span>
+        <span id="savingsAmount">$100</span>
+      </div>
+
+      <div class="cart-total">
+        <span>Total</span>
+        <span class="cart-total-price" id="cartTotal">$0</span>
+      </div>
+
+      <button class="cart-checkout-btn">CHECKOUT</button>
+      <p class="cart-checkout-sub">Taxes and shipping calculated at checkout</p>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // ========================================
+    // STATE
+    // ========================================
+    const state = {
+      cart: [],
+      quantity: 1,
+      price: 78,
+      originalPrice: 88
+    };
+
+    // ========================================
+    // DOM ELEMENTS
+    // ========================================
+    const elements = {
+      cartBtn: document.getElementById('cartBtn'),
+      cartCount: document.getElementById('cartCount'),
+      cartDrawer: document.getElementById('cartDrawer'),
+      cartOverlay: document.getElementById('cartOverlay'),
+      cartClose: document.getElementById('cartClose'),
+      cartItems: document.getElementById('cartItems'),
+      cartTotal: document.getElementById('cartTotal'),
+      drawerCartCount: document.getElementById('drawerCartCount'),
+      addToCartBtn: document.getElementById('addToCartBtn'),
+      stickyAtc: document.getElementById('stickyAtc'),
+      stickyAtcBtn: document.getElementById('stickyAtcBtn'),
+      productHero: document.getElementById('productHero'),
+      mainImage: document.getElementById('mainImage'),
+      thumbnails: document.querySelectorAll('.thumbnail'),
+      faqItems: document.querySelectorAll('.faq-item'),
+      tabBtns: document.querySelectorAll('.tab-btn'),
+      tabContents: document.querySelectorAll('.tab-content'),
+      shippingProgressFill: document.getElementById('shippingProgressFill'),
+      subscribeSave: document.getElementById('subscribeSave'),
+      cartUpsells: document.getElementById('cartUpsells'),
+      cartSavings: document.getElementById('cartSavings')
+    };
+
+    // ========================================
+    // GALLERY
+    // ========================================
+    const galleryImages = [
+      './balls/balls1.png',
+      './balls/balls2.png',
+      './balls/balls3.png',
+      './balls/balls4.png',
+      './balls/balls5.png'
+    ];
+
+    elements.thumbnails.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        elements.thumbnails.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+        elements.mainImage.src = galleryImages[index];
+      });
+    });
+
+    // ========================================
+    // TABS (Before/After)
+    // ========================================
+    elements.tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+
+        // Update buttons
+        elements.tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Update content
+        elements.tabContents.forEach(content => {
+          content.classList.remove('active');
+          if (content.dataset.tabContent === tabId) {
+            content.classList.add('active');
+          }
+        });
+      });
+    });
+
+    // ========================================
+    // ADD TO CART
+    // ========================================
+    function addToCart() {
+      const btn = elements.addToCartBtn;
+      btn.classList.add('loading');
+
+      setTimeout(() => {
+        const item = {
+          id: 'neoball-pro',
+          name: 'Neoball Pro Basketball',
+          quantity: 1,
+          price: state.price,
+          originalPrice: state.originalPrice
+        };
+
+        // Check if item already exists
+        const existingIndex = state.cart.findIndex(i => i.id === item.id);
+        if (existingIndex > -1) {
+          state.cart[existingIndex].quantity += 1;
+        } else {
+          state.cart.push(item);
+        }
+
+        updateCartUI();
+        openCartDrawer();
+        btn.classList.remove('loading');
+      }, 800);
+    }
+
+    elements.addToCartBtn.addEventListener('click', addToCart);
+    elements.stickyAtcBtn.addEventListener('click', addToCart);
+
+    // ========================================
+    // CART UI
+    // ========================================
+    function updateCartUI() {
+      const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+      const totalPrice = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const totalSavings = state.cart.reduce((sum, item) => sum + ((item.originalPrice - item.price) * item.quantity), 0);
+
+      elements.cartCount.textContent = totalItems;
+      elements.drawerCartCount.textContent = totalItems;
+      elements.cartTotal.textContent = `$${totalPrice}`;
+
+      // Update shipping progress (free shipping at $75)
+      const shippingThreshold = 75;
+      const remaining = Math.max(0, shippingThreshold - totalPrice);
+      const progress = Math.min(100, (totalPrice / shippingThreshold) * 100);
+      elements.shippingProgressFill.style.width = `${progress}%`;
+
+      if (state.cart.length === 0) {
+        elements.cartItems.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+        elements.subscribeSave.style.display = 'none';
+        elements.cartUpsells.style.display = 'none';
+        elements.cartSavings.style.display = 'none';
+      } else {
+        elements.cartItems.innerHTML = state.cart.map(item => `
+          <div class="cart-item">
+            <img src="./balls/balls1.png" alt="${item.name}" class="cart-item-image">
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.name}</div>
+              <div class="cart-item-variant">Size 7 • Qty: ${item.quantity}</div>
+              <div class="cart-item-price">$${item.price * item.quantity}</div>
+            </div>
+          </div>
+        `).join('');
+
+        // Show subscribe & save, upsells, and savings
+        elements.subscribeSave.style.display = 'block';
+        elements.cartUpsells.style.display = 'block';
+        elements.cartSavings.style.display = 'flex';
+        document.getElementById('savingsAmount').textContent = `$${totalSavings}`;
+      }
+    }
+
+    // ========================================
+    // CART DRAWER
+    // ========================================
+    function openCartDrawer() {
+      elements.cartDrawer.classList.add('open');
+      elements.cartOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCartDrawer() {
+      elements.cartDrawer.classList.remove('open');
+      elements.cartOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    elements.cartBtn.addEventListener('click', openCartDrawer);
+    elements.cartClose.addEventListener('click', closeCartDrawer);
+    elements.cartOverlay.addEventListener('click', closeCartDrawer);
+
+    // ========================================
+    // STICKY ADD TO CART
+    // ========================================
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        elements.stickyAtc.classList.toggle('visible', !entry.isIntersecting);
+      });
+    }, { threshold: 0 });
+
+    heroObserver.observe(elements.productHero);
+
+    // ========================================
+    // FAQ ACCORDION
+    // ========================================
+    elements.faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        elements.faqItems.forEach(i => i.classList.remove('open'));
+        if (!isOpen) {
+          item.classList.add('open');
+        }
+      });
+    });
+
+    // ========================================
+    // SMOOTH SCROLL
+    // ========================================
+    document.querySelectorAll('[data-scroll-to]').forEach(el => {
+      el.addEventListener('click', () => {
+        const target = document.getElementById(el.dataset.scrollTo);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ========================================
+    // HEADER HIDE ON SCROLL
+    // ========================================
+    let lastScrollY = 0;
+    const header = document.getElementById('header');
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        header.classList.add('hidden');
+      } else {
+        header.classList.remove('hidden');
+      }
+      lastScrollY = currentScrollY;
+    });
+
+    // ========================================
+    // UPSELL ADD BUTTONS
+    // ========================================
+    document.querySelectorAll('.upsell-add').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.textContent = 'ADDED';
+        this.style.background = 'var(--c-success)';
+        this.style.borderColor = 'var(--c-success)';
+        this.style.color = 'var(--c-bg)';
+        setTimeout(() => {
+          this.textContent = 'ADD';
+          this.style.background = '';
+          this.style.borderColor = '';
+          this.style.color = '';
+        }, 2000);
+      });
+    });
+
+    // ========================================
+    // INIT
+    // ========================================
+    updateCartUI();
+  </script>
+
+  <!-- Splide JS for carousel (ready for future enhancement) -->
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+</body>
+</html>
