@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "npx serve . -l 8080 -c serve.json",
+    "devv": "npm run dev",
+    "test:physics": "node tests/ball-physics.test.js",
+    "test:cookie": "node tests/cookie-banner.test.js",
+    "test:compare:sunshine": "node tests/compare-sunshine.js"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.33.0",
+    "serve": "^14.2.5"
+  }
+}
