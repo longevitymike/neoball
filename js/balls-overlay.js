@@ -4,12 +4,12 @@ import * as CANNON from 'cannon-es';
 // Ball texture configurations - 6 unique textures, 2 of each = 12 balls
 // We normalize textures at load time so every ball has the same visual diameter.
 const BALL_TEXTURES = [
-  { path: './balls/balls1.png' },
-  { path: './balls/balls2.png' },
-  { path: './balls/balls3.png' },
-  { path: './balls/balls4.png' },
-  { path: './balls/balls5.png' },
-  { path: './balls/balls6.png' }
+  { path: './balls/balls1.webp' },
+  { path: './balls/balls2.webp' },
+  { path: './balls/balls3.webp' },
+  { path: './balls/balls4.webp' },
+  { path: './balls/balls5.webp' },
+  { path: './balls/balls6.webp' }
 ];
 
 // Number of balls per texture (2 of each = 12 total)
