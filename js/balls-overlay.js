@@ -45,12 +45,12 @@ export class NeoballBallsOverlay {
 
       gravity: 0,
 
-      restitution: options.restitution ?? 0.3,
-      friction: options.friction ?? 0.5,
-      linearDamping: options.linearDamping ?? 0.4,
-      angularDamping: options.angularDamping ?? 0.3,
-      oscGravity: options.oscGravity ?? 0.015,
-      velocityFromPositionScale: options.velocityFromPositionScale ?? 0.2,
+      restitution: options.restitution ?? 0.15,
+      friction: options.friction ?? 0.3,
+      linearDamping: options.linearDamping ?? 0.65,
+      angularDamping: options.angularDamping ?? 0.5,
+      oscGravity: options.oscGravity ?? 0.006,
+      velocityFromPositionScale: options.velocityFromPositionScale ?? 0.08,
 
       // Optional: set a custom id/class on the created overlay element
       overlayId: options.overlayId ?? `neoball-balls-overlay-${this.instanceId}`,
