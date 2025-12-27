@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Neoball - Physics Demo</title>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.164.0/build/three.module.js",
+      "cannon-es": "https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js"
+    }
+  }
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%; overflow-x: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0a; color: #fff;
+    }
+
+    /* Loading Screen */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loader-top,
+    .loader-bottom {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #0a0a0a;
+      transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .loader-top {
+      top: 0;
+      transform-origin: top center;
+    }
+
+    .loader-bottom {
+      bottom: 0;
+      transform-origin: bottom center;
+    }
+
+    .loader-line {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        #00f6e0 10%,
+        #00ffff 50%,
+        #00f6e0 90%,
+        transparent 100%
+      );
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: center;
+      z-index: 10000;
+      border-radius: 2px;
+    }
+
+    /* Cyan fire glow layers */
+    .loader-line::before,
+    .loader-line::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-50%);
+      border-radius: 2px;
+    }
+
+    /* Inner intense glow */
+    .loader-line::before {
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 255, 255, 0.8) 20%,
+        rgba(255, 255, 255, 0.9) 50%,
+        rgba(0, 255, 255, 0.8) 80%,
+        transparent 100%
+      );
+      filter: blur(4px);
+      animation: fireFlicker 0.15s ease-in-out infinite alternate;
+    }
+
+    /* Outer fire bloom */
+    .loader-line::after {
+      height: 200%;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 246, 224, 0.6) 15%,
+        rgba(0, 255, 255, 0.4) 50%,
+        rgba(0, 246, 224, 0.6) 85%,
+        transparent 100%
+      );
+      filter: blur(12px);
+      animation: fireGlow 0.3s ease-in-out infinite alternate;
+    }
+
+    /* Animated glow container */
+    .loader-glow {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 60px;
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: center;
+      z-index: 9999;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center,
+        rgba(0, 255, 255, 0.3) 0%,
+        rgba(0, 246, 224, 0.15) 30%,
+        transparent 70%
+      );
+      filter: blur(20px);
+      animation: pulseGlow 0.5s ease-in-out infinite alternate;
+    }
+
+    /* Fire particles container */
+    .loader-particles {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 40px;
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: center;
+      z-index: 10001;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    /* Progress percentage */
+    .loader-progress {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: #00f6e0;
+      text-shadow: 0 0 10px #00f6e0, 0 0 20px #00f6e0, 0 0 40px #00f6e0;
+      z-index: 10002;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .loader.active .loader-progress {
+      opacity: 1;
+    }
+
+    @keyframes fireFlicker {
+      0% { opacity: 0.8; transform: translateY(-50%) scaleY(1); }
+      100% { opacity: 1; transform: translateY(-50%) scaleY(1.2); }
+    }
+
+    @keyframes fireGlow {
+      0% { opacity: 0.6; transform: translateY(-50%) scaleY(0.8); }
+      100% { opacity: 1; transform: translateY(-50%) scaleY(1.3); }
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.5; transform: translateY(-50%) scaleY(0.8) scaleX(var(--progress, 0)); }
+      100% { opacity: 0.8; transform: translateY(-50%) scaleY(1.2) scaleX(var(--progress, 0)); }
+    }
+
+    @keyframes particleRise {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0);
+      }
+    }
+
+    /* Progress-driven animation (controlled via JS) */
+    .loader.active .loader-line,
+    .loader.active .loader-glow,
+    .loader.active .loader-particles {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .loader.reveal .loader-top {
+      transform: translateY(-100%);
+    }
+
+    .loader.reveal .loader-bottom {
+      transform: translateY(100%);
+    }
+
+    .loader.reveal .loader-line,
+    .loader.reveal .loader-glow,
+    .loader.reveal .loader-particles,
+    .loader.reveal .loader-progress {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .loader.hidden {
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    /* Page content hidden until loaded - with zoom-out reveal */
+    .page-content {
+      opacity: 0;
+      transform: scale(1.15);
+      transform-origin: center center;
+      transition: opacity 0.8s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .page-content.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Physics container also zooms out */
+    #neoball-physics-container {
+      transform: scale(1.15);
+      transform-origin: center center;
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.revealed #neoball-physics-container {
+      transform: scale(1);
+    }
+
+    .page-content { min-height: 200vh; padding: 20px; position: relative; z-index: 1; }
+    .hero {
+      height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      border-bottom: 1px solid #222;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 10vw, 8rem); font-weight: 900; letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #00FFFF 0%, #00CCCC 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 1rem;
+    }
+    .hero p { font-size: clamp(1rem, 2vw, 1.5rem); color: #888; max-width: 600px; margin: 0 auto 2rem; }
+    .hero .tagline { font-size: 1.2rem; color: #00FFFF; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 2rem; }
+    .cta-btn {
+      background: transparent; color: #00FFFF; border: 2px solid #00FFFF;
+      padding: 15px 40px; font-size: 1rem; font-weight: bold;
+      text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
+      border-radius: 4px; transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    .cta-btn:hover { background: #00FFFF; color: #0a0a0a; box-shadow: 0 0 30px rgba(0, 255, 255, 0.5); }
+    .section { padding: 100px 20px; border-bottom: 1px solid #222; }
+    .section h2 { font-size: 2rem; margin-bottom: 1rem; }
+    .section p { color: #888; max-width: 600px; line-height: 1.6; }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; height: 60px;
+      background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px);
+      border-bottom: 1px solid #222; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 30px; z-index: 500;
+    }
+    .nav-logo { font-weight: 900; font-size: 1.5rem; color: #00FFFF; }
+    .nav-links { display: flex; gap: 30px; }
+    .nav-links a { color: #fff; text-decoration: none; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; }
+    .nav-links a:hover { color: #00FFFF; }
+    .instructions {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8); border: 1px solid #333;
+      padding: 10px 20px; border-radius: 30px; font-size: 0.85rem;
+      color: #888; z-index: 999; pointer-events: none;
+      opacity: 1; transition: opacity 0.5s;
+    }
+    .instructions.hidden { opacity: 0; }
+    .controls { position: fixed; bottom: 80px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 999; }
+    .control-btn {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(0, 255, 255, 0.1); border: 1px solid #00FFFF;
+      color: #00FFFF; font-size: 1.5rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .control-btn:hover { background: rgba(0, 255, 255, 0.2); transform: scale(1.1); }
+    .control-btn:active { transform: scale(0.95); }
+    .stats {
+      position: fixed; top: 70px; left: 20px; background: rgba(0,0,0,0.7);
+      padding: 10px; border-radius: 5px; font-size: 12px; color: #00FFFF;
+      font-family: monospace; z-index: 999; display: none;
+    }
+    .stats.visible { display: block; }
+    /* Sunshine-style: hide debug UI unless ?debug=1 */
+    body:not(.debug) .controls,
+    body:not(.debug) .stats { display: none; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { padding: 0 20px; }
+      .controls { bottom: 100px; right: 10px; }
+      .control-btn { width: 44px; height: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loader" id="loader">
+    <div class="loader-top"></div>
+    <div class="loader-bottom"></div>
+    <div class="loader-glow" id="loader-glow"></div>
+    <div class="loader-line" id="loader-line"></div>
+    <div class="loader-particles" id="loader-particles"></div>
+    <div class="loader-progress" id="loader-progress">0%</div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-logo">NEOBALL</div>
+    <div class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="page-content" id="page-content">
+    <section class="hero">
+      <p class="tagline">Lock In. Level Up.</p>
+      <h1>NEOBALL</h1>
+      <p>The future of basketball. Drag and throw the balls floating around the page.</p>
+      <button class="cta-btn" id="buyBtn">Buy Now</button>
+    </section>
+    <section class="section" id="shop"><h2>Shop</h2><p>Premium basketball gear designed for the next generation of players.</p></section>
+    <section class="section" id="about"><h2>About</h2><p>Founded by players, for players. Neoball represents the fusion of style and performance.</p></section>
+    <section class="section" id="contact"><h2>Contact</h2><p>Got questions? Reach out to our team.</p></section>
+  </div>
+
+  <div class="instructions" id="instructions">Drag and throw the balls around</div>
+  <div class="stats" id="stats"></div>
+  <div class="controls">
+    <button class="control-btn" id="addBall" title="Add ball">+</button>
+    <button class="control-btn" id="removeBall" title="Remove ball">-</button>
+    <button class="control-btn" id="explode" title="Explode!">!</button>
+    <button class="control-btn" id="toggleStats" title="Stats">i</button>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import * as CANNON from 'cannon-es';
+    window.THREE = THREE;
+    window.CANNON = CANNON;
+
+    // Loader elements
+    const loader = document.getElementById('loader');
+    const pageContent = document.getElementById('page-content');
+    const loaderLine = document.getElementById('loader-line');
+    const loaderGlow = document.getElementById('loader-glow');
+    const loaderParticles = document.getElementById('loader-particles');
+    const loaderProgress = document.getElementById('loader-progress');
+
+    // Loading progress state
+    let loadProgress = 0;
+    let targetProgress = 0;
+    let particlePool = [];
+    let particleAnimationId = null;
+
+    // Start loader immediately
+    requestAnimationFrame(() => {
+      loader.classList.add('active');
+      startParticleSystem();
+      animateProgress();
+    });
+
+    // Smooth progress animation (eases toward target)
+    function animateProgress() {
+      const ease = 0.08;
+      loadProgress += (targetProgress - loadProgress) * ease;
+
+      // Clamp and apply
+      const progress = Math.min(Math.max(loadProgress, 0), 1);
+      const scaleValue = `translateY(-50%) scaleX(${progress})`;
+
+      loaderLine.style.transform = scaleValue;
+      loaderGlow.style.transform = scaleValue;
+      loaderParticles.style.transform = scaleValue;
+
+      // Update percentage display
+      loaderProgress.textContent = `${Math.round(progress * 100)}%`;
+
+      // Continue animating until fully loaded and revealed
+      if (!loader.classList.contains('hidden')) {
+        requestAnimationFrame(animateProgress);
+      }
+    }
+
+    // Update progress (called from texture loader)
+    function setLoadProgress(value) {
+      targetProgress = Math.min(Math.max(value, 0), 1);
+    }
+
+    // Fire particle system
+    function startParticleSystem() {
+      const colors = ['#00f6e0', '#00ffff', '#40fff0', '#80ffff', '#ffffff'];
+
+      function createParticle() {
+        if (loader.classList.contains('reveal')) return;
+
+        const particle = document.createElement('div');
+        const size = 2 + Math.random() * 4;
+        const xPos = Math.random() * 100;
+        const duration = 0.4 + Math.random() * 0.6;
+        const delay = Math.random() * 0.1;
+
+        particle.style.cssText = `
+          position: absolute;
+          left: ${xPos}%;
+          top: 50%;
+          width: ${size}px;
+          height: ${size}px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          border-radius: 50%;
+          pointer-events: none;
+          opacity: 0;
+          box-shadow: 0 0 ${size * 2}px currentColor, 0 0 ${size * 4}px currentColor;
+          animation: particleRise ${duration}s ease-out ${delay}s forwards;
+        `;
+
+        loaderParticles.appendChild(particle);
+
+        // Remove after animation
+        setTimeout(() => {
+          particle.remove();
+        }, (duration + delay) * 1000 + 100);
+      }
+
+      // Spawn particles based on progress
+      function spawnParticles() {
+        if (loader.classList.contains('reveal')) return;
+
+        // More particles as progress increases
+        const intensity = Math.max(1, Math.floor(loadProgress * 4));
+        for (let i = 0; i < intensity; i++) {
+          if (Math.random() < 0.6) createParticle();
+        }
+
+        particleAnimationId = setTimeout(spawnParticles, 80);
+      }
+
+      spawnParticles();
+    }
+
+    // Reveal function - cinematic zoom-out
+    function revealSite() {
+      // Ensure we reach 100%
+      targetProgress = 1;
+
+      // Wait for progress animation to catch up
+      const waitForComplete = () => {
+        if (loadProgress >= 0.95) {
+          // Clear particle spawner
+          if (particleAnimationId) clearTimeout(particleAnimationId);
+
+          setTimeout(() => {
+            loader.classList.add('reveal');
+            pageContent.classList.add('visible');
+            document.body.classList.add('revealed');
+
+            setTimeout(() => {
+              loader.classList.add('hidden');
+              // Clean up remaining particles
+              loaderParticles.innerHTML = '';
+            }, 1200);
+          }, 300);
+        } else {
+          requestAnimationFrame(waitForComplete);
+        }
+      };
+
+      waitForComplete();
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const DEBUG = params.get('debug') === '1';
+    const CAPTURE = params.get('capture') === '1';
+    const SPEED_MUL = Number.parseFloat(params.get('speed') || '1') || 1;
+    const DRIFT_MUL = Number.parseFloat(params.get('drift') || '1') || 1;
+    const DAMP_MUL = Number.parseFloat(params.get('damp') || '1') || 1;
+    if (DEBUG) document.body.classList.add('debug');
+
+    // Ball texture configurations with weights (higher = more common)
+    // NOTE: Some source PNGs have different padding/crop sizes. We normalize them at load time
+    // (crop to visible ball, scale to fixed diameter, apply circular mask) so every ball renders
+    // at the exact same visual size.
+    const BALL_TEXTURES = [
+      { path: './balls/balls1.png', weight: 3 },
+      { path: './balls/balls2.png', weight: 2 },
+      { path: './balls/balls3.png', weight: 2 },
+      { path: './balls/balls4.png', weight: 2 },
+      { path: './balls/balls5.png', weight: 1 },
+      { path: './balls/balls6.png', weight: 1 },
+    ];
+
+    class NeoballPhysics {
+      constructor(options = {}) {
+        this._isMobile = this.detectMobile();
+        this.config = {
+          container: options.container || document.body,
+          // Sunshine-style defaults: lots of balls, no settling, constant drift
+          ballCount: options.ballCount || (this._isMobile ? 20 : 20),
+          // Same size for ALL balls (per device). Mobile can still be smaller overall.
+          // Sunshine tennis radius
+          ballRadius: options.ballRadius || 0.5,
+          gravity: options.gravity ?? 0,
+          // Sunshine tennis: friction .3, restitution .7
+          restitution: options.restitution ?? 0.7,
+          wallRestitution: options.wallRestitution ?? 0.7,
+          friction: options.friction ?? 0.3,
+          linearDamping: options.linearDamping ?? 0.02,
+          angularDamping: options.angularDamping ?? 0.02,
+          throwForce: options.throwForce ?? 14,
+          // Sunshine-style oscillating gravity
+          // Sunshine: sin(2t)*0.075, cos(3t)*0.075
+          oscGravity: options.oscGravity ?? 0.075,
+          // Initial velocity proportional to spawn position (Sunshine-style)
+          velocityFromPositionScale: options.velocityFromPositionScale ?? 1,
+          ...options
+        };
+        this.balls = [];
+        this.textures = [];
+        this.textureWeights = [];
+        this.clock = new THREE.Clock();
+        this._t = 0;
+        this.pointer = { x: 0, y: 0 }; // in world units
+        this.hasPointer = false;
+        this.pointerBox = null;
+        this.viewport = { width: 0, height: 0, aspect: 1 };
+        this.frameCount = 0;
+        this.lastFpsUpdate = 0;
+        this.fps = 60;
+        this.init();
+      }
+
+      detectMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+          || window.innerWidth < 768 || ('ontouchstart' in window);
+      }
+
+      isMobile() { return this._isMobile; }
+
+      async init() {
+        this.createContainer();
+        this.createScene();
+        this.setViewport();
+        this.createPhysicsWorld();
+        this.createBoundaries();
+        this.createPointerCollider();
+        await this.loadAllTextures();
+        this.createBallsSunshineStyle();
+        this.bindEvents();
+
+        // 95% - final setup
+        setLoadProgress(0.95);
+
+        this.animate();
+
+        // 100% - ready!
+        setLoadProgress(1.0);
+
+        console.log('Neoball Physics initialized', {
+          mobile: this._isMobile,
+          balls: this.config.ballCount,
+          textures: this.textures.length
+        });
+
+        // Trigger the loading screen reveal
+        if (typeof revealSite === 'function') {
+          revealSite();
+        }
+      }
+
+      createContainer() {
+        this.containerEl = document.createElement('div');
+        this.containerEl.id = 'neoball-physics-container';
+        this.containerEl.style.cssText = `position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;z-index:1000;pointer-events:none;overflow:hidden;`;
+        this.config.container.appendChild(this.containerEl);
+      }
+
+      createScene() {
+        const width = window.innerWidth, height = window.innerHeight;
+        this.scene = new THREE.Scene();
+
+        // Sunshine-style perspective camera (gives correct world scaling)
+        this.camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 1000);
+        this.camera.position.set(0, 0, 20);
+
+        // Renderer
+        this.renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: !this._isMobile,
+          powerPreference: this._isMobile ? 'low-power' : 'high-performance',
+          // Only enable when explicitly requested (perf hit otherwise).
+          preserveDrawingBuffer: DEBUG || CAPTURE
+        });
+        this.renderer.setSize(width, height);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.renderer.setClearColor(0x000000, 0);
+        // Sunshine-style: let the page remain fully clickable; we listen on window.
+        this.renderer.domElement.style.pointerEvents = 'none';
+        this.renderer.domElement.style.touchAction = 'none';
+        this.containerEl.appendChild(this.renderer.domElement);
+
+        // Enhanced lighting for better ball shading
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+        this.scene.add(ambientLight);
+
+        // Key light (main)
+        const keyLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        keyLight.position.set(200, 200, 300);
+        this.scene.add(keyLight);
+
+        // Fill light (softer, opposite side)
+        const fillLight = new THREE.DirectionalLight(0x88ccff, 0.3);
+        fillLight.position.set(-150, 50, 200);
+        this.scene.add(fillLight);
+
+        // Rim light for depth (cyan tint)
+        const rimLight = new THREE.DirectionalLight(0x00ffff, 0.15);
+        rimLight.position.set(0, -100, -100);
+        this.scene.add(rimLight);
+      }
+
+      createPhysicsWorld() {
+        this.world = new CANNON.World();
+        this.world.gravity.set(0, this.config.gravity, 0);
+        this.world.broadphase = new CANNON.SAPBroadphase(this.world);
+        this.world.allowSleep = false;
+        this.world.solver.iterations = 10;
+        // Sunshine defaults
+        if (this.world.defaultContactMaterial) {
+          this.world.defaultContactMaterial.contactEquationStiffness = 1e6;
+          this.world.defaultContactMaterial.contactEquationRelaxation = 10;
+        }
+
+        this.ballMaterial = new CANNON.Material('ball');
+        this.wallMaterial = new CANNON.Material('wall');
+        this.pointerMaterial = new CANNON.Material('pointer');
+
+        this.world.addContactMaterial(new CANNON.ContactMaterial(
+          this.ballMaterial, this.ballMaterial,
+          { friction: this.config.friction, restitution: this.config.restitution }
+        ));
+        this.world.addContactMaterial(new CANNON.ContactMaterial(
+          this.ballMaterial, this.wallMaterial,
+          { friction: 0.15, restitution: this.config.wallRestitution }
+        ));
+        this.world.addContactMaterial(new CANNON.ContactMaterial(
+          this.ballMaterial, this.pointerMaterial,
+          { friction: this.config.friction, restitution: this.config.restitution }
+        ));
+      }
+
+      createPointerCollider() {
+        const ballDiameter = this.config.ballRadius * 2;
+        const boxSize = ballDiameter * 1.5; // Sunshine tennis: diameter * 1.5
+        const shape = new CANNON.Box(new CANNON.Vec3(boxSize / 2, boxSize / 2, ballDiameter));
+        this.pointerBox = new CANNON.Body({
+          mass: 0,
+          type: CANNON.Body.KINEMATIC,
+          material: this.pointerMaterial,
+          collisionFilterGroup: 1,
+          collisionFilterMask: 1
+        });
+        this.pointerBox.addShape(shape);
+        this.pointerBox.position.set(99999, 99999, 0);
+        this.world.addBody(this.pointerBox);
+      }
+
+      setViewport() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        this.camera.aspect = w / h;
+        this.camera.updateProjectionMatrix();
+
+        const distance = this.camera.getWorldPosition(new THREE.Vector3()).distanceTo(new THREE.Vector3(0, 0, 0));
+        const fovRad = this.camera.fov * Math.PI / 180;
+        const viewHeight = 2 * Math.tan(fovRad / 2) * distance;
+        const viewWidth = viewHeight * this.camera.aspect;
+        this.viewport = { width: viewWidth, height: viewHeight, aspect: this.camera.aspect };
+      }
+
+      createBoundaries() {
+        const ballDiameter = this.config.ballRadius * 2;
+        const boxSize = ballDiameter * 1.5;
+        const wallDepth = Math.max(boxSize, ballDiameter) * 1.1;
+        const t = wallDepth;
+
+        const w = this.viewport.width;
+        const h = this.viewport.height;
+
+        const configs = [
+          { pos: [0, -h / 2 - t / 2, 0], size: [w * 2, t, t] }, // floor
+          { pos: [0, h / 2 + t / 2, 0], size: [w * 2, t, t] },  // ceiling
+          { pos: [-w / 2 - t / 2, 0, 0], size: [t, h * 2, t] }, // left
+          { pos: [w / 2 + t / 2, 0, 0], size: [t, h * 2, t] },  // right
+          { pos: [0, 0, -t], size: [w * 2, h * 2, t] },         // behind
+          { pos: [0, 0, t], size: [w * 2, h * 2, t] }           // front
+        ];
+
+        this.walls = configs.map(c => {
+          const body = new CANNON.Body({ mass: 0, material: this.wallMaterial, position: new CANNON.Vec3(...c.pos) });
+          body.addShape(new CANNON.Box(new CANNON.Vec3(c.size[0] / 2, c.size[1] / 2, c.size[2] / 2)));
+          this.world.addBody(body);
+          return body;
+        });
+      }
+
+      async loadAllTextures() {
+        const loader = new THREE.TextureLoader();
+        const total = BALL_TEXTURES.length;
+        let loaded = 0;
+
+        // Initial progress (10% for Three.js/Cannon.js init)
+        setLoadProgress(0.1);
+
+        const loadPromises = BALL_TEXTURES.map((tex, index) => {
+          return new Promise((resolve) => {
+            loader.load(tex.path, (texture) => {
+              // Normalize so every texture has the same visual ball diameter and a perfect circle silhouette.
+              const normalized = this.normalizeBallTexture(texture);
+              normalized.colorSpace = THREE.SRGBColorSpace;
+              normalized.minFilter = THREE.LinearFilter;
+              normalized.magFilter = THREE.LinearFilter;
+              // Add weight entries for weighted random selection
+              for (let i = 0; i < tex.weight; i++) {
+                this.textureWeights.push(index);
+              }
+
+              // Update progress (textures are 10% - 85% of total load)
+              loaded++;
+              const textureProgress = 0.1 + (loaded / total) * 0.75;
+              setLoadProgress(textureProgress);
+
+              resolve(normalized);
+            }, undefined, () => {
+              console.warn(`Failed to load texture: ${tex.path}`);
+              loaded++;
+              setLoadProgress(0.1 + (loaded / total) * 0.75);
+              resolve(null);
+            });
+          });
+        });
+
+        this.textures = (await Promise.all(loadPromises)).filter(t => t !== null);
+
+        // 85% done - physics setup next
+        setLoadProgress(0.85);
+        console.log(`Loaded ${this.textures.length} ball textures`);
+      }
+
+      normalizeBallTexture(texture) {
+        // Converts any source image (any aspect, any padding) into a square canvas texture
+        // where the ball occupies a consistent diameter and is masked into a perfect circle.
+        const img = texture.image;
+        if (!img) return texture;
+
+        const OUT = 512;
+        const TARGET_DIAMETER = Math.round(OUT * 0.86);
+        const THRESH = 8; // alpha threshold
+
+        const srcCanvas = document.createElement('canvas');
+        const sw = img.width || img.naturalWidth || 0;
+        const sh = img.height || img.naturalHeight || 0;
+        if (!sw || !sh) return texture;
+        srcCanvas.width = sw;
+        srcCanvas.height = sh;
+        const sctx = srcCanvas.getContext('2d', { willReadFrequently: true });
+        if (!sctx) return texture;
+        sctx.clearRect(0, 0, sw, sh);
+        sctx.drawImage(img, 0, 0);
+
+        let x0 = sw, y0 = sh, x1 = -1, y1 = -1;
+        try {
+          const data = sctx.getImageData(0, 0, sw, sh).data;
+          for (let y = 0; y < sh; y++) {
+            for (let x = 0; x < sw; x++) {
+              const a = data[(y * sw + x) * 4 + 3];
+              if (a > THRESH) {
+                if (x < x0) x0 = x;
+                if (y < y0) y0 = y;
+                if (x > x1) x1 = x;
+                if (y > y1) y1 = y;
+              }
+            }
+          }
+        } catch {
+          // If getImageData fails (tainted canvas), just return original.
+          return texture;
+        }
+
+        if (x1 < x0 || y1 < y0) return texture;
+
+        // Expand to a square crop around the visible ball.
+        const bw = x1 - x0 + 1;
+        const bh = y1 - y0 + 1;
+        const b = Math.max(bw, bh);
+        const cx = (x0 + x1) / 2;
+        const cy = (y0 + y1) / 2;
+        const cropX = Math.max(0, Math.floor(cx - b / 2));
+        const cropY = Math.max(0, Math.floor(cy - b / 2));
+        const cropW = Math.min(sw - cropX, b);
+        const cropH = Math.min(sh - cropY, b);
+
+        const out = document.createElement('canvas');
+        out.width = OUT;
+        out.height = OUT;
+        const octx = out.getContext('2d');
+        if (!octx) return texture;
+
+        octx.clearRect(0, 0, OUT, OUT);
+        octx.imageSmoothingEnabled = true;
+        octx.imageSmoothingQuality = 'high';
+
+        const scale = TARGET_DIAMETER / Math.max(cropW, cropH);
+        const dw = cropW * scale;
+        const dh = cropH * scale;
+        const dx = (OUT - dw) / 2;
+        const dy = (OUT - dh) / 2;
+
+        // Draw scaled crop
+        octx.drawImage(srcCanvas, cropX, cropY, cropW, cropH, dx, dy, dw, dh);
+
+        // Circular mask (forces perfect circle silhouette)
+        octx.globalCompositeOperation = 'destination-in';
+        octx.beginPath();
+        octx.arc(OUT / 2, OUT / 2, TARGET_DIAMETER / 2, 0, Math.PI * 2);
+        octx.closePath();
+        octx.fill();
+        octx.globalCompositeOperation = 'source-over';
+
+        const canvasTex = new THREE.CanvasTexture(out);
+        canvasTex.needsUpdate = true;
+        return canvasTex;
+      }
+
+      getRandomTexture() {
+        if (this.textures.length === 0) return null;
+        const weightedIndex = this.textureWeights[Math.floor(Math.random() * this.textureWeights.length)];
+        return this.textures[weightedIndex];
+      }
+
+      _randomNonOverlappingPositions(count, radius) {
+        const w = this.viewport.width;
+        const h = this.viewport.height;
+        const ballDiameter = radius * 2;
+        const boxSize = ballDiameter * 1.5;
+        const safeDistance = Math.max(boxSize, ballDiameter) * 1.25;
+        const pad = Math.max(ballDiameter, w * 0.2);
+        const padY = Math.max(ballDiameter, h * 0.2);
+        const positions = [];
+        const maxTries = count * 250;
+        let tries = 0;
+
+        while (positions.length < count && tries < maxTries) {
+          tries++;
+          const x = (Math.random() * (w - pad * 2) + pad) - w / 2;
+          const y = (Math.random() * (h - padY * 2) + padY) - h / 2;
+
+          let ok = true;
+          for (let i = 0; i < positions.length; i++) {
+            const dx = positions[i].x - x;
+            const dy = positions[i].y - y;
+            if (dx * dx + dy * dy < safeDistance * safeDistance) {
+              ok = false;
+              break;
+            }
+          }
+          if (ok) positions.push({ x, y });
+        }
+
+        // Fallback: if we couldn't pack enough, fill the rest randomly.
+        while (positions.length < count) {
+          const x = (Math.random() * (w - pad * 2) + pad) - w / 2;
+          const y = (Math.random() * (h - padY * 2) + padY) - h / 2;
+          positions.push({ x, y });
+        }
+
+        return positions;
+      }
+
+      createBallsSunshineStyle() {
+        const radius = this.config.ballRadius;
+        const positions = this._randomNonOverlappingPositions(this.config.ballCount, radius);
+
+        // Track texture usage for even-ish distribution
+        const textureUsage = new Array(this.textures.length).fill(0);
+
+        // Progress: balls are 85% - 95%
+        const ballProgressStart = 0.85;
+        const ballProgressEnd = 0.95;
+
+        for (let i = 0; i < this.config.ballCount; i++) {
+          // Update progress for each ball created
+          const ballProgress = ballProgressStart + ((i + 1) / this.config.ballCount) * (ballProgressEnd - ballProgressStart);
+          setLoadProgress(ballProgress);
+          const pos = positions[i];
+
+          // Prefer less-used textures, but still honor weights
+          let textureIndex = 0;
+          if (this.textures.length > 0) {
+            const minUsage = Math.min(...textureUsage);
+            const candidates = textureUsage
+              .map((usage, idx) => ({ idx, usage }))
+              .filter(t => t.usage <= minUsage + 1)
+              .map(t => t.idx);
+            const weightedCandidates = candidates.filter(idx => this.textureWeights.includes(idx));
+            const pickFrom = weightedCandidates.length > 0 ? weightedCandidates : candidates;
+            textureIndex = pickFrom[Math.floor(Math.random() * pickFrom.length)] ?? 0;
+            textureUsage[textureIndex]++;
+          }
+
+          const texture = this.textures[textureIndex] || this.textures[0];
+          const spriteMaterial = new THREE.SpriteMaterial({
+            map: texture,
+            transparent: true,
+            alphaTest: 0.1,
+            depthTest: true,
+            depthWrite: false
+          });
+
+          const sprite = new THREE.Sprite(spriteMaterial);
+          // SAME size for every ball (visual size normalized in texture)
+          sprite.scale.set(radius * 2, radius * 2, 1);
+          sprite.position.set(pos.x, pos.y, 0);
+          sprite.userData.textureIndex = textureIndex;
+          this.scene.add(sprite);
+
+          const body = new CANNON.Body({
+            mass: 50,
+            material: this.ballMaterial,
+            linearDamping: this.config.linearDamping,
+            angularDamping: this.config.angularDamping,
+            allowSleep: false
+          });
+          body.addShape(new CANNON.Sphere(radius));
+          body.position.set(pos.x, pos.y, 0);
+
+          // Sunshine-style initial velocity proportional to spawn position
+          const vx = (-0.5 + Math.random()) * pos.x * 2 * this.config.velocityFromPositionScale;
+          const vy = (-0.5 + Math.random()) * pos.y * 2 * this.config.velocityFromPositionScale;
+          body.velocity.set(vx, vy, 0);
+
+          this.world.addBody(body);
+          this.balls.push({ sprite, body, index: i, textureIndex });
+        }
+
+        console.log('Texture distribution:', textureUsage);
+      }
+
+      bindEvents() {
+        // Sunshine-style: pointer acts like a collider that pushes balls (no pick-up/throw)
+        window.addEventListener('mousemove', this.onPointerMove.bind(this));
+        window.addEventListener('mousedown', this.onPointerMove.bind(this));
+        window.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: false });
+        window.addEventListener('resize', this.onResize.bind(this));
+      }
+
+      getPointerPosition(clientX, clientY) {
+        // Map screen pixels to world units like Sunshine:
+        // n = screenWidth / viewportWidth; worldX = mouseX / n; worldY = -mouseY / n
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const n = w / this.viewport.width;
+        const mx = clientX - w / 2;
+        const my = clientY - h / 2;
+        return { worldX: mx / n, worldY: -my / n };
+      }
+
+      onPointerMove(event) {
+        const pos = this.getPointerPosition(event.clientX, event.clientY);
+        this.pointer.x = pos.worldX;
+        this.pointer.y = pos.worldY;
+        this.hasPointer = true;
+      }
+
+      onTouchStart(e) {
+        e.preventDefault();
+        if (e.touches.length > 0) {
+          this.onPointerMove({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
+        }
+      }
+
+      onTouchMove(e) {
+        e.preventDefault();
+        if (e.touches.length > 0) {
+          this.onPointerMove({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY });
+        }
+      }
+
+      onTouchEnd() {}
+
+      onResize() {
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.setViewport();
+        this.updateBoundaries();
+      }
+
+      updateBoundaries() {
+        const ballDiameter = this.config.ballRadius * 2;
+        const boxSize = ballDiameter * 1.5;
+        const t = Math.max(boxSize, ballDiameter) * 1.1;
+        const w = this.viewport.width;
+        const h = this.viewport.height;
+        const positions = [
+          [0, -h / 2 - t / 2, 0],
+          [0, h / 2 + t / 2, 0],
+          [-w / 2 - t / 2, 0, 0],
+          [w / 2 + t / 2, 0, 0],
+          [0, 0, -t],
+          [0, 0, t]
+        ];
+        this.walls.forEach((wall, i) => wall.position.set(...positions[i]));
+      }
+
+      vibrate(d = 10) {
+        if ('vibrate' in navigator) try { navigator.vibrate(d); } catch(e) {}
+      }
+
+      animate() {
+        requestAnimationFrame(this.animate.bind(this));
+        // In headless/Puppeteer, document.hidden can be true; still render so we can test/compare.
+        if (document.hidden && !navigator.webdriver) return;
+
+        const dt = Math.min(this.clock.getDelta(), 0.1);
+        this.world.step(1/60, dt, 3);
+
+        // Sunshine-style oscillating gravity
+        this._t += dt;
+        const gx = Math.sin(2 * this._t) * this.config.oscGravity;
+        const gy = Math.cos(3 * this._t) * this.config.oscGravity;
+        this.world.gravity.set(gx, gy, 0);
+
+        // Sunshine-style “mouse box” collider
+        if (this.pointerBox) {
+          if (!this.hasPointer) {
+            // If no pointer yet, keep it off-screen.
+            this.pointerBox.position.set(99999, 99999, 0);
+          } else {
+            this.pointerBox.position.set(this.pointer.x, this.pointer.y, 0);
+            // Rotate box over time (like Sunshine)
+            const s = Math.sin(this._t);
+            const c = Math.cos(this._t);
+            this.pointerBox.quaternion.set(s, c, 0, 0);
+          }
+        }
+
+        // Sync sprites with physics
+        this.balls.forEach(b => {
+          b.sprite.position.x = b.body.position.x;
+          b.sprite.position.y = b.body.position.y;
+          // subtle rotation tied to velocity, like Sunshine
+          const vx = b.body.velocity.x;
+          const vy = b.body.velocity.y;
+          if (b.sprite.material) {
+            b.sprite.material.rotation += (vx + vy) * 0.002;
+          }
+        });
+
+        this.renderer.render(this.scene, this.camera);
+
+        // FPS tracking
+        this.frameCount++;
+        const fpsNow = performance.now();
+        if (fpsNow - this.lastFpsUpdate > 1000) {
+          this.fps = this.frameCount;
+          this.frameCount = 0;
+          this.lastFpsUpdate = fpsNow;
+        }
+      }
+
+      // Public API
+      addBall() {
+        const w = window.innerWidth, h = window.innerHeight;
+        const x = (Math.random() - 0.5) * w * 0.5;
+        const y = h / 3;
+        const radius = this.config.ballRadius;
+
+        const textureIndex = Math.floor(Math.random() * this.textures.length);
+        const texture = this.textures[textureIndex];
+        const spriteMaterial = new THREE.SpriteMaterial({
+          map: texture,
+          transparent: true,
+          alphaTest: 0.1
+        });
+
+        const sprite = new THREE.Sprite(spriteMaterial);
+        sprite.scale.set(radius * 2.2, radius * 2.2, 1);
+        sprite.position.set(x, y, 0);
+        this.scene.add(sprite);
+
+        const body = new CANNON.Body({
+          mass: 1,
+          material: this.ballMaterial,
+          linearDamping: this.config.linearDamping,
+          angularDamping: this.config.angularDamping
+        });
+        body.addShape(new CANNON.Sphere(radius));
+        body.position.set(x, y, 0);
+        this.world.addBody(body);
+
+        this.balls.push({ sprite, body, index: this.balls.length, textureIndex });
+        return this.balls.length;
+      }
+
+      removeBall() {
+        if (this.balls.length > 0) {
+          const ball = this.balls.pop();
+          this.scene.remove(ball.sprite);
+          this.world.removeBody(ball.body);
+          ball.sprite.material.dispose();
+        }
+        return this.balls.length;
+      }
+
+      applyImpulseToAll(force = { x: 0, y: 500, z: 0 }) {
+        const impulse = new CANNON.Vec3(force.x, force.y, force.z);
+        this.balls.forEach(b => {
+          b.body.wakeUp();
+          b.body.applyImpulse(impulse, b.body.position);
+          b.body.angularVelocity.set(
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10
+          );
+        });
+        this.vibrate(20);
+      }
+
+      // Analytics for testing
+      getDispersionStats() {
+        const w = window.innerWidth, h = window.innerHeight;
+        const quadrants = { tl: 0, tr: 0, bl: 0, br: 0 };
+
+        this.balls.forEach(b => {
+          const x = b.body.position.x;
+          const y = b.body.position.y;
+          if (x < 0 && y > 0) quadrants.tl++;
+          else if (x >= 0 && y > 0) quadrants.tr++;
+          else if (x < 0 && y <= 0) quadrants.bl++;
+          else quadrants.br++;
+        });
+
+        const total = this.balls.length;
+        const ideal = total / 4;
+        const variance = Object.values(quadrants).reduce((sum, q) => sum + Math.pow(q - ideal, 2), 0) / 4;
+        const evenness = 1 - (Math.sqrt(variance) / ideal);
+
+        return { quadrants, total, evenness: Math.round(evenness * 100) };
+      }
+
+      getTextureStats() {
+        const stats = {};
+        this.balls.forEach(b => {
+          const idx = b.textureIndex;
+          stats[`texture${idx}`] = (stats[`texture${idx}`] || 0) + 1;
+        });
+        return stats;
+      }
+
+      getBallCount() { return this.balls.length; }
+      getFPS() { return this.fps; }
+    }
+
+    // Initialize
+    const isMobile = window.innerWidth < 768;
+    const neoball = new NeoballPhysics({
+      ballCount: 20,
+      // same size for ALL balls (per device)
+      ballRadius: 0.5,
+      gravity: 0,
+      restitution: 0.7,
+      wallRestitution: 0.7,
+      friction: 0.3,
+      linearDamping: 0.02 * DAMP_MUL,
+      angularDamping: 0.02 * DAMP_MUL,
+      throwForce: 14,
+      oscGravity: 0.075 * DRIFT_MUL,
+      velocityFromPositionScale: 1 * SPEED_MUL
+    });
+
+    window.neoball = neoball;
+
+    // Controls
+    if (DEBUG) {
+      document.getElementById('addBall').addEventListener('click', () => neoball.addBall());
+      document.getElementById('removeBall').addEventListener('click', () => neoball.removeBall());
+      document.getElementById('explode').addEventListener('click', () => {
+        neoball.applyImpulseToAll({ x: (Math.random() - 0.5) * 400, y: (Math.random() - 0.5) * 400, z: 0 });
+      });
+    }
+    document.getElementById('buyBtn').addEventListener('click', () => {
+      // Gentler impulse so it doesn't feel like pinball
+      neoball.applyImpulseToAll({ x: (Math.random() - 0.5) * 450, y: (Math.random() - 0.5) * 450, z: 0 });
+    });
+
+    // Stats toggle
+    let statsVisible = false;
+    if (DEBUG) {
+      document.getElementById('toggleStats').addEventListener('click', () => {
+        statsVisible = !statsVisible;
+        document.getElementById('stats').classList.toggle('visible', statsVisible);
+      });
+    }
+
+    // Update stats
+    setInterval(() => {
+      if (DEBUG && statsVisible) {
+        const dispersion = neoball.getDispersionStats();
+        const textures = neoball.getTextureStats();
+        document.getElementById('stats').innerHTML = `
+          FPS: ${neoball.getFPS()}<br>
+          Balls: ${neoball.getBallCount()}<br>
+          Evenness: ${dispersion.evenness}%<br>
+          Quadrants: TL:${dispersion.quadrants.tl} TR:${dispersion.quadrants.tr} BL:${dispersion.quadrants.bl} BR:${dispersion.quadrants.br}<br>
+          Textures: ${JSON.stringify(textures)}
+        `;
+      }
+    }, 500);
+
+    // Hide instructions
+    let hasInteracted = false;
+    ['mousedown', 'touchstart'].forEach(evt => {
+      document.addEventListener(evt, () => {
+        if (!hasInteracted) {
+          hasInteracted = true;
+          document.getElementById('instructions').classList.add('hidden');
+        }
+      }, { once: true });
+    });
+  </script>
+</body>
+</html>

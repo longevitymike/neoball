@@ -18,7 +18,7 @@
   <link rel="preload" href="./images/neoballypwhite.png" as="image">
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" as="style">
 
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <script type="importmap">
   {
     "imports": {
@@ -39,6 +39,211 @@
       height: 100%;
       overflow: hidden;
       background: #0a0a0a url("./images/court.webp") center / cover no-repeat fixed;
+    }
+
+    /* Loading Screen - Cyan Fire Loader */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loader-top,
+    .loader-bottom {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #0a0a0a;
+      transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .loader-top {
+      top: 0;
+      transform-origin: top center;
+    }
+
+    .loader-bottom {
+      bottom: 0;
+      transform-origin: bottom center;
+    }
+
+    .loader-line {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        #00f6e0 10%,
+        #00ffff 50%,
+        #00f6e0 90%,
+        transparent 100%
+      );
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: center;
+      z-index: 10000;
+      border-radius: 2px;
+    }
+
+    /* Cyan fire glow layers */
+    .loader-line::before,
+    .loader-line::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-50%);
+      border-radius: 2px;
+    }
+
+    /* Inner intense glow */
+    .loader-line::before {
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 255, 255, 0.8) 20%,
+        rgba(255, 255, 255, 0.9) 50%,
+        rgba(0, 255, 255, 0.8) 80%,
+        transparent 100%
+      );
+      filter: blur(4px);
+      animation: fireFlicker 0.15s ease-in-out infinite alternate;
+    }
+
+    /* Outer fire bloom */
+    .loader-line::after {
+      height: 200%;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 246, 224, 0.6) 15%,
+        rgba(0, 255, 255, 0.4) 50%,
+        rgba(0, 246, 224, 0.6) 85%,
+        transparent 100%
+      );
+      filter: blur(12px);
+      animation: fireGlow 0.3s ease-in-out infinite alternate;
+    }
+
+    /* Animated glow container */
+    .loader-glow {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 60px;
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: center;
+      z-index: 9999;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center,
+        rgba(0, 255, 255, 0.3) 0%,
+        rgba(0, 246, 224, 0.15) 30%,
+        transparent 70%
+      );
+      filter: blur(20px);
+      animation: pulseGlow 0.5s ease-in-out infinite alternate;
+    }
+
+    /* Fire particles container */
+    .loader-particles {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 40px;
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: center;
+      z-index: 10001;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    /* Progress percentage - JetBrains Mono */
+    .loader-progress {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #00f6e0;
+      text-shadow: 0 0 10px #00f6e0, 0 0 20px #00f6e0, 0 0 40px #00f6e0;
+      z-index: 10002;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .loader.active .loader-progress {
+      opacity: 1;
+    }
+
+    @keyframes fireFlicker {
+      0% { opacity: 0.8; transform: translateY(-50%) scaleY(1); }
+      100% { opacity: 1; transform: translateY(-50%) scaleY(1.2); }
+    }
+
+    @keyframes fireGlow {
+      0% { opacity: 0.6; transform: translateY(-50%) scaleY(0.8); }
+      100% { opacity: 1; transform: translateY(-50%) scaleY(1.3); }
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.5; }
+      100% { opacity: 0.8; }
+    }
+
+    @keyframes particleRise {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0);
+      }
+    }
+
+    /* Progress-driven animation (controlled via JS) */
+    .loader.active .loader-line,
+    .loader.active .loader-glow,
+    .loader.active .loader-particles {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .loader.reveal .loader-top {
+      transform: translateY(-100%);
+    }
+
+    .loader.reveal .loader-bottom {
+      transform: translateY(100%);
+    }
+
+    .loader.reveal .loader-line,
+    .loader.reveal .loader-glow,
+    .loader.reveal .loader-particles,
+    .loader.reveal .loader-progress {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .loader.hidden {
+      pointer-events: none;
+      visibility: hidden;
     }
 
     /* Logo */
@@ -183,6 +388,7 @@
     @media (prefers-reduced-motion: no-preference) {
       .hero-quote {
         animation: heroIn 780ms cubic-bezier(.2,.8,.2,1) both;
+        animation-delay: 0.3s;
       }
       @keyframes heroIn {
         from { opacity: 0; transform: translate(-50%,-48%) scale(0.98); }
@@ -290,6 +496,10 @@
           0 0 8px rgba(0,255,255,0.08),
           0 0 18px rgba(0,255,255,0.06);
       }
+
+      .loader {
+        display: none !important;
+      }
     }
 
     /* Cookie Consent Banner */
@@ -298,7 +508,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      z-index: 9999;
+      z-index: 10001;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -424,6 +634,16 @@
   </style>
 </head>
 <body>
+  <!-- Loading Screen - Cyan Fire Loader -->
+  <div class="loader" id="loader">
+    <div class="loader-top"></div>
+    <div class="loader-bottom"></div>
+    <div class="loader-glow" id="loader-glow"></div>
+    <div class="loader-line" id="loader-line"></div>
+    <div class="loader-particles" id="loader-particles"></div>
+    <div class="loader-progress" id="loader-progress">0%</div>
+  </div>
+
   <!-- Back balls layer (behind UI) -->
   <div id="ballsBack" class="balls-layer"></div>
 
@@ -444,7 +664,7 @@
   <div id="ballsFront" class="balls-layer"></div>
 
   <!-- Cookie Consent Banner -->
-  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div class="cookie-banner hidden" id="cookieBanner" role="dialog" aria-label="Cookie consent">
     <p class="cookie-banner__text">This website uses cookies to improve your browsing experience.</p>
     <div class="cookie-banner__actions">
       <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookieAccept">Accept</button>
@@ -453,29 +673,199 @@
     </div>
   </div>
 
+  <script>
+    // Fire Loader System
+    const loader = document.getElementById('loader');
+    const loaderLine = document.getElementById('loader-line');
+    const loaderGlow = document.getElementById('loader-glow');
+    const loaderParticles = document.getElementById('loader-particles');
+    const loaderProgress = document.getElementById('loader-progress');
+
+    // Loading progress state
+    let loadProgress = 0;
+    let targetProgress = 0;
+    let particleAnimationId = null;
+
+    // Start loader immediately
+    requestAnimationFrame(() => {
+      loader.classList.add('active');
+      startParticleSystem();
+      animateProgress();
+    });
+
+    // Smooth progress animation (eases toward target)
+    function animateProgress() {
+      const ease = 0.08;
+      loadProgress += (targetProgress - loadProgress) * ease;
+
+      // Clamp and apply
+      const progress = Math.min(Math.max(loadProgress, 0), 1);
+      const scaleValue = `translateY(-50%) scaleX(${progress})`;
+
+      loaderLine.style.transform = scaleValue;
+      loaderGlow.style.transform = scaleValue;
+      loaderParticles.style.transform = scaleValue;
+
+      // Update percentage display
+      loaderProgress.textContent = `${Math.round(progress * 100)}%`;
+
+      // Continue animating until fully loaded and revealed
+      if (!loader.classList.contains('hidden')) {
+        requestAnimationFrame(animateProgress);
+      }
+    }
+
+    // Update progress (called from balls overlay)
+    function setLoadProgress(value) {
+      targetProgress = Math.min(Math.max(value, targetProgress), 1); // Only increase
+    }
+
+    // Expose globally for balls-overlay.js
+    window.setLoadProgress = setLoadProgress;
+
+    // Fire particle system
+    function startParticleSystem() {
+      const colors = ['#00f6e0', '#00ffff', '#40fff0', '#80ffff', '#ffffff'];
+
+      function createParticle() {
+        if (loader.classList.contains('reveal')) return;
+
+        const particle = document.createElement('div');
+        const size = 2 + Math.random() * 4;
+        const xPos = Math.random() * 100;
+        const duration = 0.4 + Math.random() * 0.6;
+        const delay = Math.random() * 0.1;
+
+        particle.style.cssText = `
+          position: absolute;
+          left: ${xPos}%;
+          top: 50%;
+          width: ${size}px;
+          height: ${size}px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          border-radius: 50%;
+          pointer-events: none;
+          opacity: 0;
+          box-shadow: 0 0 ${size * 2}px currentColor, 0 0 ${size * 4}px currentColor;
+          animation: particleRise ${duration}s ease-out ${delay}s forwards;
+        `;
+
+        loaderParticles.appendChild(particle);
+
+        // Remove after animation
+        setTimeout(() => {
+          particle.remove();
+        }, (duration + delay) * 1000 + 100);
+      }
+
+      // Spawn particles based on progress
+      function spawnParticles() {
+        if (loader.classList.contains('reveal')) return;
+
+        // More particles as progress increases
+        const intensity = Math.max(1, Math.floor(loadProgress * 4));
+        for (let i = 0; i < intensity; i++) {
+          if (Math.random() < 0.6) createParticle();
+        }
+
+        particleAnimationId = setTimeout(spawnParticles, 80);
+      }
+
+      spawnParticles();
+    }
+
+    // Reveal function - cinematic
+    function revealSite() {
+      // Ensure we reach 100%
+      targetProgress = 1;
+
+      // Wait for progress animation to catch up
+      const waitForComplete = () => {
+        if (loadProgress >= 0.95) {
+          // Clear particle spawner
+          if (particleAnimationId) clearTimeout(particleAnimationId);
+
+          setTimeout(() => {
+            loader.classList.add('reveal');
+
+            setTimeout(() => {
+              loader.classList.add('hidden');
+              // Clean up remaining particles
+              loaderParticles.innerHTML = '';
+            }, 1200);
+          }, 300);
+        } else {
+          requestAnimationFrame(waitForComplete);
+        }
+      };
+
+      waitForComplete();
+    }
+  </script>
+
   <script type="module">
     import { initBallsOnPage } from './js/balls-overlay.js';
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!reduceMotion) {
+    if (reduceMotion) {
+      // Skip loader for reduced motion
+      document.getElementById('loader').classList.add('hidden');
+    } else {
+      // Track which layers have completed loading
+      let layersLoaded = 0;
+      const totalLayers = 2;
+
+      // Progress callback - aggregates from both layers
+      const onProgress = (value) => {
+        // Report to global loader (takes max progress from either layer)
+        if (typeof window.setLoadProgress === 'function') {
+          window.setLoadProgress(value);
+        }
+      };
+
+      const onLayerComplete = () => {
+        layersLoaded++;
+        if (layersLoaded >= totalLayers) {
+          // Both layers ready - reveal!
+          revealSite();
+        }
+      };
+
       // BACK LAYER (ambient)
-      initBallsOnPage({
+      const backLayer = initBallsOnPage({
         container: document.getElementById('ballsBack'),
         zIndex: 1,
         zOffset: -0.8,
         ballCount: 8,
-        ballRadius: 1.0
+        ballRadius: 1.0,
+        onProgress: onProgress
       });
 
       // FRONT LAYER (depth accents)
-      initBallsOnPage({
+      const frontLayer = initBallsOnPage({
         container: document.getElementById('ballsFront'),
         zIndex: 1,
         zOffset: 0.8,
         ballCount: window.innerWidth < 768 ? 3 : 4,
-        ballRadius: 1.0
+        ballRadius: 1.0,
+        onProgress: onProgress
       });
+
+      // Check periodically if balls are initialized (they call _reportProgress(1.0) when done)
+      const checkReady = setInterval(() => {
+        const balls = window.neoballBalls || [];
+        if (balls.length >= 2) {
+          clearInterval(checkReady);
+          revealSite();
+        }
+      }, 100);
+
+      // Fallback timeout
+      setTimeout(() => {
+        clearInterval(checkReady);
+        revealSite();
+      }, 8000);
     }
   </script>
 
@@ -497,6 +887,11 @@
         banner.classList.add('hidden');
         return;
       }
+
+      // Show banner after loader reveals
+      setTimeout(() => {
+        banner.classList.remove('hidden');
+      }, 3000);
 
       function hideBanner(choice) {
         localStorage.setItem(STORAGE_KEY, choice);

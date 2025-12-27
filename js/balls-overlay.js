@@ -56,6 +56,9 @@ export class NeoballBallsOverlay {
       overlayId: options.overlayId ?? `neoball-balls-overlay-${this.instanceId}`,
       overlayClass: options.overlayClass ?? '',
 
+      // Progress callback for loader integration
+      onProgress: options.onProgress ?? null,
+
       ...options
     };
 
@@ -86,8 +89,10 @@ export class NeoballBallsOverlay {
     this.createPointerCollider();
     await this.loadAllTextures();
     this.createBalls();
+    this._reportProgress(0.95);
     this.bindEvents();
     this.animate();
+    this._reportProgress(1.0);
 
     // Expose for debugging
     window.neoballBalls = window.neoballBalls || [];
@@ -330,16 +335,36 @@ export class NeoballBallsOverlay {
 
   async loadAllTextures() {
     const loader = new THREE.TextureLoader();
+    const total = BALL_TEXTURES.length;
+    let loaded = 0;
+
+    // Report initial progress
+    this._reportProgress(0.1);
+
     const loadPromises = BALL_TEXTURES.map((tex) => {
       return new Promise((resolve) => {
         loader.load(tex.path, (texture) => {
           const normalized = this.normalizeBallTexture(texture);
+          loaded++;
+          // Textures are 10% - 80% of total load
+          this._reportProgress(0.1 + (loaded / total) * 0.7);
           resolve(normalized);
-        }, undefined, () => resolve(null));
+        }, undefined, () => {
+          loaded++;
+          this._reportProgress(0.1 + (loaded / total) * 0.7);
+          resolve(null);
+        });
       });
     });
 
     this.textures = (await Promise.all(loadPromises)).filter(Boolean);
+    this._reportProgress(0.85);
+  }
+
+  _reportProgress(value) {
+    if (typeof this.config.onProgress === 'function') {
+      this.config.onProgress(value);
+    }
   }
 
   buildTextureSequence() {
@@ -526,3 +551,7 @@ export class NeoballBallsOverlay {
 export function initBallsOnPage(options = {}) {
   return new NeoballBallsOverlay(options);
 }
+
+
+
+
