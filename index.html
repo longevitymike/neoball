@@ -246,20 +246,340 @@
       visibility: hidden;
     }
 
-    /* Logo */
-    .neoball-logo-link {
-      position: fixed;
-      top: calc(env(safe-area-inset-top, 0px) + 18px);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 120;
-      -webkit-tap-highlight-color: transparent;
+    /* ========================================
+       TOP NAVIGATION - Glass Morphism
+       ======================================== */
+    :root {
+      --top-nav-height-mobile: 56px;
+      --top-nav-height: 64px;
     }
 
-    .neoball-logo-img {
-      height: clamp(36px, 6vw, 55px);
-      width: auto;
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      padding: calc(env(safe-area-inset-top, 0px) + 10px) 12px 10px;
+    }
+
+    .top-nav__glass {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--top-nav-height-mobile);
+      padding: 0 16px;
+      background: linear-gradient(
+        135deg,
+        rgba(0, 255, 255, 0.08) 0%,
+        rgba(0, 150, 150, 0.05) 50%,
+        rgba(0, 0, 0, 0.25) 100%
+      );
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 14px;
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    /* Left cluster */
+    .top-nav__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1;
+    }
+
+    /* Hamburger button */
+    .top-nav__hamburger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      padding: 0;
+      margin-left: -8px;
+      transition: opacity 0.2s;
+    }
+
+    .top-nav__hamburger:hover {
+      opacity: 0.7;
+    }
+
+    .top-nav__hamburger svg {
+      width: 20px;
+      height: 14px;
+    }
+
+    /* Desktop nav links */
+    .top-nav__links {
+      display: none;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .top-nav__link {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+
+    .top-nav__link:hover {
+      color: #00FFFF;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    /* Center logo */
+    .top-nav__center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .top-nav__logo {
       display: block;
+    }
+
+    .top-nav__logo img {
+      height: 32px;
+      width: auto;
+    }
+
+    /* Right cluster */
+    .top-nav__right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .top-nav__icon-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      padding: 0;
+      transition: opacity 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+
+    .top-nav__icon-btn:hover {
+      color: #00FFFF;
+    }
+
+    .top-nav__icon-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .top-nav__icon-btn--search {
+      display: none;
+    }
+
+    /* Cart badge */
+    .top-nav__cart {
+      position: relative;
+    }
+
+    .top-nav__cart-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      background: #00FFFF;
+      color: #0a0a0a;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ========================================
+       MOBILE MENU
+       ======================================== */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .mobile-menu.open {
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .mobile-menu__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open .mobile-menu__backdrop {
+      opacity: 1;
+    }
+
+    .mobile-menu__panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: min(320px, 85vw);
+      height: 100%;
+      background: linear-gradient(
+        180deg,
+        rgba(15, 15, 15, 0.98) 0%,
+        rgba(10, 10, 10, 0.99) 100%
+      );
+      border-right: 1px solid rgba(0, 255, 255, 0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-menu.open .mobile-menu__panel {
+      transform: translateX(0);
+    }
+
+    .mobile-menu__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(env(safe-area-inset-top, 0px) + 16px) 20px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mobile-menu__close {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      margin-right: -8px;
+    }
+
+    .mobile-menu__close:hover {
+      color: #00FFFF;
+    }
+
+    .mobile-menu__nav {
+      flex: 1;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mobile-menu__link {
+      display: block;
+      padding: 16px 0;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.04em;
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .mobile-menu__link:hover {
+      color: #00FFFF;
+      padding-left: 8px;
+    }
+
+    .mobile-menu__footer {
+      padding: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mobile-menu__social {
+      display: flex;
+      gap: 16px;
+    }
+
+    .mobile-menu__social a {
+      color: rgba(255, 255, 255, 0.5);
+      transition: color 0.2s;
+    }
+
+    .mobile-menu__social a:hover {
+      color: #00FFFF;
+    }
+
+    /* Desktop responsive */
+    @media (min-width: 768px) {
+      .top-nav {
+        padding: calc(env(safe-area-inset-top, 0px) + 12px) 20px 12px;
+      }
+
+      .top-nav__glass {
+        height: var(--top-nav-height);
+        padding: 0 24px;
+      }
+
+      .top-nav__hamburger {
+        display: none;
+      }
+
+      .top-nav__links {
+        display: flex;
+      }
+
+      .top-nav__logo img {
+        height: 38px;
+      }
+
+      .top-nav__icon-btn--search {
+        display: flex;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .top-nav__glass {
+        padding: 0 32px;
+      }
+
+      .top-nav__links {
+        gap: 36px;
+      }
+
+      .top-nav__link {
+        font-size: 13px;
+      }
+
+      .top-nav__logo img {
+        height: 42px;
+      }
     }
 
     .neoball-btn {
@@ -271,9 +591,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background-color: transparent;
-      color: #00FFFF;
-      border: 2px solid #00FFFF;
+      background-color: #FF1493;
+      color: #fff;
+      border: 2px solid #FF1493;
       padding: 15px 40px;
       font-family: 'Inter', sans-serif;
       font-weight: bold;
@@ -281,18 +601,18 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       cursor: pointer;
-      box-shadow: 0 0 10px #00FFFF, inset 0 0 5px #00FFFF;
-      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.5), 0 0 30px rgba(255, 20, 147, 0.3);
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       border-radius: 5px;
       text-decoration: none;
       will-change: background-color, color, border-color, box-shadow;
     }
 
     .neoball-btn:hover {
-      background-color: #FF1493;
-      color: #00F6E0;
-      border-color: #FF1493;
-      box-shadow: 0 0 22px rgba(255,20,147,0.85), 0 0 44px rgba(255,20,147,0.4), inset 0 0 5px rgba(255,20,147,0.3);
+      background-color: #00f6e0;
+      color: #0a0a0a;
+      border-color: #00f6e0;
+      box-shadow: 0 0 20px rgba(0, 246, 224, 0.6), 0 0 40px rgba(0, 246, 224, 0.3);
     }
 
     @media (max-width: 767px) {
@@ -631,6 +951,78 @@
 
     #ballsBack { z-index: 70; }
     #ballsFront { z-index: 90; }
+
+    /* Decorative floating balls - always visible with gentle motion */
+    .deco-ball {
+      position: fixed;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: url('./balls/balls1.webp') center / cover no-repeat;
+      z-index: 75;
+      pointer-events: none;
+      opacity: 0.9;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+    }
+
+    .deco-ball--1 {
+      top: 18%;
+      left: 8%;
+      width: 70px;
+      height: 70px;
+      animation: floatBall1 8s ease-in-out infinite;
+    }
+
+    .deco-ball--2 {
+      bottom: 22%;
+      right: 6%;
+      width: 90px;
+      height: 90px;
+      background-image: url('./balls/balls3.webp');
+      animation: floatBall2 10s ease-in-out infinite;
+    }
+
+    @keyframes floatBall1 {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(15px, -20px) rotate(15deg);
+      }
+      50% {
+        transform: translate(5px, -10px) rotate(-5deg);
+      }
+      75% {
+        transform: translate(-10px, -25px) rotate(10deg);
+      }
+    }
+
+    @keyframes floatBall2 {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      33% {
+        transform: translate(-20px, 15px) rotate(-20deg);
+      }
+      66% {
+        transform: translate(10px, -15px) rotate(15deg);
+      }
+    }
+
+    @media (max-width: 767px) {
+      .deco-ball--1 {
+        width: 50px;
+        height: 50px;
+        top: 12%;
+        left: 5%;
+      }
+      .deco-ball--2 {
+        width: 60px;
+        height: 60px;
+        bottom: 18%;
+        right: 4%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -647,9 +1039,93 @@
   <!-- Back balls layer (behind UI) -->
   <div id="ballsBack" class="balls-layer"></div>
 
-  <a class="neoball-logo-link" href="./pdp.html" aria-label="Neoball">
-    <img src="./images/neoballypwhite.png" alt="Neoball" class="neoball-logo-img" fetchpriority="high">
-  </a>
+  <!-- Decorative floating balls - always visible with gentle motion -->
+  <div class="deco-ball deco-ball--1" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--2" aria-hidden="true"></div>
+
+  <!-- Top Navigation -->
+  <header class="top-nav" id="topNav">
+    <div class="top-nav__glass">
+      <!-- Left cluster -->
+      <div class="top-nav__left">
+        <!-- Mobile hamburger -->
+        <button type="button" class="top-nav__hamburger" id="menuToggle" aria-label="Open menu">
+          <svg viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M1 1h18M1 7h18M1 13h18" />
+          </svg>
+        </button>
+
+        <!-- Desktop nav links -->
+        <nav class="top-nav__links">
+          <a href="./pdp.html" class="top-nav__link">Shop</a>
+          <a href="#about" class="top-nav__link">About</a>
+        </nav>
+      </div>
+
+      <!-- Center logo -->
+      <div class="top-nav__center">
+        <a href="./" class="top-nav__logo" aria-label="Neoball">
+          <img src="./images/neoballypwhite.png" alt="Neoball" fetchpriority="high">
+        </a>
+      </div>
+
+      <!-- Right cluster -->
+      <div class="top-nav__right">
+        <!-- Search (desktop) -->
+        <button type="button" class="top-nav__icon-btn top-nav__icon-btn--search" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+        </button>
+
+        <!-- Cart -->
+        <a href="./pdp.html" class="top-nav__icon-btn top-nav__cart" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <path d="M3 6h18" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu__backdrop" id="menuBackdrop"></div>
+    <div class="mobile-menu__panel">
+      <div class="mobile-menu__header">
+        <a href="./" class="top-nav__logo">
+          <img src="./images/neoballypwhite.png" alt="Neoball" style="height: 28px;">
+        </a>
+        <button type="button" class="mobile-menu__close" id="menuClose" aria-label="Close menu">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <nav class="mobile-menu__nav">
+        <a href="./pdp.html" class="mobile-menu__link">Shop</a>
+        <a href="#about" class="mobile-menu__link">About</a>
+        <a href="#contact" class="mobile-menu__link">Contact</a>
+      </nav>
+      <div class="mobile-menu__footer">
+        <div class="mobile-menu__social">
+          <a href="https://instagram.com/neoball" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a href="https://tiktok.com/@neoball" aria-label="TikTok" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <a class="hero-quote" href="./pdp.html" aria-label="World's best silent basketball">
     <span class="hero-quote__scrim" aria-hidden="true"></span>
@@ -801,6 +1277,43 @@
 
       waitForComplete();
     }
+  </script>
+
+  <!-- Mobile Menu Script -->
+  <script>
+    (function initMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const menuToggle = document.getElementById('menuToggle');
+      const menuClose = document.getElementById('menuClose');
+      const menuBackdrop = document.getElementById('menuBackdrop');
+      const menuLinks = mobileMenu.querySelectorAll('.mobile-menu__link');
+
+      function openMenu() {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      menuToggle?.addEventListener('click', openMenu);
+      menuClose?.addEventListener('click', closeMenu);
+      menuBackdrop?.addEventListener('click', closeMenu);
+
+      // Close on link click
+      menuLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
+
+      // Close on ESC key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+    })();
   </script>
 
   <script type="module">
