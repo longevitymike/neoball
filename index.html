@@ -591,28 +591,79 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background-color: #FF1493;
+      background: rgba(255, 20, 147, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       color: #fff;
-      border: 2px solid #FF1493;
-      padding: 15px 40px;
+      border: 1px solid rgba(255, 20, 147, 0.6);
+      padding: 16px 44px;
       font-family: 'Inter', sans-serif;
-      font-weight: bold;
-      font-size: 18px;
+      font-weight: 700;
+      font-size: 16px;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 0.12em;
       cursor: pointer;
-      box-shadow: 0 0 15px rgba(255, 20, 147, 0.5), 0 0 30px rgba(255, 20, 147, 0.3);
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-      border-radius: 5px;
+      box-shadow:
+        0 0 20px rgba(255, 20, 147, 0.4),
+        0 4px 24px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 8px;
       text-decoration: none;
-      will-change: background-color, color, border-color, box-shadow;
+      overflow: hidden;
+    }
+
+    /* Gradient sweep overlay */
+    .neoball-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+      );
+      transition: left 0.6s ease;
+    }
+
+    /* Bottom accent line */
+    .neoball-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00f6e0, transparent);
+      transition: width 0.4s ease;
     }
 
     .neoball-btn:hover {
-      background-color: #00f6e0;
+      background: rgba(0, 246, 224, 0.9);
       color: #0a0a0a;
-      border-color: #00f6e0;
-      box-shadow: 0 0 20px rgba(0, 246, 224, 0.6), 0 0 40px rgba(0, 246, 224, 0.3);
+      border-color: rgba(0, 246, 224, 0.8);
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow:
+        0 0 40px rgba(0, 246, 224, 0.5),
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .neoball-btn:hover::before {
+      left: 100%;
+    }
+
+    .neoball-btn:hover::after {
+      width: 70%;
+    }
+
+    .neoball-btn:active {
+      transform: translateX(-50%) translateY(0) scale(0.98);
     }
 
     @media (max-width: 767px) {
