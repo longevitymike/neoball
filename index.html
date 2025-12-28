@@ -1023,57 +1023,57 @@
       overflow: hidden;
     }
 
-    #ballsBack { z-index: 70; }
-    #ballsFront { z-index: 90; }
+    /* 3D Physics layers - hero text is z-index 85 */
+    #ballsBack { z-index: 80; }  /* Behind hero text */
+    #ballsFront { z-index: 95; } /* In front of hero text */
 
-    /* Decorative floating balls - always visible with gentle motion */
+    /* Decorative floating balls - ALL SAME SIZE with depth layering */
     .deco-ball {
       position: fixed;
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: url('./balls/balls1.webp') center / cover no-repeat;
-      z-index: 75;
       pointer-events: none;
-      opacity: 0.9;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
     }
 
+    /* BACK LAYER - behind hero text (z-index 80, hero is 85) */
+    .deco-ball--back { z-index: 80; opacity: 0.85; }
+
+    /* FRONT LAYER - in front of hero text (z-index 95) */
+    .deco-ball--front { z-index: 95; opacity: 0.95; }
+
+    /* Ball 1 - BACK layer, top left */
     .deco-ball--1 {
-      top: 18%;
-      left: 8%;
-      width: 130px;
-      height: 130px;
+      top: 12%;
+      left: 6%;
+      background-image: url('./balls/balls1.webp');
       animation: floatBall1 8s ease-in-out infinite;
     }
 
+    /* Ball 2 - FRONT layer, bottom right */
     .deco-ball--2 {
-      bottom: 22%;
-      right: 6%;
-      width: 160px;
-      height: 160px;
-      background-image: url('./balls/balls3.webp');
+      bottom: 20%;
+      right: 8%;
+      background-image: url('./balls/balls2.webp');
       animation: floatBall2 10s ease-in-out infinite;
     }
 
+    /* Ball 3 - BACK layer, middle left */
     .deco-ball--3 {
-      top: 55%;
-      left: 4%;
-      width: 100px;
-      height: 100px;
-      background-image: url('./balls/balls2.webp');
+      top: 48%;
+      left: 3%;
+      background-image: url('./balls/balls3.webp');
       animation: floatBall3 12s ease-in-out infinite;
-      opacity: 0.85;
     }
 
+    /* Ball 4 - FRONT layer, top right */
     .deco-ball--4 {
-      top: 8%;
-      right: 12%;
-      width: 90px;
-      height: 90px;
+      top: 6%;
+      right: 10%;
       background-image: url('./balls/balls4.webp');
       animation: floatBall4 9s ease-in-out infinite;
-      opacity: 0.8;
     }
 
     @keyframes floatBall1 {
@@ -1130,31 +1130,75 @@
       }
     }
 
+    /* Ball 5 - FRONT layer, overlaps text area */
+    .deco-ball--5 {
+      top: 32%;
+      right: 15%;
+      background-image: url('./balls/balls1.webp');
+      animation: floatBall5 11s ease-in-out infinite;
+    }
+
+    /* Ball 6 - BACK layer, left side */
+    .deco-ball--6 {
+      bottom: 35%;
+      left: 8%;
+      background-image: url('./balls/balls2.webp');
+      animation: floatBall6 9s ease-in-out infinite;
+    }
+
+    /* Ball 7 - FRONT layer, near button */
+    .deco-ball--7 {
+      bottom: 15%;
+      left: 20%;
+      background-image: url('./balls/balls3.webp');
+      animation: floatBall7 13s ease-in-out infinite;
+    }
+
+    /* Ball 8 - BACK layer, right side */
+    .deco-ball--8 {
+      top: 38%;
+      right: 5%;
+      background-image: url('./balls/balls4.webp');
+      animation: floatBall8 10s ease-in-out infinite;
+    }
+
+    @keyframes floatBall5 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      30% { transform: translate(-12px, 15px) rotate(-12deg); }
+      60% { transform: translate(8px, -10px) rotate(8deg); }
+    }
+
+    @keyframes floatBall6 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(18px, -12px) rotate(15deg); }
+      75% { transform: translate(-8px, 18px) rotate(-10deg); }
+    }
+
+    @keyframes floatBall7 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      35% { transform: translate(-10px, -20px) rotate(-8deg); }
+      65% { transform: translate(15px, 10px) rotate(12deg); }
+    }
+
+    @keyframes floatBall8 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-20px, -15px) rotate(-15deg); }
+    }
+
     @media (max-width: 767px) {
-      .deco-ball--1 {
-        width: 90px;
-        height: 90px;
-        top: 12%;
-        left: 5%;
-      }
-      .deco-ball--2 {
-        width: 110px;
-        height: 110px;
-        bottom: 18%;
-        right: 4%;
-      }
-      .deco-ball--3 {
+      /* Same size for all balls on mobile - just smaller */
+      .deco-ball {
         width: 70px;
         height: 70px;
-        top: 50%;
-        left: 3%;
       }
-      .deco-ball--4 {
-        width: 60px;
-        height: 60px;
-        top: 6%;
-        right: 8%;
-      }
+      .deco-ball--1 { top: 10%; left: 5%; }
+      .deco-ball--2 { bottom: 22%; right: 5%; }
+      .deco-ball--3 { top: 45%; left: 2%; }
+      .deco-ball--4 { top: 5%; right: 5%; }
+      .deco-ball--5 { top: 28%; right: 8%; }
+      .deco-ball--6 { bottom: 38%; left: 5%; }
+      .deco-ball--7 { bottom: 10%; left: 15%; }
+      .deco-ball--8 { top: 35%; right: 2%; }
     }
   </style>
 </head>
@@ -1172,11 +1216,17 @@
   <!-- Back balls layer (behind UI) -->
   <div id="ballsBack" class="balls-layer"></div>
 
-  <!-- Decorative floating balls - CSS animated (primary on mobile) -->
-  <div class="deco-ball deco-ball--1" aria-hidden="true"></div>
-  <div class="deco-ball deco-ball--2" aria-hidden="true"></div>
-  <div class="deco-ball deco-ball--3" aria-hidden="true"></div>
-  <div class="deco-ball deco-ball--4" aria-hidden="true"></div>
+  <!-- Decorative floating balls - 8 balls, 4 BACK (behind text), 4 FRONT (in front of text) -->
+  <!-- BACK LAYER balls (z-index 80) - behind hero text -->
+  <div class="deco-ball deco-ball--back deco-ball--1" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--back deco-ball--3" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--back deco-ball--6" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--back deco-ball--8" aria-hidden="true"></div>
+  <!-- FRONT LAYER balls (z-index 95) - in front of hero text -->
+  <div class="deco-ball deco-ball--front deco-ball--2" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--front deco-ball--4" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--front deco-ball--5" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--front deco-ball--7" aria-hidden="true"></div>
 
   <!-- Top Navigation -->
   <header class="top-nav" id="topNav">
@@ -1453,75 +1503,58 @@
 
   <script type="module">
     // =============================================
-    // CAPABILITY DETECTION - Mobile vs Desktop
+    // 3D PHYSICS FOR ALL DEVICES (Mobile + Desktop)
     // =============================================
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      || window.innerWidth < 768
+      || ('ontouchstart' in window);
 
-    // Detect if device should skip 3D (mobile, low-end, or no WebGL)
-    function shouldSkip3D() {
-      // Check for mobile/tablet
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-        || window.innerWidth < 768
-        || ('ontouchstart' in window && window.innerWidth < 1024);
-
-      // Check for WebGL support
-      let hasWebGL = false;
+    // Check for WebGL support
+    function hasWebGLSupport() {
       try {
         const canvas = document.createElement('canvas');
-        hasWebGL = !!(canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
-        // Also check if WebGL context can actually be created without issues
-        if (hasWebGL) {
-          const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-          if (gl) {
-            // Check for context loss capability (some mobile GPUs fail here)
-            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-            if (debugInfo) {
-              const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-              // Some problematic mobile GPUs
-              if (/SwiftShader|llvmpipe|Software/i.test(renderer)) {
-                hasWebGL = false;
-              }
-            }
-          }
+        const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) return false;
+        // Check for software renderer (skip those)
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        if (debugInfo) {
+          const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+          if (/SwiftShader|llvmpipe|Software/i.test(renderer)) return false;
         }
+        return true;
       } catch (e) {
-        hasWebGL = false;
+        return false;
       }
-
-      // Check for import maps support (Chrome 89+, Safari 16.4+)
-      const hasImportMaps = HTMLScriptElement.supports && HTMLScriptElement.supports('importmap');
-
-      // Skip 3D if: mobile, no WebGL, no import maps, or reduced motion
-      return isMobile || !hasWebGL || !hasImportMaps || reduceMotion;
     }
 
-    // =============================================
-    // MOBILE PATH: Fast reveal with CSS-only balls
-    // =============================================
+    // Check for import maps support
+    const hasImportMaps = HTMLScriptElement.supports && HTMLScriptElement.supports('importmap');
 
-    if (shouldSkip3D()) {
-      console.log('[Neoball] Mobile/lightweight mode - using CSS animations only');
+    // Only skip 3D if no WebGL, no import maps, or reduced motion preference
+    const skip3D = !hasWebGLSupport() || !hasImportMaps || reduceMotion;
 
-      // Hide the 3D layer containers (CSS balls will show)
+    if (skip3D) {
+      // =============================================
+      // FALLBACK: CSS-only balls (no WebGL support)
+      // =============================================
+      console.log('[Neoball] Fallback mode - using CSS animations');
+
       document.getElementById('ballsBack').style.display = 'none';
       document.getElementById('ballsFront').style.display = 'none';
 
-      // Fast loader animation for mobile (no textures to load)
-      setLoadProgress(0.3);
-      setTimeout(() => setLoadProgress(0.6), 100);
-      setTimeout(() => setLoadProgress(0.85), 200);
+      setLoadProgress(0.5);
       setTimeout(() => setLoadProgress(1.0), 300);
-      setTimeout(() => revealSite(), 400);
+      setTimeout(() => revealSite(), 500);
 
     } else {
       // =============================================
-      // DESKTOP PATH: Full 3D physics experience
+      // 3D PHYSICS MODE (Mobile + Desktop)
       // =============================================
+      console.log('[Neoball] 3D physics mode -', isMobile ? 'mobile' : 'desktop');
 
-      console.log('[Neoball] Desktop mode - loading 3D physics');
-
-      // Hide CSS decorative balls on desktop (3D will take over)
+      // Hide CSS decorative balls (3D will take over)
       document.querySelectorAll('.deco-ball').forEach(el => el.style.display = 'none');
 
       try {
@@ -1534,44 +1567,56 @@
           }
         };
 
-        // BACK LAYER (ambient) - fewer balls for performance
+        // Adjust ball size for mobile
+        const ballRadius = isMobile ? 0.8 : 1.0;
+
+        // BACK LAYER - 4 balls behind hero text (z-index 80)
         const backLayer = initBallsOnPage({
           container: document.getElementById('ballsBack'),
-          zIndex: 1,
-          zOffset: -0.8,
-          ballCount: 6,
-          ballRadius: 1.0,
+          zIndex: 80,
+          zOffset: -0.5,
+          ballCount: 4,
+          perpetualBalls: 1,
+          ballRadius: ballRadius,
           onProgress: onProgress
         });
 
-        // FRONT LAYER (depth accents)
+        // FRONT LAYER - 4 balls in front of hero text (z-index 95)
         const frontLayer = initBallsOnPage({
           container: document.getElementById('ballsFront'),
-          zIndex: 1,
-          zOffset: 0.8,
+          zIndex: 95,
+          zOffset: 0.5,
           ballCount: 4,
-          ballRadius: 1.0,
+          perpetualBalls: 1,
+          ballRadius: ballRadius,
           onProgress: onProgress
         });
 
-        // Check periodically if balls are initialized
+        // Wait for physics to initialize and balls to start moving
+        // Slightly longer wait so balls are in motion when revealed
+        const minLoadTime = isMobile ? 1500 : 1200;
+        const startTime = Date.now();
+
         const checkReady = setInterval(() => {
           const balls = window.neoballBalls || [];
-          if (balls.length >= 2) {
+          const elapsed = Date.now() - startTime;
+
+          // Wait for balls AND minimum time (so balls are moving)
+          if (balls.length >= 1 && elapsed >= minLoadTime) {
             clearInterval(checkReady);
             revealSite();
           }
         }, 100);
 
-        // Fallback timeout (shorter for better UX)
+        // Fallback timeout
         setTimeout(() => {
           clearInterval(checkReady);
           revealSite();
-        }, 6000);
+        }, 5000);
 
       } catch (error) {
-        // If 3D fails, fall back to CSS balls and reveal
-        console.warn('[Neoball] 3D failed to load, using CSS fallback:', error);
+        // If 3D fails, fall back to CSS balls
+        console.warn('[Neoball] 3D failed, using CSS fallback:', error);
         document.querySelectorAll('.deco-ball').forEach(el => el.style.display = '');
         document.getElementById('ballsBack').style.display = 'none';
         document.getElementById('ballsFront').style.display = 'none';

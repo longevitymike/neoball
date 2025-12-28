@@ -61,149 +61,16 @@
       left: 0;
       top: 50%;
       width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg,
-        transparent 0%,
-        #00f6e0 10%,
-        #00ffff 50%,
-        #00f6e0 90%,
-        transparent 100%
-      );
+      height: 3px;
+      background: #00f6e0;
       transform: translateY(-50%) scaleX(0);
       transform-origin: center;
       z-index: 10000;
-      border-radius: 2px;
+      box-shadow: 0 0 20px #00f6e0, 0 0 40px #00f6e0, 0 0 60px #00f6e0;
     }
 
-    /* Cyan fire glow layers */
-    .loader-line::before,
-    .loader-line::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      transform: translateY(-50%);
-      border-radius: 2px;
-    }
-
-    /* Inner intense glow */
-    .loader-line::before {
-      background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(0, 255, 255, 0.8) 20%,
-        rgba(255, 255, 255, 0.9) 50%,
-        rgba(0, 255, 255, 0.8) 80%,
-        transparent 100%
-      );
-      filter: blur(4px);
-      animation: fireFlicker 0.15s ease-in-out infinite alternate;
-    }
-
-    /* Outer fire bloom */
-    .loader-line::after {
-      height: 200%;
-      background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(0, 246, 224, 0.6) 15%,
-        rgba(0, 255, 255, 0.4) 50%,
-        rgba(0, 246, 224, 0.6) 85%,
-        transparent 100%
-      );
-      filter: blur(12px);
-      animation: fireGlow 0.3s ease-in-out infinite alternate;
-    }
-
-    /* Animated glow container */
-    .loader-glow {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100%;
-      height: 60px;
-      transform: translateY(-50%) scaleX(0);
-      transform-origin: center;
-      z-index: 9999;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center,
-        rgba(0, 255, 255, 0.3) 0%,
-        rgba(0, 246, 224, 0.15) 30%,
-        transparent 70%
-      );
-      filter: blur(20px);
-      animation: pulseGlow 0.5s ease-in-out infinite alternate;
-    }
-
-    /* Fire particles container */
-    .loader-particles {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100%;
-      height: 40px;
-      transform: translateY(-50%) scaleX(0);
-      transform-origin: center;
-      z-index: 10001;
-      pointer-events: none;
-      overflow: visible;
-    }
-
-    /* Progress percentage */
-    .loader-progress {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Inter', -apple-system, sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      color: #00f6e0;
-      text-shadow: 0 0 10px #00f6e0, 0 0 20px #00f6e0, 0 0 40px #00f6e0;
-      z-index: 10002;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .loader.active .loader-progress {
-      opacity: 1;
-    }
-
-    @keyframes fireFlicker {
-      0% { opacity: 0.8; transform: translateY(-50%) scaleY(1); }
-      100% { opacity: 1; transform: translateY(-50%) scaleY(1.2); }
-    }
-
-    @keyframes fireGlow {
-      0% { opacity: 0.6; transform: translateY(-50%) scaleY(0.8); }
-      100% { opacity: 1; transform: translateY(-50%) scaleY(1.3); }
-    }
-
-    @keyframes pulseGlow {
-      0% { opacity: 0.5; transform: translateY(-50%) scaleY(0.8) scaleX(var(--progress, 0)); }
-      100% { opacity: 0.8; transform: translateY(-50%) scaleY(1.2) scaleX(var(--progress, 0)); }
-    }
-
-    @keyframes particleRise {
-      0% {
-        opacity: 0;
-        transform: translateY(0) scale(0.5);
-      }
-      20% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-30px) scale(0);
-      }
-    }
-
-    /* Progress-driven animation (controlled via JS) */
-    .loader.active .loader-line,
-    .loader.active .loader-glow,
-    .loader.active .loader-particles {
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .loader.active .loader-line {
+      animation: lineExpand 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards;
     }
 
     .loader.reveal .loader-top {
@@ -214,12 +81,9 @@
       transform: translateY(100%);
     }
 
-    .loader.reveal .loader-line,
-    .loader.reveal .loader-glow,
-    .loader.reveal .loader-particles,
-    .loader.reveal .loader-progress {
+    .loader.reveal .loader-line {
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.3s ease;
     }
 
     .loader.hidden {
@@ -227,28 +91,19 @@
       visibility: hidden;
     }
 
-    /* Page content hidden until loaded - with zoom-out reveal */
+    @keyframes lineExpand {
+      0% { transform: translateY(-50%) scaleX(0); }
+      100% { transform: translateY(-50%) scaleX(1); }
+    }
+
+    /* Page content hidden until loaded */
     .page-content {
       opacity: 0;
-      transform: scale(1.15);
-      transform-origin: center center;
-      transition: opacity 0.8s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.5s ease;
     }
 
     .page-content.visible {
       opacity: 1;
-      transform: scale(1);
-    }
-
-    /* Physics container also zooms out */
-    #neoball-physics-container {
-      transform: scale(1.15);
-      transform-origin: center center;
-      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    body.revealed #neoball-physics-container {
-      transform: scale(1);
     }
 
     .page-content { min-height: 200vh; padding: 20px; position: relative; z-index: 1; }
@@ -265,14 +120,41 @@
     }
     .hero p { font-size: clamp(1rem, 2vw, 1.5rem); color: #888; max-width: 600px; margin: 0 auto 2rem; }
     .hero .tagline { font-size: 1.2rem; color: #00FFFF; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 2rem; }
-    .cta-btn {
-      background: transparent; color: #00FFFF; border: 2px solid #00FFFF;
-      padding: 15px 40px; font-size: 1rem; font-weight: bold;
-      text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
-      border-radius: 4px; transition: all 0.3s ease;
-      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(200%) skewX(-15deg); }
     }
-    .cta-btn:hover { background: #00FFFF; color: #0a0a0a; box-shadow: 0 0 30px rgba(0, 255, 255, 0.5); }
+    @keyframes glow-pulse {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(0, 246, 224, 0.3), 0 0 30px rgba(0, 246, 224, 0.15), inset 0 0 10px rgba(0, 246, 224, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(0, 246, 224, 0.5), 0 0 50px rgba(0, 246, 224, 0.3), 0 0 80px rgba(0, 246, 224, 0.15), inset 0 0 15px rgba(0, 246, 224, 0.2);
+      }
+    }
+    .cta-btn {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #00f6e0 0%, #00d4c4 50%, #00f6e0 100%);
+      color: #0a0a0a; border: none;
+      padding: 16px 44px; font-size: 1rem; font-weight: bold;
+      text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
+      border-radius: 6px; transition: transform 0.3s ease, filter 0.3s ease;
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+    .cta-btn::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.1) 80%, transparent 100%);
+      animation: shimmer-sweep 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .cta-btn::after {
+      content: ''; position: absolute; top: 1px; left: 1px; right: 1px; height: 50%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+      border-radius: 5px 5px 50% 50%; pointer-events: none;
+    }
+    .cta-btn:hover { transform: scale(1.05); filter: brightness(1.1); animation: glow-pulse 1s ease-in-out infinite; }
+    .cta-btn:active { transform: scale(0.98); }
     .section { padding: 100px 20px; border-bottom: 1px solid #222; }
     .section h2 { font-size: 2rem; margin-bottom: 1rem; }
     .section p { color: #888; max-width: 600px; line-height: 1.6; }
@@ -325,10 +207,7 @@
   <div class="loader" id="loader">
     <div class="loader-top"></div>
     <div class="loader-bottom"></div>
-    <div class="loader-glow" id="loader-glow"></div>
-    <div class="loader-line" id="loader-line"></div>
-    <div class="loader-particles" id="loader-particles"></div>
-    <div class="loader-progress" id="loader-progress">0%</div>
+    <div class="loader-line"></div>
   </div>
 
   <nav class="nav">
@@ -370,130 +249,22 @@
     // Loader elements
     const loader = document.getElementById('loader');
     const pageContent = document.getElementById('page-content');
-    const loaderLine = document.getElementById('loader-line');
-    const loaderGlow = document.getElementById('loader-glow');
-    const loaderParticles = document.getElementById('loader-particles');
-    const loaderProgress = document.getElementById('loader-progress');
 
-    // Loading progress state
-    let loadProgress = 0;
-    let targetProgress = 0;
-    let particlePool = [];
-    let particleAnimationId = null;
-
-    // Start loader immediately
+    // Start line animation immediately
     requestAnimationFrame(() => {
       loader.classList.add('active');
-      startParticleSystem();
-      animateProgress();
     });
 
-    // Smooth progress animation (eases toward target)
-    function animateProgress() {
-      const ease = 0.08;
-      loadProgress += (targetProgress - loadProgress) * ease;
-
-      // Clamp and apply
-      const progress = Math.min(Math.max(loadProgress, 0), 1);
-      const scaleValue = `translateY(-50%) scaleX(${progress})`;
-
-      loaderLine.style.transform = scaleValue;
-      loaderGlow.style.transform = scaleValue;
-      loaderParticles.style.transform = scaleValue;
-
-      // Update percentage display
-      loaderProgress.textContent = `${Math.round(progress * 100)}%`;
-
-      // Continue animating until fully loaded and revealed
-      if (!loader.classList.contains('hidden')) {
-        requestAnimationFrame(animateProgress);
-      }
-    }
-
-    // Update progress (called from texture loader)
-    function setLoadProgress(value) {
-      targetProgress = Math.min(Math.max(value, 0), 1);
-    }
-
-    // Fire particle system
-    function startParticleSystem() {
-      const colors = ['#00f6e0', '#00ffff', '#40fff0', '#80ffff', '#ffffff'];
-
-      function createParticle() {
-        if (loader.classList.contains('reveal')) return;
-
-        const particle = document.createElement('div');
-        const size = 2 + Math.random() * 4;
-        const xPos = Math.random() * 100;
-        const duration = 0.4 + Math.random() * 0.6;
-        const delay = Math.random() * 0.1;
-
-        particle.style.cssText = `
-          position: absolute;
-          left: ${xPos}%;
-          top: 50%;
-          width: ${size}px;
-          height: ${size}px;
-          background: ${colors[Math.floor(Math.random() * colors.length)]};
-          border-radius: 50%;
-          pointer-events: none;
-          opacity: 0;
-          box-shadow: 0 0 ${size * 2}px currentColor, 0 0 ${size * 4}px currentColor;
-          animation: particleRise ${duration}s ease-out ${delay}s forwards;
-        `;
-
-        loaderParticles.appendChild(particle);
-
-        // Remove after animation
-        setTimeout(() => {
-          particle.remove();
-        }, (duration + delay) * 1000 + 100);
-      }
-
-      // Spawn particles based on progress
-      function spawnParticles() {
-        if (loader.classList.contains('reveal')) return;
-
-        // More particles as progress increases
-        const intensity = Math.max(1, Math.floor(loadProgress * 4));
-        for (let i = 0; i < intensity; i++) {
-          if (Math.random() < 0.6) createParticle();
-        }
-
-        particleAnimationId = setTimeout(spawnParticles, 80);
-      }
-
-      spawnParticles();
-    }
-
-    // Reveal function - cinematic zoom-out
+    // Reveal function to be called when physics is ready
     function revealSite() {
-      // Ensure we reach 100%
-      targetProgress = 1;
+      setTimeout(() => {
+        loader.classList.add('reveal');
+        pageContent.classList.add('visible');
 
-      // Wait for progress animation to catch up
-      const waitForComplete = () => {
-        if (loadProgress >= 0.95) {
-          // Clear particle spawner
-          if (particleAnimationId) clearTimeout(particleAnimationId);
-
-          setTimeout(() => {
-            loader.classList.add('reveal');
-            pageContent.classList.add('visible');
-            document.body.classList.add('revealed');
-
-            setTimeout(() => {
-              loader.classList.add('hidden');
-              // Clean up remaining particles
-              loaderParticles.innerHTML = '';
-            }, 1200);
-          }, 300);
-        } else {
-          requestAnimationFrame(waitForComplete);
-        }
-      };
-
-      waitForComplete();
+        setTimeout(() => {
+          loader.classList.add('hidden');
+        }, 1200);
+      }, 700); // Wait for line to fully expand
     }
 
     const params = new URLSearchParams(window.location.search);
@@ -504,17 +275,15 @@
     const DAMP_MUL = Number.parseFloat(params.get('damp') || '1') || 1;
     if (DEBUG) document.body.classList.add('debug');
 
-    // Ball texture configurations with weights (higher = more common)
+    // Ball texture configurations - 4 unique textures, each used twice = 8 balls
     // NOTE: Some source PNGs have different padding/crop sizes. We normalize them at load time
     // (crop to visible ball, scale to fixed diameter, apply circular mask) so every ball renders
     // at the exact same visual size.
     const BALL_TEXTURES = [
-      { path: './balls/balls1.png', weight: 3 },
-      { path: './balls/balls2.png', weight: 2 },
-      { path: './balls/balls3.png', weight: 2 },
-      { path: './balls/balls4.png', weight: 2 },
-      { path: './balls/balls5.png', weight: 1 },
-      { path: './balls/balls6.png', weight: 1 },
+      { path: './balls/balls1.png', count: 2 },
+      { path: './balls/balls2.png', count: 2 },
+      { path: './balls/balls3.png', count: 2 },
+      { path: './balls/balls4.png', count: 2 },
     ];
 
     class NeoballPhysics {
@@ -522,24 +291,26 @@
         this._isMobile = this.detectMobile();
         this.config = {
           container: options.container || document.body,
-          // Sunshine-style defaults: lots of balls, no settling, constant drift
-          ballCount: options.ballCount || (this._isMobile ? 20 : 20),
-          // Same size for ALL balls (per device). Mobile can still be smaller overall.
-          // Sunshine tennis radius
+          // 8 balls total: 4 textures × 2 each
+          ballCount: options.ballCount || 8,
+          // 2 perpetual motion balls that keep bumping others
+          perpetualBalls: options.perpetualBalls ?? 2,
           ballRadius: options.ballRadius || 0.5,
           gravity: options.gravity ?? 0,
-          // Sunshine tennis: friction .3, restitution .7
           restitution: options.restitution ?? 0.7,
           wallRestitution: options.wallRestitution ?? 0.7,
           friction: options.friction ?? 0.3,
-          linearDamping: options.linearDamping ?? 0.02,
-          angularDamping: options.angularDamping ?? 0.02,
+          // Regular balls have higher damping (settle down)
+          linearDamping: options.linearDamping ?? 0.08,
+          angularDamping: options.angularDamping ?? 0.08,
+          // Perpetual balls have very low damping (keep moving)
+          perpetualDamping: options.perpetualDamping ?? 0.005,
           throwForce: options.throwForce ?? 14,
-          // Sunshine-style oscillating gravity
-          // Sunshine: sin(2t)*0.075, cos(3t)*0.075
-          oscGravity: options.oscGravity ?? 0.075,
-          // Initial velocity proportional to spawn position (Sunshine-style)
-          velocityFromPositionScale: options.velocityFromPositionScale ?? 1,
+          // Gentle oscillating gravity for ambient drift
+          oscGravity: options.oscGravity ?? 0.03,
+          // Initial burst velocity on reveal
+          initialVelocityMin: options.initialVelocityMin ?? 2,
+          initialVelocityMax: options.initialVelocityMax ?? 5,
           ...options
         };
         this.balls = [];
@@ -574,15 +345,7 @@
         await this.loadAllTextures();
         this.createBallsSunshineStyle();
         this.bindEvents();
-
-        // 95% - final setup
-        setLoadProgress(0.95);
-
         this.animate();
-
-        // 100% - ready!
-        setLoadProgress(1.0);
-
         console.log('Neoball Physics initialized', {
           mobile: this._isMobile,
           balls: this.config.ballCount,
@@ -733,12 +496,6 @@
 
       async loadAllTextures() {
         const loader = new THREE.TextureLoader();
-        const total = BALL_TEXTURES.length;
-        let loaded = 0;
-
-        // Initial progress (10% for Three.js/Cannon.js init)
-        setLoadProgress(0.1);
-
         const loadPromises = BALL_TEXTURES.map((tex, index) => {
           return new Promise((resolve) => {
             loader.load(tex.path, (texture) => {
@@ -747,31 +504,25 @@
               normalized.colorSpace = THREE.SRGBColorSpace;
               normalized.minFilter = THREE.LinearFilter;
               normalized.magFilter = THREE.LinearFilter;
-              // Add weight entries for weighted random selection
-              for (let i = 0; i < tex.weight; i++) {
-                this.textureWeights.push(index);
-              }
-
-              // Update progress (textures are 10% - 85% of total load)
-              loaded++;
-              const textureProgress = 0.1 + (loaded / total) * 0.75;
-              setLoadProgress(textureProgress);
-
-              resolve(normalized);
+              // Store count for distribution
+              resolve({ texture: normalized, count: tex.count || 1 });
             }, undefined, () => {
               console.warn(`Failed to load texture: ${tex.path}`);
-              loaded++;
-              setLoadProgress(0.1 + (loaded / total) * 0.75);
               resolve(null);
             });
           });
         });
 
-        this.textures = (await Promise.all(loadPromises)).filter(t => t !== null);
-
-        // 85% done - physics setup next
-        setLoadProgress(0.85);
-        console.log(`Loaded ${this.textures.length} ball textures`);
+        const results = (await Promise.all(loadPromises)).filter(t => t !== null);
+        // Build texture array with counts (e.g., 2 of each = 8 total)
+        this.textureAssignments = [];
+        results.forEach((r, idx) => {
+          this.textures.push(r.texture);
+          for (let i = 0; i < r.count; i++) {
+            this.textureAssignments.push(idx);
+          }
+        });
+        console.log(`Loaded ${this.textures.length} unique textures, ${this.textureAssignments.length} ball assignments`);
       }
 
       normalizeBallTexture(texture) {
@@ -906,36 +657,21 @@
 
       createBallsSunshineStyle() {
         const radius = this.config.ballRadius;
-        const positions = this._randomNonOverlappingPositions(this.config.ballCount, radius);
+        // Use the texture assignments count (should be 8)
+        const totalBalls = this.textureAssignments.length || this.config.ballCount;
+        const positions = this._randomNonOverlappingPositions(totalBalls, radius);
 
-        // Track texture usage for even-ish distribution
-        const textureUsage = new Array(this.textures.length).fill(0);
+        // Shuffle texture assignments for random distribution
+        const shuffledAssignments = [...this.textureAssignments].sort(() => Math.random() - 0.5);
 
-        // Progress: balls are 85% - 95%
-        const ballProgressStart = 0.85;
-        const ballProgressEnd = 0.95;
-
-        for (let i = 0; i < this.config.ballCount; i++) {
-          // Update progress for each ball created
-          const ballProgress = ballProgressStart + ((i + 1) / this.config.ballCount) * (ballProgressEnd - ballProgressStart);
-          setLoadProgress(ballProgress);
+        for (let i = 0; i < totalBalls; i++) {
           const pos = positions[i];
-
-          // Prefer less-used textures, but still honor weights
-          let textureIndex = 0;
-          if (this.textures.length > 0) {
-            const minUsage = Math.min(...textureUsage);
-            const candidates = textureUsage
-              .map((usage, idx) => ({ idx, usage }))
-              .filter(t => t.usage <= minUsage + 1)
-              .map(t => t.idx);
-            const weightedCandidates = candidates.filter(idx => this.textureWeights.includes(idx));
-            const pickFrom = weightedCandidates.length > 0 ? weightedCandidates : candidates;
-            textureIndex = pickFrom[Math.floor(Math.random() * pickFrom.length)] ?? 0;
-            textureUsage[textureIndex]++;
-          }
-
+          const textureIndex = shuffledAssignments[i] ?? 0;
           const texture = this.textures[textureIndex] || this.textures[0];
+
+          // First N balls are "perpetual" - they keep moving forever
+          const isPerpetual = i < this.config.perpetualBalls;
+
           const spriteMaterial = new THREE.SpriteMaterial({
             map: texture,
             transparent: true,
@@ -945,32 +681,41 @@
           });
 
           const sprite = new THREE.Sprite(spriteMaterial);
-          // SAME size for every ball (visual size normalized in texture)
           sprite.scale.set(radius * 2, radius * 2, 1);
           sprite.position.set(pos.x, pos.y, 0);
           sprite.userData.textureIndex = textureIndex;
           this.scene.add(sprite);
 
+          // Perpetual balls have very low damping, regular balls have higher damping
+          const damping = isPerpetual ? this.config.perpetualDamping : this.config.linearDamping;
+
           const body = new CANNON.Body({
-            mass: 50,
+            mass: isPerpetual ? 30 : 50, // Perpetual balls slightly lighter
             material: this.ballMaterial,
-            linearDamping: this.config.linearDamping,
-            angularDamping: this.config.angularDamping,
+            linearDamping: damping,
+            angularDamping: damping,
             allowSleep: false
           });
           body.addShape(new CANNON.Sphere(radius));
           body.position.set(pos.x, pos.y, 0);
 
-          // Sunshine-style initial velocity proportional to spawn position
-          const vx = (-0.5 + Math.random()) * pos.x * 2 * this.config.velocityFromPositionScale;
-          const vy = (-0.5 + Math.random()) * pos.y * 2 * this.config.velocityFromPositionScale;
-          body.velocity.set(vx, vy, 0);
+          // Random initial velocity - burst of motion on load
+          const angle = Math.random() * Math.PI * 2;
+          const speed = this.config.initialVelocityMin +
+            Math.random() * (this.config.initialVelocityMax - this.config.initialVelocityMin);
+          // Perpetual balls get extra initial speed
+          const speedMultiplier = isPerpetual ? 1.5 : 1;
+          body.velocity.set(
+            Math.cos(angle) * speed * speedMultiplier,
+            Math.sin(angle) * speed * speedMultiplier,
+            0
+          );
 
           this.world.addBody(body);
-          this.balls.push({ sprite, body, index: i, textureIndex });
+          this.balls.push({ sprite, body, index: i, textureIndex, isPerpetual });
         }
 
-        console.log('Texture distribution:', textureUsage);
+        console.log(`Created ${totalBalls} balls, ${this.config.perpetualBalls} perpetual`);
       }
 
       bindEvents() {
@@ -1070,15 +815,29 @@
           }
         }
 
-        // Sync sprites with physics
+        // Sync sprites with physics & maintain perpetual motion
         this.balls.forEach(b => {
           b.sprite.position.x = b.body.position.x;
           b.sprite.position.y = b.body.position.y;
-          // subtle rotation tied to velocity, like Sunshine
+
+          // Subtle rotation tied to velocity
           const vx = b.body.velocity.x;
           const vy = b.body.velocity.y;
           if (b.sprite.material) {
             b.sprite.material.rotation += (vx + vy) * 0.002;
+          }
+
+          // Perpetual balls: if they slow down too much, give them a gentle nudge
+          if (b.isPerpetual) {
+            const speed = Math.sqrt(vx * vx + vy * vy);
+            const minSpeed = 1.5; // Minimum speed to maintain
+            if (speed < minSpeed) {
+              // Random direction nudge
+              const angle = Math.random() * Math.PI * 2;
+              const boost = (minSpeed - speed) * 0.5;
+              b.body.velocity.x += Math.cos(angle) * boost;
+              b.body.velocity.y += Math.sin(angle) * boost;
+            }
           }
         });
 
@@ -1187,21 +946,27 @@
       getFPS() { return this.fps; }
     }
 
-    // Initialize
+    // Initialize - 8 balls with 2 perpetual motion balls
     const isMobile = window.innerWidth < 768;
     const neoball = new NeoballPhysics({
-      ballCount: 20,
-      // same size for ALL balls (per device)
-      ballRadius: 0.5,
+      ballCount: 8,
+      perpetualBalls: 2,
+      ballRadius: isMobile ? 0.45 : 0.5,
       gravity: 0,
       restitution: 0.7,
       wallRestitution: 0.7,
       friction: 0.3,
-      linearDamping: 0.02 * DAMP_MUL,
-      angularDamping: 0.02 * DAMP_MUL,
+      // Regular balls settle down over time
+      linearDamping: 0.06 * DAMP_MUL,
+      angularDamping: 0.06 * DAMP_MUL,
+      // Perpetual balls keep moving
+      perpetualDamping: 0.003,
       throwForce: 14,
-      oscGravity: 0.075 * DRIFT_MUL,
-      velocityFromPositionScale: 1 * SPEED_MUL
+      // Gentle ambient drift
+      oscGravity: 0.025 * DRIFT_MUL,
+      // Dynamic start - balls moving when revealed
+      initialVelocityMin: 2.5 * SPEED_MUL,
+      initialVelocityMax: 5 * SPEED_MUL
     });
 
     window.neoball = neoball;

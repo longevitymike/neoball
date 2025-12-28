@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neoball</title>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.164.0/build/three.module.js",
+      "cannon-es": "https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js"
+    }
+  }
+  </script>
+  <style>
+    @font-face {
+      font-family: 'PowerGroteskTrial-Bold';
+      src: url('/PowerGroteskTrial-Bold.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --neon-pink: #ff1693;
+      --neon-pink-dark: #cc1276;
+      --neon-pink-darker: #990e59;
+      --neon-pink-glow: rgba(255, 22, 147, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+
+    /* ============================================
+       SUPER BIG 3D LOGO - NY Sunshine Style
+    ============================================ */
+    .hero-title-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      pointer-events: none;
+      padding: 5vh 5vw;
+    }
+
+    .hero-title-link {
+      pointer-events: auto;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      display: block;
+    }
+
+    .hero-title {
+      font-family: "PowerGroteskTrial-Bold", "Arial Black", "Helvetica Neue", Helvetica, sans-serif;
+      font-weight: 900;
+      /* SUPER BIG - scales to fill viewport width */
+      font-size: clamp(48px, 18vw, 220px);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--neon-pink);
+      line-height: 0.9;
+      text-align: center;
+      white-space: nowrap;
+      
+      /* 3D EXTRUSION EFFECT - stacked shadows create depth */
+      text-shadow:
+        /* Front edge highlight */
+        0 0 2px rgba(255, 255, 255, 0.3),
+        /* Extrusion layers - creates 3D block depth */
+        1px 1px 0 var(--neon-pink-dark),
+        2px 2px 0 var(--neon-pink-dark),
+        3px 3px 0 var(--neon-pink-dark),
+        4px 4px 0 var(--neon-pink-darker),
+        5px 5px 0 var(--neon-pink-darker),
+        6px 6px 0 var(--neon-pink-darker),
+        7px 7px 0 #660a3d,
+        8px 8px 0 #660a3d,
+        9px 9px 0 #4d082e,
+        10px 10px 0 #4d082e,
+        11px 11px 0 #33051f,
+        12px 12px 0 #33051f,
+        /* Soft shadow for grounding */
+        14px 14px 20px rgba(0, 0, 0, 0.5),
+        20px 20px 40px rgba(0, 0, 0, 0.3);
+      
+      /* Subtle glow around text */
+      filter: drop-shadow(0 0 30px var(--neon-pink-glow));
+      
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .hero-title-link:hover .hero-title {
+      filter: drop-shadow(0 0 50px var(--neon-pink-glow));
+      transform: scale(1.02);
+    }
+
+    /* ============================================
+       BUY NOW BUTTON - Animated Gradient Shimmer
+    ============================================ */
+    @keyframes shimmer-sweep {
+      0% {
+        transform: translateX(-100%) skewX(-15deg);
+      }
+      100% {
+        transform: translateX(200%) skewX(-15deg);
+      }
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 15px var(--neon-pink-glow),
+          0 0 30px rgba(0, 246, 224, 0.2),
+          inset 0 0 10px rgba(0, 246, 224, 0.1);
+      }
+      50% {
+        box-shadow:
+          0 0 25px var(--neon-pink-glow),
+          0 0 50px rgba(0, 246, 224, 0.4),
+          0 0 80px rgba(0, 246, 224, 0.2),
+          inset 0 0 15px rgba(0, 246, 224, 0.2);
+      }
+    }
+
+    .neoball-btn {
+      position: fixed;
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      /* Gradient background - pink to slightly lighter pink */
+      background: linear-gradient(135deg, var(--neon-pink) 0%, #ff4da6 50%, var(--neon-pink) 100%);
+      background-size: 200% 200%;
+      color: #ffffff;
+      border: none;
+      padding: 16px 44px;
+      font-family: "PowerGroteskTrial-Bold", 'Inter', sans-serif;
+      font-weight: bold;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      border-radius: 8px;
+      text-decoration: none;
+      overflow: hidden;
+      position: fixed;
+      /* Glow animation */
+      animation: glow-pulse 2s ease-in-out infinite;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    /* Shimmer sweep overlay */
+    .neoball-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(0, 246, 224, 0.1) 20%,
+        rgba(0, 246, 224, 0.4) 50%,
+        rgba(0, 246, 224, 0.1) 80%,
+        transparent 100%
+      );
+      animation: shimmer-sweep 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Edge highlight for depth */
+    .neoball-btn::after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      right: 1px;
+      height: 50%;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+      );
+      border-radius: 7px 7px 50% 50%;
+      pointer-events: none;
+    }
+
+    .neoball-btn:hover {
+      transform: translateX(-50%) scale(1.05);
+      filter: brightness(1.1);
+      animation: glow-pulse 1s ease-in-out infinite;
+    }
+
+    .neoball-btn:active {
+      transform: translateX(-50%) scale(0.98);
+    }
+
+    /* ============================================
+       MOBILE RESPONSIVE
+    ============================================ */
+    @media (max-width: 767px) {
+      .hero-title {
+        font-size: clamp(36px, 15vw, 120px);
+        letter-spacing: 0.02em;
+        /* Slightly less extrusion on mobile */
+        text-shadow:
+          0 0 2px rgba(255, 255, 255, 0.3),
+          1px 1px 0 var(--neon-pink-dark),
+          2px 2px 0 var(--neon-pink-dark),
+          3px 3px 0 var(--neon-pink-darker),
+          4px 4px 0 var(--neon-pink-darker),
+          5px 5px 0 #660a3d,
+          6px 6px 0 #660a3d,
+          7px 7px 0 #4d082e,
+          8px 8px 0 #33051f,
+          10px 10px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .neoball-btn {
+        padding: 14px 32px;
+        font-size: 14px;
+        bottom: 5%;
+        border-radius: 6px;
+      }
+
+      .neoball-btn::before {
+        animation: shimmer-sweep 3s ease-in-out infinite;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 400px) {
+      .hero-title {
+        font-size: clamp(28px, 14vw, 80px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- SUPER BIG 3D TITLE - NY Sunshine style -->
+  <div class="hero-title-wrapper">
+    <a class="hero-title-link" href="./pdp.html" aria-label="Neoball - Shop Now">
+      <h1 class="hero-title">NEOBALL</h1>
+    </a>
+  </div>
+
+  <!-- BUY NOW CTA -->
+  <a class="neoball-btn" id="buyBtn" href="./pdp.html" aria-label="Buy Neoball">BUY NOW</a>
+
+  <!-- Floating balls overlay (behind button, in front of title) -->
+  <script type="module">
+    import { initBallsOnPage } from './js/balls-overlay.js';
+
+    // Add floating balls overlay - z-index between title (50) and button (100)
+    initBallsOnPage({
+      container: document.body,
+      zIndex: 75,
+      ballCount: 20,
+      ballRadius: 0.5
+    });
+  </script>
+</body>
+</html>

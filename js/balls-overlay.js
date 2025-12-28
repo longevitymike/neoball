@@ -1,19 +1,20 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
 
-// Ball texture configurations - 6 unique textures, 2 of each = 12 balls
+// Ball texture configurations - 4 unique textures, 2 of each = 8 balls
 // We normalize textures at load time so every ball has the same visual diameter.
 const BALL_TEXTURES = [
   { path: './balls/balls1.webp' },
   { path: './balls/balls2.webp' },
   { path: './balls/balls3.webp' },
-  { path: './balls/balls4.webp' },
-  { path: './balls/balls5.webp' },
-  { path: './balls/balls6.webp' }
+  { path: './balls/balls4.webp' }
 ];
 
-// Number of balls per texture (2 of each = 12 total)
+// Number of balls per texture (2 of each = 8 total)
 const BALLS_PER_TEXTURE = 2;
+
+// Number of perpetual motion balls (keep bumping others)
+const PERPETUAL_BALL_COUNT = 2;
 
 // Unique instance id counter (supports multiple overlays on the same page)
 let OVERLAY_INSTANCE_ID = 0;
@@ -42,15 +43,21 @@ export class NeoballBallsOverlay {
       // Ball settings
       ballCount: options.ballCount ?? defaultBallCount,
       ballRadius: options.ballRadius ?? 1.0,
+      perpetualBalls: options.perpetualBalls ?? PERPETUAL_BALL_COUNT,
 
       gravity: 0,
 
-      restitution: options.restitution ?? 0.15,
+      restitution: options.restitution ?? 0.7,
       friction: options.friction ?? 0.3,
-      linearDamping: options.linearDamping ?? 0.65,
-      angularDamping: options.angularDamping ?? 0.5,
-      oscGravity: options.oscGravity ?? 0.006,
-      velocityFromPositionScale: options.velocityFromPositionScale ?? 0.08,
+      // Regular balls have higher damping (settle down over time)
+      linearDamping: options.linearDamping ?? 0.08,
+      angularDamping: options.angularDamping ?? 0.08,
+      // Perpetual balls have very low damping (keep moving)
+      perpetualDamping: options.perpetualDamping ?? 0.005,
+      oscGravity: options.oscGravity ?? 0.025,
+      // Dynamic start - balls moving when revealed
+      initialVelocityMin: options.initialVelocityMin ?? 2.5,
+      initialVelocityMax: options.initialVelocityMax ?? 5,
 
       // Optional: set a custom id/class on the created overlay element
       overlayId: options.overlayId ?? `neoball-balls-overlay-${this.instanceId}`,
@@ -419,6 +426,9 @@ export class NeoballBallsOverlay {
       const textureIndex = textureSequence[i];
       const texture = this.textures[textureIndex] || this.textures[0];
 
+      // First N balls are "perpetual" - they keep moving forever
+      const isPerpetual = i < this.config.perpetualBalls;
+
       const spriteMaterial = new THREE.SpriteMaterial({
         map: texture,
         transparent: true,
@@ -436,23 +446,37 @@ export class NeoballBallsOverlay {
 
       this.scene.add(sprite);
 
+      // Perpetual balls have very low damping, regular balls settle down
+      const damping = isPerpetual ? this.config.perpetualDamping : this.config.linearDamping;
+
       const body = new CANNON.Body({
-        mass: 50,
+        mass: isPerpetual ? 30 : 50, // Perpetual balls slightly lighter
         material: this.ballMaterial,
-        linearDamping: this.config.linearDamping,
-        angularDamping: this.config.angularDamping
+        linearDamping: damping,
+        angularDamping: damping,
+        allowSleep: false
       });
 
       body.addShape(new CANNON.Sphere(r));
       body.position.set(x, y, z);
 
-      const vx = (-0.5 + Math.random()) * x * 2 * this.config.velocityFromPositionScale;
-      const vy = (-0.5 + Math.random()) * y * 2 * this.config.velocityFromPositionScale;
-      body.velocity.set(vx, vy, 0);
+      // Dynamic start - random velocity burst when revealed
+      const angle = Math.random() * Math.PI * 2;
+      const speed = this.config.initialVelocityMin +
+        Math.random() * (this.config.initialVelocityMax - this.config.initialVelocityMin);
+      // Perpetual balls get extra initial speed
+      const speedMultiplier = isPerpetual ? 1.5 : 1;
+      body.velocity.set(
+        Math.cos(angle) * speed * speedMultiplier,
+        Math.sin(angle) * speed * speedMultiplier,
+        0
+      );
 
       this.world.addBody(body);
-      this.balls.push({ sprite, body, index: i, textureIndex });
+      this.balls.push({ sprite, body, index: i, textureIndex, isPerpetual });
     }
+
+    console.log(`[Neoball Layer ${this.instanceId}] Created ${ballCount} balls, ${this.config.perpetualBalls} perpetual`);
   }
 
   getPointerWorld(clientX, clientY) {
@@ -541,7 +565,22 @@ export class NeoballBallsOverlay {
       b.sprite.position.y = b.body.position.y;
       b.sprite.position.z = this.config.zOffset; // keep layer separation consistent
 
-      b.sprite.material.rotation += (b.body.velocity.x + b.body.velocity.y) * 0.0005;
+      b.sprite.material.rotation += (b.body.velocity.x + b.body.velocity.y) * 0.002;
+
+      // Perpetual balls: if they slow down too much, give them a gentle nudge
+      if (b.isPerpetual) {
+        const vx = b.body.velocity.x;
+        const vy = b.body.velocity.y;
+        const speed = Math.sqrt(vx * vx + vy * vy);
+        const minSpeed = 1.5; // Minimum speed to maintain
+        if (speed < minSpeed) {
+          // Random direction nudge
+          const angle = Math.random() * Math.PI * 2;
+          const boost = (minSpeed - speed) * 0.5;
+          b.body.velocity.x += Math.cos(angle) * boost;
+          b.body.velocity.y += Math.sin(angle) * boost;
+        }
+      }
     }
 
     this.renderer.render(this.scene, this.camera);
