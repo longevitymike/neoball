@@ -1056,6 +1056,26 @@
       animation: floatBall2 10s ease-in-out infinite;
     }
 
+    .deco-ball--3 {
+      top: 55%;
+      left: 4%;
+      width: 100px;
+      height: 100px;
+      background-image: url('./balls/balls2.webp');
+      animation: floatBall3 12s ease-in-out infinite;
+      opacity: 0.85;
+    }
+
+    .deco-ball--4 {
+      top: 8%;
+      right: 12%;
+      width: 90px;
+      height: 90px;
+      background-image: url('./balls/balls4.webp');
+      animation: floatBall4 9s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
     @keyframes floatBall1 {
       0%, 100% {
         transform: translate(0, 0) rotate(0deg);
@@ -1083,6 +1103,33 @@
       }
     }
 
+    @keyframes floatBall3 {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      20% {
+        transform: translate(12px, 18px) rotate(-10deg);
+      }
+      50% {
+        transform: translate(-8px, 25px) rotate(8deg);
+      }
+      80% {
+        transform: translate(5px, 10px) rotate(-5deg);
+      }
+    }
+
+    @keyframes floatBall4 {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      40% {
+        transform: translate(-15px, 12px) rotate(12deg);
+      }
+      70% {
+        transform: translate(8px, -8px) rotate(-8deg);
+      }
+    }
+
     @media (max-width: 767px) {
       .deco-ball--1 {
         width: 90px;
@@ -1095,6 +1142,18 @@
         height: 110px;
         bottom: 18%;
         right: 4%;
+      }
+      .deco-ball--3 {
+        width: 70px;
+        height: 70px;
+        top: 50%;
+        left: 3%;
+      }
+      .deco-ball--4 {
+        width: 60px;
+        height: 60px;
+        top: 6%;
+        right: 8%;
       }
     }
   </style>
@@ -1113,9 +1172,11 @@
   <!-- Back balls layer (behind UI) -->
   <div id="ballsBack" class="balls-layer"></div>
 
-  <!-- Decorative floating balls - always visible with gentle motion -->
+  <!-- Decorative floating balls - CSS animated (primary on mobile) -->
   <div class="deco-ball deco-ball--1" aria-hidden="true"></div>
   <div class="deco-ball deco-ball--2" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--3" aria-hidden="true"></div>
+  <div class="deco-ball deco-ball--4" aria-hidden="true"></div>
 
   <!-- Top Navigation -->
   <header class="top-nav" id="topNav">
@@ -1391,68 +1452,132 @@
   </script>
 
   <script type="module">
-    import { initBallsOnPage } from './js/balls-overlay.js';
+    // =============================================
+    // CAPABILITY DETECTION - Mobile vs Desktop
+    // =============================================
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (reduceMotion) {
-      // Skip loader for reduced motion
-      document.getElementById('loader').classList.add('hidden');
+    // Detect if device should skip 3D (mobile, low-end, or no WebGL)
+    function shouldSkip3D() {
+      // Check for mobile/tablet
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        || window.innerWidth < 768
+        || ('ontouchstart' in window && window.innerWidth < 1024);
+
+      // Check for WebGL support
+      let hasWebGL = false;
+      try {
+        const canvas = document.createElement('canvas');
+        hasWebGL = !!(canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+        // Also check if WebGL context can actually be created without issues
+        if (hasWebGL) {
+          const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+          if (gl) {
+            // Check for context loss capability (some mobile GPUs fail here)
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            if (debugInfo) {
+              const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+              // Some problematic mobile GPUs
+              if (/SwiftShader|llvmpipe|Software/i.test(renderer)) {
+                hasWebGL = false;
+              }
+            }
+          }
+        }
+      } catch (e) {
+        hasWebGL = false;
+      }
+
+      // Check for import maps support (Chrome 89+, Safari 16.4+)
+      const hasImportMaps = HTMLScriptElement.supports && HTMLScriptElement.supports('importmap');
+
+      // Skip 3D if: mobile, no WebGL, no import maps, or reduced motion
+      return isMobile || !hasWebGL || !hasImportMaps || reduceMotion;
+    }
+
+    // =============================================
+    // MOBILE PATH: Fast reveal with CSS-only balls
+    // =============================================
+
+    if (shouldSkip3D()) {
+      console.log('[Neoball] Mobile/lightweight mode - using CSS animations only');
+
+      // Hide the 3D layer containers (CSS balls will show)
+      document.getElementById('ballsBack').style.display = 'none';
+      document.getElementById('ballsFront').style.display = 'none';
+
+      // Fast loader animation for mobile (no textures to load)
+      setLoadProgress(0.3);
+      setTimeout(() => setLoadProgress(0.6), 100);
+      setTimeout(() => setLoadProgress(0.85), 200);
+      setTimeout(() => setLoadProgress(1.0), 300);
+      setTimeout(() => revealSite(), 400);
+
     } else {
-      // Track which layers have completed loading
-      let layersLoaded = 0;
-      const totalLayers = 2;
+      // =============================================
+      // DESKTOP PATH: Full 3D physics experience
+      // =============================================
 
-      // Progress callback - aggregates from both layers
-      const onProgress = (value) => {
-        // Report to global loader (takes max progress from either layer)
-        if (typeof window.setLoadProgress === 'function') {
-          window.setLoadProgress(value);
-        }
-      };
+      console.log('[Neoball] Desktop mode - loading 3D physics');
 
-      const onLayerComplete = () => {
-        layersLoaded++;
-        if (layersLoaded >= totalLayers) {
-          // Both layers ready - reveal!
-          revealSite();
-        }
-      };
+      // Hide CSS decorative balls on desktop (3D will take over)
+      document.querySelectorAll('.deco-ball').forEach(el => el.style.display = 'none');
 
-      // BACK LAYER (ambient)
-      const backLayer = initBallsOnPage({
-        container: document.getElementById('ballsBack'),
-        zIndex: 1,
-        zOffset: -0.8,
-        ballCount: 8,
-        ballRadius: 1.0,
-        onProgress: onProgress
-      });
+      try {
+        const { initBallsOnPage } = await import('./js/balls-overlay.js');
 
-      // FRONT LAYER (depth accents)
-      const frontLayer = initBallsOnPage({
-        container: document.getElementById('ballsFront'),
-        zIndex: 1,
-        zOffset: 0.8,
-        ballCount: window.innerWidth < 768 ? 3 : 4,
-        ballRadius: 1.0,
-        onProgress: onProgress
-      });
+        // Progress callback
+        const onProgress = (value) => {
+          if (typeof window.setLoadProgress === 'function') {
+            window.setLoadProgress(value);
+          }
+        };
 
-      // Check periodically if balls are initialized (they call _reportProgress(1.0) when done)
-      const checkReady = setInterval(() => {
-        const balls = window.neoballBalls || [];
-        if (balls.length >= 2) {
+        // BACK LAYER (ambient) - fewer balls for performance
+        const backLayer = initBallsOnPage({
+          container: document.getElementById('ballsBack'),
+          zIndex: 1,
+          zOffset: -0.8,
+          ballCount: 6,
+          ballRadius: 1.0,
+          onProgress: onProgress
+        });
+
+        // FRONT LAYER (depth accents)
+        const frontLayer = initBallsOnPage({
+          container: document.getElementById('ballsFront'),
+          zIndex: 1,
+          zOffset: 0.8,
+          ballCount: 4,
+          ballRadius: 1.0,
+          onProgress: onProgress
+        });
+
+        // Check periodically if balls are initialized
+        const checkReady = setInterval(() => {
+          const balls = window.neoballBalls || [];
+          if (balls.length >= 2) {
+            clearInterval(checkReady);
+            revealSite();
+          }
+        }, 100);
+
+        // Fallback timeout (shorter for better UX)
+        setTimeout(() => {
           clearInterval(checkReady);
           revealSite();
-        }
-      }, 100);
+        }, 6000);
 
-      // Fallback timeout
-      setTimeout(() => {
-        clearInterval(checkReady);
+      } catch (error) {
+        // If 3D fails, fall back to CSS balls and reveal
+        console.warn('[Neoball] 3D failed to load, using CSS fallback:', error);
+        document.querySelectorAll('.deco-ball').forEach(el => el.style.display = '');
+        document.getElementById('ballsBack').style.display = 'none';
+        document.getElementById('ballsFront').style.display = 'none';
+        setLoadProgress(1.0);
         revealSite();
-      }, 8000);
+      }
     }
   </script>
 
