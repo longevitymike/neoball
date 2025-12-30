@@ -3,54 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Neoball Pro Basketball | Lock In. Level Up.</title>
-  <meta name="description" content="The future of basketball. Premium grip technology meets iconic design. Shop the Neoball Pro - trusted by 726,000+ players worldwide.">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Neoball | Silent Basketball - Founders Edition</title>
+  <meta name="description" content="The world's best silent basketball. GhostCore technology - 98% energy return, 35dB quieter. Play anytime, anywhere.">
 
-  <!-- Fonts: Bebas Neue (display), Nunito Sans (body), Space Mono (numbers) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Splide CSS for carousel -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    @font-face {
+      font-family: 'Nippo';
+      src: url('./fonts/powergrotesk/Nippo-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: block;
+    }
+
     :root {
-      /* Neoball Brand Colors */
-      --c-primary: #00FFFF;
-      --c-primary-dark: #00CCCC;
-      --c-primary-glow: rgba(0, 255, 255, 0.3);
-      --c-bg: #0A0A0A;
-      --c-bg-card: #111111;
-      --c-bg-elevated: #1A1A1A;
-      --c-text: #FFFFFF;
+      --c-cyan: #00f6e0;
+      --c-cyan-dark: #00c4b4;
+      --c-cyan-glow: rgba(0, 246, 224, 0.4);
+      --c-pink: #ff1693;
+      --c-pink-glow: rgba(255, 22, 147, 0.4);
+      --c-bg: #050505;
+      --c-panel: #0d0d0d;
+      --c-surface: #141414;
+      --c-border: rgba(255, 255, 255, 0.08);
+      --c-text: #ffffff;
       --c-text-muted: #888888;
       --c-text-dim: #555555;
-      --c-border: #222222;
-      --c-border-light: #333333;
       --c-success: #00FF88;
       --c-error: #FF4444;
-      --c-warning: #FFAA00;
-      --c-sale: #FF6B6B;
 
-      /* Typography */
       --font-display: 'Bebas Neue', sans-serif;
-      --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-mono: 'Space Mono', monospace;
-
-      /* Spacing */
-      --space-xs: 4px;
-      --space-sm: 8px;
-      --space-md: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
-      --space-2xl: 48px;
-      --space-3xl: 64px;
-
-      /* Transitions */
-      --transition-fast: 0.15s ease;
-      --transition-normal: 0.25s ease;
-      --transition-slow: 0.4s ease;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
     * {
@@ -69,295 +61,272 @@
       color: var(--c-text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      z-index: 1;
     }
 
     /* ========================================
-       TRUST BAR (Top)
+       LOADER - Cyan Fire
     ======================================== */
-    .trust-bar {
-      background: var(--c-bg-card);
-      border-bottom: 1px solid var(--c-border);
-      padding: var(--space-sm) var(--space-md);
-      text-align: center;
-      font-size: 0.8125rem;
-      color: var(--c-text-muted);
-    }
-
-    .trust-bar-inner {
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: all;
       display: flex;
+      align-items: center;
       justify-content: center;
-      align-items: center;
-      gap: var(--space-lg);
-      flex-wrap: wrap;
     }
 
-    .trust-bar-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-xs);
+    .loader-top,
+    .loader-bottom {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: var(--c-bg);
+      transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
     }
 
-    .trust-bar-item strong {
-      color: var(--c-primary);
-      font-family: var(--font-mono);
+    .loader-top { top: 0; }
+    .loader-bottom { bottom: 0; }
+
+    .loader-line {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--c-cyan), transparent);
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: center;
+      z-index: 10000;
+      box-shadow: 0 0 30px var(--c-cyan), 0 0 60px var(--c-cyan);
     }
 
-    .trust-bar-divider {
-      color: var(--c-border-light);
+    .loader-progress {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, calc(-50% + 50px));
+      font-family: 'Nippo', sans-serif;
+      font-size: clamp(48px, 12vw, 80px);
+      font-weight: normal;
+      letter-spacing: 4px;
+      color: var(--c-cyan);
+      text-shadow: 0 0 20px var(--c-cyan), 0 0 40px var(--c-cyan-glow);
+      z-index: 10001;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
+
+    .loader.active .loader-progress { opacity: 1; }
+    .loader.active .loader-line { transition: transform 0.3s ease-out; }
+
+    .loader.reveal .loader-top { transform: translateY(-100%); }
+    .loader.reveal .loader-bottom { transform: translateY(100%); }
+    .loader.reveal .loader-line,
+    .loader.reveal .loader-progress { opacity: 0; transition: opacity 0.3s; }
+    .loader.hidden { pointer-events: none; visibility: hidden; }
 
     /* ========================================
-       HEADER / NAVIGATION
+       NAVIGATION
     ======================================== */
-    .header {
-      position: sticky;
+    .nav {
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 64px;
-      background: rgba(10, 10, 10, 0.95);
+      z-index: 100;
+      background: rgba(5, 5, 5, 0.9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--c-border);
-      z-index: 1000;
-      transition: transform var(--transition-normal);
     }
 
-    .header.hidden {
-      transform: translateY(-100%);
-    }
-
-    .header-inner {
+    .nav-inner {
       max-width: 1400px;
       margin: 0 auto;
-      height: 100%;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 var(--space-lg);
+      padding: 0 24px;
     }
 
-    .logo {
+    .nav-logo {
       font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--c-primary);
+      font-size: 1.75rem;
+      color: var(--c-cyan);
       text-decoration: none;
       letter-spacing: 0.05em;
     }
 
-    .nav-links {
-      display: flex;
-      gap: var(--space-xl);
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--c-text);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      transition: color var(--transition-fast);
-    }
-
-    .nav-links a:hover {
-      color: var(--c-primary);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-    }
-
-    .cart-btn {
-      position: relative;
-      background: none;
-      border: none;
-      color: var(--c-text);
-      cursor: pointer;
-      padding: var(--space-sm);
-    }
-
-    .cart-btn svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .cart-count {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: var(--c-primary);
-      color: var(--c-bg);
+    .nav-status {
       font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      width: 18px;
-      height: 18px;
+      font-size: 11px;
+      color: var(--c-text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-status .pulse {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #ff4444;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin-right: 6px;
+      animation: pulse 1.5s infinite;
     }
 
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--c-text);
-      cursor: pointer;
-      padding: var(--space-sm);
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
     }
 
     /* ========================================
-       PROMO ANNOUNCEMENT BAR
+       CINEMATIC HERO LIGHT PASS
     ======================================== */
-    .promo-bar {
-      background: linear-gradient(90deg, var(--c-primary) 0%, #00DDDD 50%, var(--c-primary) 100%);
-      color: var(--c-bg);
-      text-align: center;
-      padding: var(--space-sm) var(--space-md);
-      font-weight: 700;
-      font-size: 0.9375rem;
+    .hero-wrap {
+      position: relative;
+      overflow: hidden;
     }
 
-    .promo-bar a {
-      color: var(--c-bg);
-      text-decoration: underline;
-      margin-left: var(--space-sm);
+    .hero-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      pointer-events: none;
+      background:
+        radial-gradient(60% 40% at 30% 30%, rgba(0, 246, 224, 0.10), transparent 60%),
+        radial-gradient(50% 35% at 70% 40%, rgba(255, 22, 147, 0.06), transparent 65%);
+      filter: blur(28px);
+      opacity: 0.65;
+      transform: translate3d(0, 0, 0);
+      z-index: 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-wrap::before {
+        animation: lightDrift 10s ease-in-out infinite alternate;
+      }
+
+      @keyframes lightDrift {
+        from { transform: translate3d(-2%, -1%, 0); opacity: 0.55; }
+        to   { transform: translate3d(2%, 1%, 0); opacity: 0.70; }
+      }
     }
 
     /* ========================================
-       RETAILERS BAR
+       MAIN CONTENT
     ======================================== */
-    .retailers-bar {
-      background: var(--c-bg-card);
-      padding: var(--space-md) var(--space-lg);
-      text-align: center;
-      border-bottom: 1px solid var(--c-border);
-    }
-
-    .retailers-bar-label {
-      font-family: var(--font-display);
-      font-size: 0.875rem;
-      letter-spacing: 0.15em;
-      color: var(--c-text-muted);
-      margin-bottom: var(--space-sm);
-    }
-
-    .retailers-logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: var(--space-2xl);
-      flex-wrap: wrap;
-      opacity: 0.7;
-    }
-
-    .retailers-logos img {
-      height: 24px;
-      filter: brightness(0) invert(1);
-    }
-
-    .retailer-placeholder {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      letter-spacing: 0.1em;
-      color: var(--c-text-muted);
-    }
-
-    /* ========================================
-       PRODUCT HERO SECTION
-    ======================================== */
-    .product-hero {
+    .main {
+      position: relative;
+      z-index: 10;
+      padding-top: 80px;
       max-width: 1400px;
       margin: 0 auto;
-      padding: var(--space-2xl) var(--space-lg);
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: var(--space-3xl);
-      align-items: start;
     }
 
-    /* Image Gallery with Splide */
-    .product-gallery {
-      position: sticky;
-      top: 100px;
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 24px;
+    }
+
+    @media (min-width: 900px) {
+      .product-grid {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 64px;
+        padding: 48px;
+      }
+    }
+
+    /* ========================================
+       GALLERY
+    ======================================== */
+    .gallery {
+      position: relative;
+    }
+
+    @media (min-width: 900px) {
+      .gallery {
+        position: sticky;
+        top: 100px;
+      }
     }
 
     .gallery-main {
-      position: relative;
-      background: var(--c-bg-card);
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: var(--space-md);
-    }
-
-    .gallery-main .splide__slide {
       aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--c-bg-card);
+      background: var(--c-panel);
+      border-radius: 20px;
+      border: 1px solid var(--c-border);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 16px;
     }
 
-    .gallery-main img,
-    .gallery-main video {
+    .gallery-main img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-main:hover img {
+      transform: scale(1.05);
     }
 
     .gallery-badge {
       position: absolute;
-      top: var(--space-md);
-      left: var(--space-md);
-      background: var(--c-primary);
+      top: 16px;
+      left: 16px;
+      background: var(--c-text);
       color: var(--c-bg);
-      padding: var(--space-xs) var(--space-sm);
-      border-radius: 4px;
-      font-family: var(--font-display);
-      font-size: 0.875rem;
-      letter-spacing: 0.05em;
-      z-index: 10;
-    }
-
-    .gallery-badge-sale {
-      background: var(--c-sale);
-      color: white;
-      top: calc(var(--space-md) + 32px);
-    }
-
-    .gallery-badge-holiday {
-      background: #C41E3A;
-      color: #00C853;
+      font-family: var(--font-mono);
+      font-size: 10px;
       font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     .gallery-thumbnails {
       display: flex;
-      gap: var(--space-sm);
+      gap: 12px;
       overflow-x: auto;
-      padding-bottom: var(--space-sm);
+      padding-bottom: 8px;
+      scrollbar-width: none;
     }
+
+    .gallery-thumbnails::-webkit-scrollbar { display: none; }
 
     .thumbnail {
       flex-shrink: 0;
-      width: 72px;
-      height: 72px;
-      border-radius: 8px;
-      overflow: hidden;
+      width: 80px;
+      height: 80px;
+      background: var(--c-panel);
+      border-radius: 12px;
       border: 2px solid transparent;
+      overflow: hidden;
       cursor: pointer;
-      transition: border-color var(--transition-fast);
-      background: var(--c-bg-card);
+      transition: border-color 0.2s, transform 0.2s;
     }
 
-    .thumbnail.active,
-    .thumbnail:hover {
-      border-color: var(--c-primary);
+    .thumbnail:hover,
+    .thumbnail.active {
+      border-color: var(--c-cyan);
+      transform: scale(1.05);
     }
 
     .thumbnail img {
@@ -366,2622 +335,2908 @@
       object-fit: cover;
     }
 
-    .thumbnail.video-thumb {
-      position: relative;
-    }
-
-    .thumbnail.video-thumb::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.4);
-    }
-
-    .thumbnail.video-thumb::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 0;
-      height: 0;
-      border-left: 12px solid white;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-      z-index: 1;
-    }
-
-    /* Product Info */
+    /* ========================================
+       PRODUCT INFO
+    ======================================== */
     .product-info {
-      padding-top: var(--space-md);
+      padding-top: 16px;
     }
 
-    .product-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-md);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-xs);
-      padding: var(--space-xs) var(--space-sm);
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .badge-bestseller {
-      background: var(--c-warning);
-      color: var(--c-bg);
-    }
-
-    .badge-save {
-      background: var(--c-success);
-      color: var(--c-bg);
-    }
-
-    .badge-holiday {
-      background: #C41E3A;
-      color: #00C853;
-      font-weight: 700;
-    }
-
-    .badge-bogo {
-      background: var(--c-sale);
-      color: white;
+    .product-header {
+      border-bottom: 1px solid var(--c-border);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
     }
 
     .product-title {
       font-family: var(--font-display);
-      font-size: 3rem;
-      font-weight: 400;
-      line-height: 1;
-      margin-bottom: var(--space-sm);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 0.95;
+      margin-bottom: 8px;
       letter-spacing: 0.02em;
     }
 
-    .product-subtitle {
-      color: var(--c-text-muted);
-      font-size: 1rem;
-      margin-bottom: var(--space-lg);
+    .product-title span {
+      display: block;
+      background: linear-gradient(135deg, #666 0%, #fff 50%, #666 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    /* Rating */
-    .product-rating {
+    .product-meta {
       display: flex;
       align-items: center;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-lg);
-    }
-
-    .stars {
-      display: flex;
-      gap: 2px;
-      color: var(--c-primary);
-    }
-
-    .rating-text {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 0.9375rem;
-    }
-
-    .review-count {
+      gap: 16px;
+      font-size: 14px;
       color: var(--c-text-muted);
-      text-decoration: underline;
-      cursor: pointer;
-      font-size: 0.9375rem;
-    }
-
-    /* Pricing */
-    .product-pricing {
-      margin-bottom: var(--space-lg);
-      padding-bottom: var(--space-lg);
-      border-bottom: 1px solid var(--c-border);
-    }
-
-    .price-row {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      margin-bottom: var(--space-sm);
       flex-wrap: wrap;
     }
 
-    .price-current {
-      font-family: var(--font-mono);
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--c-text);
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--c-cyan);
     }
 
-    .price-original {
+    .rating-stars {
+      letter-spacing: 2px;
+    }
+
+    .rating-count {
+      color: var(--c-text-muted);
+    }
+
+    /* ========================================
+       SIZE SELECTOR
+    ======================================== */
+    .selector-group {
+      margin-bottom: 24px;
+    }
+
+    .selector-label {
       font-family: var(--font-mono);
-      font-size: 1.5rem;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
       color: var(--c-text-dim);
-      text-decoration: line-through;
+      text-transform: uppercase;
+      margin-bottom: 12px;
     }
 
-    .price-savings {
-      background: var(--c-success);
-      color: var(--c-bg);
-      padding: var(--space-xs) var(--space-sm);
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 0.875rem;
-      font-weight: 700;
-    }
-
-    .financing-note {
-      font-size: 0.875rem;
-      color: var(--c-text-muted);
-      margin-top: var(--space-xs);
-    }
-
-    .financing-note strong {
-      color: var(--c-text);
-      font-family: var(--font-mono);
-    }
-
-    /* Benefits List */
-    .benefits-list {
-      list-style: none;
-      margin-bottom: var(--space-lg);
-    }
-
-    .benefits-list li {
+    .size-toggle {
       display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      padding: var(--space-sm) 0;
-      font-size: 0.9375rem;
-    }
-
-    .benefits-list li svg {
-      flex-shrink: 0;
-      color: var(--c-primary);
-    }
-
-    /* Promo Banner */
-    .promo-banner {
-      background: linear-gradient(135deg, rgba(0, 255, 255, 0.15) 0%, rgba(0, 255, 255, 0.05) 100%);
-      border: 1px solid var(--c-primary);
+      background: var(--c-panel);
       border-radius: 12px;
-      padding: var(--space-md);
-      margin-bottom: var(--space-lg);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-md);
+      padding: 4px;
+      border: 1px solid var(--c-border);
     }
 
-    .promo-banner-text {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .promo-banner-text span {
-      color: var(--c-primary);
-    }
-
-    .promo-banner-link {
-      color: var(--c-primary);
-      text-decoration: underline;
-      font-size: 0.875rem;
-      white-space: nowrap;
-    }
-
-    /* Add to Cart Section */
-    .atc-section {
-      margin-bottom: var(--space-lg);
-    }
-
-    .atc-btn {
-      width: 100%;
-      padding: var(--space-lg);
-      background: var(--c-primary);
-      color: var(--c-bg);
+    .size-btn {
+      flex: 1;
+      padding: 16px;
       border: none;
-      border-radius: 8px;
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      letter-spacing: 0.1em;
+      background: transparent;
+      color: var(--c-text-muted);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: all var(--transition-fast);
-      position: relative;
-      overflow: hidden;
+      border-radius: 10px;
+      transition: all 0.25s ease;
     }
 
-    .atc-btn:hover {
-      background: var(--c-primary-dark);
-      box-shadow: 0 0 30px var(--c-primary-glow);
+    .size-btn.active {
+      background: var(--c-text);
+      color: var(--c-bg);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .atc-btn:active {
-      transform: scale(0.98);
+    .size-btn:not(.active):hover {
+      color: var(--c-text);
     }
 
-    .atc-btn.loading {
-      pointer-events: none;
-    }
-
-    .atc-btn.loading .btn-text {
-      opacity: 0;
-    }
-
-    .atc-btn .spinner {
-      position: absolute;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .atc-btn.loading .spinner {
-      display: flex;
-    }
-
-    .atc-subtext {
-      text-align: center;
-      font-size: 0.8125rem;
-      color: var(--c-text-muted);
-      margin-top: var(--space-sm);
-    }
-
-    .atc-subtext svg {
-      vertical-align: middle;
-      margin-right: var(--space-xs);
-    }
-
-    /* Trust Icons Row */
-    .trust-icons-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-md);
-      margin-bottom: var(--space-lg);
-      text-align: center;
-    }
-
-    .trust-icon-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-xs);
-    }
-
-    .trust-icon-item svg {
-      color: var(--c-primary);
-    }
-
-    .trust-icon-item span {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--c-text-muted);
-    }
-
-    /* Awards Section */
-    .awards-section {
-      background: var(--c-bg-card);
-      border-radius: 12px;
-      padding: var(--space-lg);
-      margin-bottom: var(--space-lg);
-      text-align: center;
-    }
-
-    .awards-title {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      letter-spacing: 0.1em;
-      margin-bottom: var(--space-md);
-      color: var(--c-primary);
-    }
-
-    .awards-logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: var(--space-xl);
-      flex-wrap: wrap;
+    /* ========================================
+       TIER CARDS
+    ======================================== */
+    .tier-card {
+      background: var(--c-panel);
+      border-radius: 16px;
+      border: 1px solid var(--c-border);
+      padding: 20px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
       opacity: 0.6;
     }
 
-    .award-placeholder {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      letter-spacing: 0.1em;
-      color: var(--c-text-muted);
+    .tier-card:hover {
+      opacity: 1;
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
-    /* ========================================
-       BEFORE/AFTER SECTION
-    ======================================== */
-    .before-after-section {
-      background: var(--c-bg-card);
-      padding: var(--space-3xl) var(--space-lg);
+    .tier-card.selected {
+      opacity: 1;
     }
 
-    .before-after-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .before-after-header {
-      text-align: center;
-      margin-bottom: var(--space-2xl);
-    }
-
-    .section-tag {
-      display: inline-block;
-      background: rgba(0, 255, 255, 0.1);
-      color: var(--c-primary);
-      padding: var(--space-xs) var(--space-md);
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: var(--space-md);
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      letter-spacing: 0.02em;
-      margin-bottom: var(--space-md);
-    }
-
-    .section-subtitle {
-      color: var(--c-text-muted);
-      font-size: 1.125rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Tabs */
-    .tabs-nav {
+    .tier-card-header {
       display: flex;
-      justify-content: center;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-xl);
-      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
     }
 
-    .tab-btn {
-      background: var(--c-bg);
-      border: 1px solid var(--c-border);
+    .tier-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
       color: var(--c-text-muted);
-      padding: var(--space-sm) var(--space-lg);
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.875rem;
-      cursor: pointer;
-      transition: all var(--transition-fast);
     }
 
-    .tab-btn:hover {
-      border-color: var(--c-primary);
-      color: var(--c-text);
+    .tier-desc {
+      font-size: 12px;
+      color: var(--c-text-dim);
+      margin-top: 4px;
     }
 
-    .tab-btn.active {
-      background: var(--c-primary);
-      border-color: var(--c-primary);
-      color: var(--c-bg);
+    .tier-price {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      color: var(--c-text-muted);
     }
 
-    .tab-content {
-      display: none;
+    /* Founders Edition - Featured Tier */
+    .tier-card--featured {
+      position: relative;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--c-cyan) 0%, #0066ff 100%);
+      border: none;
+      border-radius: 18px;
+      opacity: 1;
+      box-shadow: 0 0 30px var(--c-cyan-glow);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
     }
 
-    .tab-content.active {
-      display: block;
+    .tier-card--featured:hover {
+      box-shadow: 0 0 50px var(--c-cyan-glow), 0 0 80px rgba(0, 246, 224, 0.2);
+      transform: scale(1.01);
     }
 
-    .before-after-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-    }
-
-    .before-after-card {
-      background: var(--c-bg);
+    .tier-card--featured .tier-inner {
+      background: var(--c-surface);
       border-radius: 16px;
+      padding: 24px;
+      position: relative;
       overflow: hidden;
-      border: 1px solid var(--c-border);
     }
 
-    .before-after-images {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: var(--c-border);
+    /* Holographic shimmer sweep on card hover */
+    .tier-card--featured .tier-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.08) 45%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.08) 55%,
+        transparent 60%
+      );
+      transform: translateX(-100%);
+      transition: transform 0s;
+      pointer-events: none;
     }
 
-    .before-after-images .before,
-    .before-after-images .after {
-      aspect-ratio: 1;
-      background: var(--c-bg-elevated);
+    .tier-card--featured:hover .tier-inner::before {
+      transform: translateX(100%);
+      transition: transform 0.8s ease;
+    }
+
+    .tier-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--c-bg);
+      border: 1px solid var(--c-cyan);
+      color: var(--c-cyan);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 20px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tier-card--featured .tier-name {
+      color: var(--c-cyan);
+      font-size: 1.75rem;
+      font-style: italic;
+    }
+
+    .tier-card--featured .tier-price {
+      color: var(--c-text);
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .tier-price-note {
+      font-size: 11px;
+      color: var(--c-text-dim);
+      text-decoration: line-through;
+      margin-top: 4px;
+    }
+
+    .tier-stock {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-size: 1rem;
-      color: var(--c-text-muted);
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .tier-stock .dot {
+      width: 8px;
+      height: 8px;
+      background: #ff4444;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    .tier-stock span {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #ff6666;
+      letter-spacing: 0.05em;
+      transition: color 0.15s ease, text-shadow 0.15s ease;
+    }
+
+    .tier-stock span.flash {
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    .tier-stock .selling-fast {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--c-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .tier-stock .batch {
+      margin-left: auto;
+      color: var(--c-text-dim);
+    }
+
+    .tier-features {
+      margin-top: 16px;
+    }
+
+    /* Color Selector (Size 6 only) */
+    .color-selector {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin: 12px 0;
+      padding: 12px 0;
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .color-selector.visible {
+      display: flex;
+    }
+
+    .color-selector-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .color-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
       position: relative;
     }
 
-    .before-after-images .before::after {
-      content: 'BEFORE';
-      position: absolute;
-      bottom: var(--space-sm);
-      left: var(--space-sm);
-      font-size: 0.625rem;
-      background: rgba(0,0,0,0.7);
-      padding: 2px 6px;
-      border-radius: 4px;
+    .color-btn:hover {
+      transform: scale(1.15);
     }
 
-    .before-after-images .after::after {
-      content: 'AFTER';
-      position: absolute;
-      bottom: var(--space-sm);
-      right: var(--space-sm);
-      font-size: 0.625rem;
-      background: var(--c-primary);
-      color: var(--c-bg);
-      padding: 2px 6px;
-      border-radius: 4px;
+    .color-btn--cyan {
+      background: var(--c-cyan);
     }
 
-    .before-after-info {
-      padding: var(--space-md);
+    .color-btn--pink {
+      background: var(--c-pink);
+      opacity: 0.5;
     }
 
-    .before-after-name {
-      font-weight: 700;
-      margin-bottom: var(--space-xs);
+    .color-btn.active {
+      border-color: white;
+      opacity: 1;
+      box-shadow: 0 0 15px currentColor;
     }
 
-    .before-after-duration {
-      font-size: 0.8125rem;
-      color: var(--c-text-muted);
+    .color-btn--cyan.active {
+      box-shadow: 0 0 15px var(--c-cyan);
+    }
+
+    .color-btn--pink.active {
+      box-shadow: 0 0 15px var(--c-pink);
     }
 
     /* ========================================
-       EXPERTS SECTION
+       D1 BLUEPRINT BUY BOX
     ======================================== */
-    .experts-section {
-      padding: var(--space-3xl) var(--space-lg);
-      max-width: 1200px;
-      margin: 0 auto;
+    .partner-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
-    .experts-grid {
+    .partner-badge-label {
+      background: var(--c-cyan);
+      color: var(--c-bg);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 8px;
+      text-transform: uppercase;
+      border-radius: 4px;
+    }
+
+    .partner-badge-name {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .partner-badge-title {
+      font-size: 10px;
+      color: var(--c-text-dim);
+    }
+
+    .product-headline {
+      margin-bottom: 12px;
+    }
+
+    .product-headline h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 3.5rem);
+      line-height: 0.95;
+      color: var(--c-text);
+    }
+
+    .product-headline p {
+      font-size: 14px;
+      color: var(--c-text-dim);
+      margin-top: 8px;
+    }
+
+    .verified-rating {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .verified-rating .stars {
+      color: #facc15;
+      font-size: 14px;
+    }
+
+    .verified-rating .count {
+      font-size: 12px;
+      color: var(--c-text-muted);
+    }
+
+    .verified-rating .badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: #4ade80;
+      background: rgba(74, 222, 128, 0.1);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .product-tagline {
+      font-size: 15px;
+      color: var(--c-text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    /* Size Buttons - New Style */
+    .size-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-lg);
-      margin-top: var(--space-2xl);
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
-    .expert-card {
-      text-align: center;
+    .size-card {
+      padding: 16px;
+      border-radius: 12px;
+      border: 2px solid var(--c-border);
+      background: var(--c-panel);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
     }
 
-    .expert-photo {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: var(--c-bg-card);
-      margin: 0 auto var(--space-md);
+    .size-card:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .size-card.active {
+      border-color: white;
+      background: white;
+    }
+
+    .size-card.active .size-card-title,
+    .size-card.active .size-card-desc {
+      color: var(--c-bg);
+    }
+
+    .size-card-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--c-text);
+      margin-bottom: 4px;
+    }
+
+    .size-card-desc {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-text-dim);
+    }
+
+    /* Package Cards */
+    .pkg-standard {
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--c-border);
+      background: var(--c-panel);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+      margin-bottom: 12px;
+    }
+
+    .pkg-standard:hover {
+      opacity: 1;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .pkg-standard.selected {
+      opacity: 1;
+      border-color: white;
+    }
+
+    .pkg-standard-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--c-text);
+      margin-bottom: 8px;
+    }
+
+    .pkg-standard-list {
+      font-size: 12px;
+      color: var(--c-text-dim);
+      list-style: none;
+    }
+
+    .pkg-standard-list li {
+      margin-bottom: 4px;
+    }
+
+    .pkg-standard-price {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      color: var(--c-text-muted);
+    }
+
+    /* D1 Blueprint Featured Package */
+    .pkg-blueprint {
+      position: relative;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--c-cyan) 0%, #0066ff 100%);
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 0 30px var(--c-cyan-glow);
+      transition: all 0.3s ease;
+    }
+
+    .pkg-blueprint:hover {
+      box-shadow: 0 0 50px var(--c-cyan-glow);
+      transform: scale(1.01);
+    }
+
+    .pkg-blueprint-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--c-bg);
+      border: 1px solid var(--c-cyan);
+      color: var(--c-cyan);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      box-shadow: 0 0 15px var(--c-cyan-glow);
+      z-index: 10;
+    }
+
+    .pkg-blueprint-inner {
+      background: var(--c-surface);
+      border-radius: 14px;
+      padding: 24px;
+      padding-top: 32px;
+    }
+
+    .pkg-blueprint-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .pkg-blueprint-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--c-cyan);
+    }
+
+    .pkg-blueprint-value {
+      font-size: 10px;
+      font-weight: 700;
+      color: #4ade80;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    .pkg-blueprint-price {
+      text-align: right;
+    }
+
+    .pkg-blueprint-price-amount {
+      font-family: var(--font-mono);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--c-text);
+    }
+
+    .pkg-blueprint-price-save {
+      font-size: 10px;
+      color: var(--c-text-dim);
+    }
+
+    /* Feature Items */
+    .feature-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .feature-item-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-display);
-      color: var(--c-text-muted);
-      font-size: 0.875rem;
+      color: var(--c-cyan);
+      font-size: 14px;
+      flex-shrink: 0;
     }
 
-    .expert-name {
+    .feature-item-text {
+      flex: 1;
+    }
+
+    .feature-item-title {
+      font-size: 14px;
       font-weight: 700;
-      margin-bottom: var(--space-xs);
+      color: var(--c-text);
+      margin-bottom: 2px;
     }
 
-    .expert-title {
-      font-size: 0.8125rem;
-      color: var(--c-text-muted);
-      margin-bottom: var(--space-sm);
+    .feature-item-desc {
+      font-size: 11px;
+      color: var(--c-text-dim);
     }
 
-    .expert-quote {
-      font-size: 0.875rem;
-      font-style: italic;
+    /* D1 Guarantee Box */
+    .d1-guarantee {
+      background: var(--c-panel);
+      border: 1px solid var(--c-border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .d1-guarantee-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--c-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+
+    .d1-guarantee-title i {
+      color: var(--c-cyan);
+      margin-right: 6px;
+    }
+
+    .d1-guarantee-text {
+      font-size: 12px;
       color: var(--c-text-muted);
-      line-height: 1.5;
+      line-height: 1.6;
+    }
+
+    /* Payment Icons */
+    .payment-icons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+      opacity: 0.4;
+      filter: grayscale(1);
+    }
+
+    .payment-icons i {
+      font-size: 1.5rem;
+      color: var(--c-text);
     }
 
     /* ========================================
-       QUIZ CTA SECTION
+       STICKY BUY BAR
     ======================================== */
-    .quiz-section {
-      background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 255, 0.02) 100%);
-      padding: var(--space-3xl) var(--space-lg);
+    .sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: rgba(5, 5, 5, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--c-border);
+      padding: 16px 24px;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sticky-bar.visible {
+      transform: translateY(0);
+    }
+
+    .sticky-bar-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .sticky-bar-info {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .sticky-bar-info {
+        display: block;
+      }
+    }
+
+    .sticky-bar-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--c-text);
+    }
+
+    .sticky-bar-title span {
+      color: var(--c-cyan);
+    }
+
+    .sticky-bar-subtitle {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    .sticky-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .sticky-bar-price {
+      display: none;
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    @media (min-width: 768px) {
+      .sticky-bar-price {
+        display: block;
+      }
+    }
+
+    .sticky-bar-btn {
+      flex: 1;
+      max-width: 300px;
+      padding: 14px 24px;
+      background: var(--c-cyan);
+      color: var(--c-bg);
+      border: none;
+      border-radius: 10px;
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px var(--c-cyan-glow);
+    }
+
+    .sticky-bar-btn:hover {
+      background: #fff;
+      transform: scale(1.02);
+    }
+
+    /* ========================================
+       GUARANTEE SECTION
+    ======================================== */
+    .guarantee-section {
+      background: var(--c-surface);
+      padding: 100px 24px;
+      border-top: 1px solid var(--c-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .guarantee-bg-text {
+      position: absolute;
+      right: -40px;
+      top: 0;
+      font-family: var(--font-display);
+      font-size: clamp(120px, 20vw, 250px);
+      color: rgba(255, 255, 255, 0.02);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .guarantee-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
       text-align: center;
     }
 
-    .quiz-inner {
+    .guarantee-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 246, 224, 0.1);
+      border: 1px solid var(--c-cyan);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 32px;
+      box-shadow: 0 0 30px var(--c-cyan-glow);
+    }
+
+    .guarantee-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 24px;
+    }
+
+    .guarantee-title span {
+      color: var(--c-cyan);
+    }
+
+    .guarantee-subtitle {
+      font-size: 1.125rem;
+      color: var(--c-text-muted);
       max-width: 600px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    .guarantee-steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--c-border);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: left;
+    }
+
+    @media (min-width: 768px) {
+      .guarantee-steps {
+        grid-template-columns: 1fr 1px 1fr 1px 1fr;
+        gap: 32px;
+      }
+    }
+
+    .guarantee-step {
+      padding: 0 16px;
+    }
+
+    .guarantee-step-divider {
+      display: none;
+      background: var(--c-border);
+    }
+
+    @media (min-width: 768px) {
+      .guarantee-step-divider {
+        display: block;
+      }
+    }
+
+    .guarantee-step-number {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--c-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+
+    .guarantee-step-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .guarantee-step-desc {
+      font-size: 14px;
+      color: var(--c-text-muted);
+      line-height: 1.6;
+    }
+
+    .guarantee-step-desc strong {
+      color: var(--c-text);
+    }
+
+    .guarantee-signature {
+      margin-top: 48px;
+    }
+
+    .guarantee-signature-names {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--c-text-dim);
+      font-style: italic;
+      letter-spacing: 0.1em;
+    }
+
+    .guarantee-signature-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-top: 8px;
+    }
+
+    /* ========================================
+       GLASS ARTIFACT CARD (Premium Tactile)
+    ======================================== */
+    .tier-card--featured .tier-inner {
+      background: rgba(10, 10, 12, 0.66);
+      border: 1px solid rgba(0, 246, 224, 0.28);
+      box-shadow:
+        0 0 0 1px rgba(0, 246, 224, 0.18),
+        0 28px 80px rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .tier-card--featured .tier-inner::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(115deg,
+        transparent 20%,
+        rgba(245, 250, 255, 0.08) 35%,
+        transparent 50%);
+      transform: translateX(-40%);
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 16px;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .tier-card--featured:hover .tier-inner::after {
+        opacity: 1;
+        animation: sheen 900ms ease-out;
+      }
+
+      @keyframes sheen {
+        from { transform: translateX(-45%); }
+        to { transform: translateX(45%); }
+      }
+    }
+
+    /* ========================================
+       PROOF CHIPS (Trust Signals)
+    ======================================== */
+    .proof-chips {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245, 250, 255, 0.72);
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 250, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* ========================================
+       SCROLL REVEAL ANIMATIONS
+    ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                  transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       AUDIO VISUALIZATION (Silence Indicator)
+    ======================================== */
+    .audio-viz {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding: 20px 32px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .audio-viz-comparison {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .audio-viz-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .audio-viz-side-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-text-dim);
+    }
+
+    .audio-viz-wave {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 32px;
+    }
+
+    /* Loud bars (red/orange - chaotic) */
+    .audio-viz-wave--loud .audio-viz-bar {
+      width: 3px;
+      background: linear-gradient(to top, #ff4444, #ff8844);
+      border-radius: 2px;
+    }
+
+    .audio-viz-wave--loud .audio-viz-bar:nth-child(1) { height: 12px; }
+    .audio-viz-wave--loud .audio-viz-bar:nth-child(2) { height: 24px; }
+    .audio-viz-wave--loud .audio-viz-bar:nth-child(3) { height: 18px; }
+    .audio-viz-wave--loud .audio-viz-bar:nth-child(4) { height: 28px; }
+    .audio-viz-wave--loud .audio-viz-bar:nth-child(5) { height: 14px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .audio-viz-wave--loud .audio-viz-bar {
+        animation: loudWave 0.4s ease-in-out infinite alternate;
+      }
+      .audio-viz-wave--loud .audio-viz-bar:nth-child(1) { animation-delay: 0s; }
+      .audio-viz-wave--loud .audio-viz-bar:nth-child(2) { animation-delay: 0.05s; }
+      .audio-viz-wave--loud .audio-viz-bar:nth-child(3) { animation-delay: 0.1s; }
+      .audio-viz-wave--loud .audio-viz-bar:nth-child(4) { animation-delay: 0.15s; }
+      .audio-viz-wave--loud .audio-viz-bar:nth-child(5) { animation-delay: 0.2s; }
+
+      @keyframes loudWave {
+        0% { transform: scaleY(0.7); }
+        100% { transform: scaleY(1.2); }
+      }
+    }
+
+    /* Divider */
+    .audio-viz-divider {
+      width: 1px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Quiet bars (cyan - flatline) */
+    .audio-viz-wave--quiet .audio-viz-bar {
+      width: 3px;
+      background: var(--c-cyan);
+      border-radius: 2px;
+      opacity: 0.8;
+    }
+
+    .audio-viz-wave--quiet .audio-viz-bar:nth-child(1) { height: 4px; }
+    .audio-viz-wave--quiet .audio-viz-bar:nth-child(2) { height: 4px; }
+    .audio-viz-wave--quiet .audio-viz-bar:nth-child(3) { height: 4px; }
+    .audio-viz-wave--quiet .audio-viz-bar:nth-child(4) { height: 4px; }
+    .audio-viz-wave--quiet .audio-viz-bar:nth-child(5) { height: 4px; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .audio-viz-wave--quiet .audio-viz-bar {
+        animation: quietPulse 3s ease-in-out infinite;
+      }
+      .audio-viz-wave--quiet .audio-viz-bar:nth-child(1) { animation-delay: 0s; }
+      .audio-viz-wave--quiet .audio-viz-bar:nth-child(2) { animation-delay: 0.3s; }
+      .audio-viz-wave--quiet .audio-viz-bar:nth-child(3) { animation-delay: 0.6s; }
+      .audio-viz-wave--quiet .audio-viz-bar:nth-child(4) { animation-delay: 0.9s; }
+      .audio-viz-wave--quiet .audio-viz-bar:nth-child(5) { animation-delay: 1.2s; }
+
+      @keyframes quietPulse {
+        0%, 100% { opacity: 0.5; transform: scaleY(1); }
+        50% { opacity: 1; transform: scaleY(1.3); }
+      }
+    }
+
+    .audio-viz-icon {
+      width: 28px;
+      height: 28px;
+      filter: drop-shadow(0 0 8px var(--c-cyan-glow));
+    }
+
+    .audio-viz-footer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .audio-viz-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .audio-viz-db {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--c-cyan);
+      letter-spacing: 0.05em;
+    }
+
+    /* ========================================
+       SIGNATURE PINK DOT
+    ======================================== */
+    .signature-dot {
+      width: 8px;
+      height: 8px;
+      background: #FF1493;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(255, 20, 147, 0.35);
+      animation: pinkPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pinkPulse {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 12px rgba(255, 20, 147, 0.35);
+      }
+      50% {
+        opacity: 0.7;
+        box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+      }
+    }
+
+    /* ========================================
+       WALL OF PROOF (Masonry Testimonials)
+    ======================================== */
+    .wall-of-proof {
+      background: var(--c-bg);
+      padding: 80px 24px;
+      border-top: 1px solid var(--c-border);
+    }
+
+    .wall-of-proof-inner {
+      max-width: 900px;
       margin: 0 auto;
     }
 
-    .quiz-title {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      margin-bottom: var(--space-md);
+    .wall-of-proof-header {
+      text-align: center;
+      margin-bottom: 48px;
     }
 
-    .quiz-subtitle {
+    .wall-of-proof-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 16px;
+    }
+
+    .wall-of-proof-title span {
+      color: var(--c-cyan);
+    }
+
+    /* Hero Quote (above masonry) */
+    .hero-quote {
+      max-width: 700px;
+      margin: 0 auto 48px;
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    .hero-quote-icon {
+      font-size: 1.5rem;
+      color: var(--c-cyan);
+      opacity: 0.6;
+      margin-bottom: 16px;
+    }
+
+    .hero-quote-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .hero-quote-text span {
+      display: block;
+      background: linear-gradient(to right, #999, #444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-quote-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .hero-quote-author-line {
+      width: 40px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-quote-author-name {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--c-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+
+    .wall-of-proof-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--c-border);
+      border-radius: 100px;
+      backdrop-filter: blur(10px);
+    }
+
+    .wall-of-proof-rating .stars {
+      color: #facc15;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    .wall-of-proof-rating .text {
+      font-family: var(--font-mono);
+      font-size: 11px;
       color: var(--c-text-muted);
-      margin-bottom: var(--space-xl);
+      letter-spacing: 0.05em;
     }
 
-    .quiz-btn {
-      display: inline-block;
-      background: var(--c-primary);
-      color: var(--c-bg);
-      padding: var(--space-md) var(--space-2xl);
-      border-radius: 8px;
+    /* Masonry Grid */
+    .proof-masonry {
+      columns: 2;
+      column-gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .proof-masonry {
+        columns: 3;
+      }
+    }
+
+    .proof-card {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      background: var(--c-panel);
+      border-radius: 16px;
+      border: 1px solid var(--c-border);
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .proof-card:hover {
+      border-color: rgba(0, 246, 224, 0.3);
+    }
+
+    /* iMessage Style Card */
+    .proof-card--imessage {
+      padding: 16px;
+    }
+
+    .proof-card--imessage .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      opacity: 0.7;
+    }
+
+    .proof-card--imessage .header i {
+      font-size: 18px;
+    }
+
+    .proof-card--imessage .header span {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .proof-card--imessage .bubble {
+      padding: 12px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 85%;
+      margin-bottom: 8px;
+    }
+
+    .proof-card--imessage .bubble--gray {
+      background: #374151;
+      border-top-left-radius: 4px;
+      color: var(--c-text-muted);
+    }
+
+    .proof-card--imessage .bubble--blue {
+      background: #2563eb;
+      border-top-right-radius: 4px;
+      margin-left: auto;
+      color: white;
+      text-align: right;
+    }
+
+    .proof-card--imessage .timestamp {
+      font-size: 10px;
+      color: var(--c-text-dim);
+      text-align: right;
+      margin-top: 8px;
+    }
+
+    /* Video Card */
+    .proof-card--video {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .proof-card--video .video-placeholder {
+      aspect-ratio: 9/16;
+      background: var(--c-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .proof-card--video .video-placeholder span {
       font-family: var(--font-display);
-      font-size: 1.125rem;
-      letter-spacing: 0.1em;
-      text-decoration: none;
-      transition: all var(--transition-fast);
+      font-size: 1rem;
+      color: var(--c-text-dim);
+      text-align: center;
+      padding: 16px;
     }
 
-    .quiz-btn:hover {
-      background: var(--c-primary-dark);
-      box-shadow: 0 0 30px var(--c-primary-glow);
+    .proof-card--video .play-btn {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .proof-card--video:hover .play-btn {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.1);
+    }
+
+    .proof-card--video .play-btn i {
+      color: white;
+      font-size: 14px;
+      margin-left: 3px;
+    }
+
+    .proof-card--video .video-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 16px 16px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    }
+
+    .proof-card--video .video-caption .title {
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .proof-card--video .video-caption .handle {
+      font-size: 11px;
+      color: var(--c-cyan);
+    }
+
+    /* Review Card */
+    .proof-card--review {
+      padding: 20px;
+    }
+
+    .proof-card--review .review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .proof-card--review .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .proof-card--review .reviewer-avatar {
+      width: 28px;
+      height: 28px;
+      background: var(--c-pink);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .proof-card--review .reviewer-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .proof-card--review .verified-badge {
+      font-size: 10px;
+      color: #4ade80;
+      padding: 2px 6px;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: 4px;
+    }
+
+    .proof-card--review .review-text {
+      font-size: 13px;
+      color: var(--c-text-muted);
+      line-height: 1.6;
+    }
+
+    .proof-card--review .review-meta {
+      margin-top: 12px;
+      font-size: 10px;
+      color: var(--c-text-dim);
+    }
+
+    /* Photo Card */
+    .proof-card--photo .photo-placeholder {
+      aspect-ratio: 1;
+      background: var(--c-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .proof-card--photo .photo-placeholder span {
+      font-size: 11px;
+      color: var(--c-text-dim);
+    }
+
+    /* Quote Card */
+    .proof-card--quote {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .proof-card--quote .stars {
+      color: var(--c-cyan);
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .proof-card--quote .quote-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .proof-card--quote .quote-text {
+      font-size: 12px;
+      color: var(--c-text-muted);
+      line-height: 1.6;
+    }
+
+    .proof-card--quote .quote-author {
+      margin-top: 12px;
+      font-size: 10px;
+      color: var(--c-text-dim);
+    }
+
+    /* More Reviews Button */
+    .more-reviews-btn {
+      display: block;
+      margin: 48px auto 0;
+      background: none;
+      border: none;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-text-dim);
+      cursor: pointer;
+      padding-bottom: 4px;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .more-reviews-btn:hover {
+      color: var(--c-text);
+      border-bottom-color: var(--c-cyan);
+    }
+
+    /* ========================================
+       PROTOCOL SPECS (FAQ Accordion)
+    ======================================== */
+    .protocol-specs {
+      background: var(--c-bg);
+      padding: 80px 24px;
+      border-top: 1px solid var(--c-border);
+    }
+
+    .protocol-specs-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .protocol-specs-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--c-text-dim);
+      text-align: center;
+      margin-bottom: 32px;
+      letter-spacing: 0.1em;
+    }
+
+    .faq-item {
+      background: var(--c-panel);
+      border: 1px solid var(--c-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      transition: border-color 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--c-text);
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .faq-question:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .faq-question i {
+      color: var(--c-cyan);
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.open .faq-question i {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 20px 20px;
+      font-size: 13px;
+      color: var(--c-text-muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--c-border);
+      margin-top: -1px;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    .faq-answer strong {
+      color: var(--c-cyan);
+    }
+
+    /* ========================================
+       FOUNDER STORY SECTION
+    ======================================== */
+    .founder-story {
+      background: var(--c-bg);
+      padding: 100px 24px;
+      border-top: 1px solid var(--c-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .founder-story-glow {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to left, rgba(0, 246, 224, 0.03), transparent);
+      pointer-events: none;
+    }
+
+    .founder-story-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .founder-story-inner {
+        grid-template-columns: 5fr 7fr;
+        gap: 64px;
+      }
+    }
+
+    .founder-photo-wrap {
+      position: relative;
+    }
+
+    .founder-photo-glow {
+      position: absolute;
+      inset: -4px;
+      background: linear-gradient(135deg, var(--c-cyan), #1e3a5f);
+      border-radius: 12px;
+      opacity: 0.3;
+      filter: blur(12px);
+      transition: opacity 0.7s ease;
+    }
+
+    .founder-photo-wrap:hover .founder-photo-glow {
+      opacity: 0.5;
+    }
+
+    .founder-photo {
+      position: relative;
+      aspect-ratio: 3/4;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--c-border);
+      background: var(--c-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: grayscale(100%);
+      transition: filter 0.7s ease, box-shadow 0.7s ease;
+    }
+
+    .founder-photo-wrap:hover .founder-photo {
+      filter: grayscale(0%);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .founder-photo-placeholder {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-text-dim);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .founder-photo-caption {
+      position: absolute;
+      bottom: -32px;
+      left: 0;
+      font-size: 10px;
+      color: var(--c-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .founder-content {
+      position: relative;
+    }
+
+    .founder-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      line-height: 0.9;
+      margin-bottom: 32px;
+    }
+
+    .founder-headline-fade {
+      background: linear-gradient(to right, #e5e5e5, #666);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .founder-prose {
+      color: var(--c-text-muted);
+      font-size: 15px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .founder-prose p {
+      margin-bottom: 16px;
+    }
+
+    .founder-prose strong {
+      color: var(--c-text);
+      font-weight: 600;
+    }
+
+    .founder-prose .highlight {
+      color: var(--c-text);
+      border-bottom: 1px solid rgba(0, 246, 224, 0.3);
+    }
+
+    .founder-drop-quote {
+      color: var(--c-cyan);
+      font-weight: 700;
+      font-size: 1.25rem;
+      float: left;
+      margin-right: 8px;
+      margin-top: -4px;
+      line-height: 1;
+    }
+
+    .founder-pullquote {
+      border-left: 2px solid var(--c-cyan);
+      padding-left: 24px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      margin: 32px 0;
+    }
+
+    .founder-pullquote p {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-style: italic;
+      letter-spacing: 0.03em;
+      color: var(--c-text);
+      line-height: 1.4;
+    }
+
+    .founder-signature {
+      margin-top: 32px;
+    }
+
+    .founder-sig-name {
+      font-family: 'Georgia', serif;
+      font-size: 1.75rem;
+      font-style: italic;
+      color: var(--c-text);
+      transform: rotate(-3deg);
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .founder-sig-title {
+      font-size: 10px;
+      color: var(--c-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+    }
+
+    /* ========================================
+       FOUNDER CARD (Masonry Grid)
+    ======================================== */
+    .proof-card--founder {
+      padding: 20px;
+      background: linear-gradient(135deg, var(--c-panel) 0%, var(--c-surface) 100%);
+      border: 1px solid rgba(0, 246, 224, 0.2);
+    }
+
+    .proof-card--founder .founder-img {
+      width: 48px;
+      height: 48px;
+      background: var(--c-cyan);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .proof-card--founder .founder-quote {
+      font-size: 13px;
+      color: var(--c-text);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    .proof-card--founder .founder-sig {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-cyan);
+      letter-spacing: 0.05em;
+    }
+
+    .tier-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--c-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .tier-feature svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .tier-feature--highlight {
+      color: var(--c-success);
+      font-weight: 600;
+    }
+
+    /* ========================================
+       CTA BUTTON - Shimmer Effect
+    ======================================== */
+    @keyframes shimmer-sweep {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(200%) skewX(-15deg); }
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 20px var(--c-cyan-glow),
+          0 0 40px rgba(0, 246, 224, 0.2),
+          inset 0 0 15px rgba(0, 246, 224, 0.1);
+      }
+      50% {
+        box-shadow:
+          0 0 30px var(--c-cyan-glow),
+          0 0 60px rgba(0, 246, 224, 0.3),
+          0 0 90px rgba(0, 246, 224, 0.15),
+          inset 0 0 20px rgba(0, 246, 224, 0.15);
+      }
+    }
+
+    .cta-btn {
+      width: 100%;
+      padding: 20px 32px;
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--c-cyan) 0%, #00d4c8 50%, var(--c-cyan) 100%);
+      background-size: 200% 200%;
+      color: var(--c-bg);
+      border: none;
+      border-radius: 14px;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      animation: glow-pulse 2.5s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0.1) 80%,
+        transparent 100%
+      );
+      animation: shimmer-sweep 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      right: 1px;
+      height: 50%;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+      );
+      border-radius: 13px 13px 50% 50%;
+      pointer-events: none;
+    }
+
+    .cta-btn:hover {
+      transform: scale(1.02);
+      animation: glow-pulse 1.2s ease-in-out infinite;
+    }
+
+    .cta-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Trust indicators */
+    .trust-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 16px;
+      font-size: 11px;
+      color: var(--c-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .trust-row span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ========================================
+       PRODUCT DESCRIPTION
+    ======================================== */
+    .product-desc {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--c-border);
+      font-size: 15px;
+      color: var(--c-text-muted);
+      line-height: 1.8;
+    }
+
+    .product-desc strong {
+      color: var(--c-text);
     }
 
     /* ========================================
        FEATURES SECTION
     ======================================== */
     .features-section {
-      background: var(--c-bg-card);
-      padding: var(--space-3xl) var(--space-lg);
+      background: var(--c-panel);
+      padding: 80px 24px;
+      margin-top: 64px;
+      border-top: 1px solid var(--c-border);
     }
 
-    .section-header {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto var(--space-2xl);
-    }
-
-    .features-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-    }
-
-    .feature-card {
-      background: var(--c-bg);
-      border: 1px solid var(--c-border);
-      border-radius: 16px;
-      padding: var(--space-xl);
-      text-align: center;
-      transition: all var(--transition-normal);
-    }
-
-    .feature-card:hover {
-      border-color: var(--c-primary);
-      transform: translateY(-4px);
-    }
-
-    .feature-icon {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto var(--space-md);
-      background: rgba(0, 255, 255, 0.1);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--c-primary);
-    }
-
-    .feature-title {
-      font-family: var(--font-display);
-      font-size: 1.375rem;
-      letter-spacing: 0.02em;
-      margin-bottom: var(--space-sm);
-    }
-
-    .feature-description {
-      color: var(--c-text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* ========================================
-       REVIEWS SECTION
-    ======================================== */
-    .reviews-section {
-      padding: var(--space-3xl) var(--space-lg);
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .reviews-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-2xl);
-      flex-wrap: wrap;
-      gap: var(--space-lg);
-    }
-
-    .reviews-summary {
-      display: flex;
-      align-items: center;
-      gap: var(--space-lg);
-    }
-
-    .reviews-score {
-      font-family: var(--font-mono);
-      font-size: 4rem;
-      font-weight: 700;
-      color: var(--c-primary);
-      line-height: 1;
-    }
-
-    .reviews-meta {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-    }
-
-    .review-card {
-      background: var(--c-bg-card);
-      border: 1px solid var(--c-border);
-      border-radius: 12px;
-      padding: var(--space-lg);
-    }
-
-    .review-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      margin-bottom: var(--space-md);
-    }
-
-    .reviewer-name {
-      font-weight: 700;
-    }
-
-    .reviewer-verified {
-      font-size: 0.75rem;
-      color: var(--c-success);
-    }
-
-    .review-stars {
-      color: var(--c-primary);
-      font-size: 0.875rem;
-    }
-
-    .review-title {
-      font-weight: 700;
-      margin-bottom: var(--space-sm);
-    }
-
-    .review-text {
-      color: var(--c-text-muted);
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    .review-date {
-      font-size: 0.75rem;
-      color: var(--c-text-dim);
-      margin-top: var(--space-md);
-    }
-
-    /* ========================================
-       CONFIDENCE SECTION
-    ======================================== */
-    .confidence-section {
-      background: var(--c-bg-card);
-      padding: var(--space-3xl) var(--space-lg);
-    }
-
-    .confidence-inner {
+    .features-inner {
       max-width: 1000px;
       margin: 0 auto;
       text-align: center;
     }
 
-    .confidence-title {
+    .features-title {
       font-family: var(--font-display);
-      font-size: 2.5rem;
-      margin-bottom: var(--space-2xl);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 48px;
     }
 
-    .confidence-grid {
+    .features-title span {
+      color: var(--c-text-dim);
+    }
+
+    .features-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-2xl);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
     }
 
-    .confidence-item {
+    .feature-card {
+      background: var(--c-surface);
+      border-radius: 20px;
+      border: 1px solid var(--c-border);
+      padding: 32px;
       text-align: center;
+      transition: transform 0.3s, border-color 0.3s;
     }
 
-    .confidence-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto var(--space-md);
-      background: rgba(0, 255, 255, 0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--c-primary);
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.15);
     }
 
-    .confidence-item h4 {
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-name {
       font-family: var(--font-display);
-      font-size: 1.25rem;
-      margin-bottom: var(--space-sm);
+      font-size: 1.5rem;
+      margin-bottom: 8px;
     }
 
-    .confidence-item p {
-      font-size: 0.875rem;
+    .feature-desc {
+      font-size: 14px;
       color: var(--c-text-muted);
+      line-height: 1.6;
     }
 
     /* ========================================
-       FAQ SECTION
+       COMPARISON TABLE
     ======================================== */
-    .faq-section {
-      padding: var(--space-3xl) var(--space-lg);
+    .comparison-section {
+      padding: 80px 24px;
+      background: var(--c-bg);
     }
 
-    .faq-container {
+    .comparison-inner {
       max-width: 800px;
       margin: 0 auto;
     }
 
-    .faq-item {
-      border-bottom: 1px solid var(--c-border);
+    .comparison-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 32px;
     }
 
-    .faq-question {
+    .comparison-table {
       width: 100%;
-      padding: var(--space-lg) 0;
-      background: none;
-      border: none;
-      color: var(--c-text);
-      font-size: 1.125rem;
-      font-weight: 700;
+      border-collapse: collapse;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--c-border);
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 16px 20px;
       text-align: left;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--font-body);
+      font-size: 14px;
     }
 
-    .faq-question:hover {
-      color: var(--c-primary);
+    .comparison-table thead {
+      background: var(--c-panel);
     }
 
-    .faq-icon {
-      font-size: 1.5rem;
-      transition: transform var(--transition-fast);
-      color: var(--c-primary);
-    }
-
-    .faq-item.open .faq-icon {
-      transform: rotate(45deg);
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height var(--transition-normal);
-    }
-
-    .faq-item.open .faq-answer {
-      max-height: 500px;
-    }
-
-    .faq-answer-inner {
-      padding-bottom: var(--space-lg);
-      color: var(--c-text-muted);
-      line-height: 1.7;
-    }
-
-    /* ========================================
-       STICKY ADD TO CART
-    ======================================== */
-    .sticky-atc {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(10, 10, 10, 0.98);
-      backdrop-filter: blur(20px);
-      border-top: 1px solid var(--c-border);
-      padding: var(--space-md) var(--space-lg);
-      transform: translateY(100%);
-      transition: transform var(--transition-normal);
-      z-index: 999;
-    }
-
-    .sticky-atc.visible {
-      transform: translateY(0);
-    }
-
-    .sticky-atc-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-lg);
-    }
-
-    .sticky-atc-info {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-    }
-
-    .sticky-atc-image {
-      width: 56px;
-      height: 56px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: var(--c-bg-card);
-    }
-
-    .sticky-atc-title {
-      font-family: var(--font-display);
-      font-size: 1.125rem;
-    }
-
-    .sticky-atc-price {
+    .comparison-table thead th {
       font-family: var(--font-mono);
-      font-size: 0.875rem;
-    }
-
-    .sticky-atc-price .current {
-      color: var(--c-text);
+      font-size: 11px;
       font-weight: 700;
-    }
-
-    .sticky-atc-price .original {
-      color: var(--c-text-dim);
-      text-decoration: line-through;
-      margin-left: var(--space-sm);
-    }
-
-    .sticky-atc-btn {
-      padding: var(--space-md) var(--space-2xl);
-      background: var(--c-primary);
-      color: var(--c-bg);
-      border: none;
-      border-radius: 8px;
-      font-family: var(--font-display);
-      font-size: 1rem;
       letter-spacing: 0.1em;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      white-space: nowrap;
+      text-transform: uppercase;
+      color: var(--c-text-muted);
     }
 
-    .sticky-atc-btn:hover {
-      background: var(--c-primary-dark);
-    }
-
-    /* ========================================
-       CART DRAWER
-    ======================================== */
-    .cart-drawer-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      opacity: 0;
-      visibility: hidden;
-      transition: all var(--transition-normal);
-      z-index: 2000;
-    }
-
-    .cart-drawer-overlay.open {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .cart-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 420px;
-      max-width: 100%;
-      background: var(--c-bg);
-      transform: translateX(100%);
-      transition: transform var(--transition-normal);
-      z-index: 2001;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .cart-drawer.open {
-      transform: translateX(0);
-    }
-
-    .cart-drawer-header {
-      padding: var(--space-lg);
-      border-bottom: 1px solid var(--c-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cart-drawer-title {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      letter-spacing: 0.05em;
-    }
-
-    .cart-drawer-close {
-      background: none;
-      border: none;
+    .comparison-table thead th:nth-child(2) {
       color: var(--c-text);
-      font-size: 1.5rem;
-      cursor: pointer;
     }
 
-    /* Free Shipping Progress */
-    .shipping-progress {
-      padding: var(--space-md) var(--space-lg);
-      background: var(--c-bg-card);
-      border-bottom: 1px solid var(--c-border);
-    }
-
-    .shipping-progress-text {
-      font-size: 0.8125rem;
-      margin-bottom: var(--space-sm);
-      text-align: center;
-    }
-
-    .shipping-progress-text strong {
-      color: var(--c-primary);
-      font-family: var(--font-mono);
-    }
-
-    .shipping-progress-bar {
-      height: 4px;
-      background: var(--c-border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .shipping-progress-fill {
-      height: 100%;
-      background: var(--c-primary);
-      width: 60%;
-      transition: width var(--transition-normal);
-    }
-
-    .cart-drawer-items {
-      flex: 1;
-      overflow-y: auto;
-      padding: var(--space-lg);
-    }
-
-    .cart-item {
-      display: flex;
-      gap: var(--space-md);
-      padding-bottom: var(--space-md);
-      margin-bottom: var(--space-md);
-      border-bottom: 1px solid var(--c-border);
-    }
-
-    .cart-item-image {
-      width: 80px;
-      height: 80px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: var(--c-bg-card);
-    }
-
-    .cart-item-details {
-      flex: 1;
-    }
-
-    .cart-item-title {
-      font-weight: 700;
-      margin-bottom: var(--space-xs);
-    }
-
-    .cart-item-variant {
-      font-size: 0.8125rem;
-      color: var(--c-text-muted);
-    }
-
-    .cart-item-price {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      margin-top: var(--space-sm);
-    }
-
-    /* Subscribe & Save */
-    .subscribe-save {
-      background: var(--c-bg-card);
-      border: 1px solid var(--c-primary);
-      border-radius: 8px;
-      padding: var(--space-md);
-      margin-bottom: var(--space-md);
-    }
-
-    .subscribe-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-sm);
-    }
-
-    .subscribe-title {
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-
-    .subscribe-title svg {
-      color: var(--c-primary);
-    }
-
-    .subscribe-discount {
-      background: var(--c-success);
-      color: var(--c-bg);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    .subscribe-desc {
-      font-size: 0.8125rem;
-      color: var(--c-text-muted);
-      margin-bottom: var(--space-sm);
-    }
-
-    .subscribe-toggle {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      cursor: pointer;
-    }
-
-    .subscribe-toggle input {
-      width: 40px;
-      height: 20px;
-      appearance: none;
-      background: var(--c-border);
-      border-radius: 10px;
-      position: relative;
-      cursor: pointer;
-      transition: background var(--transition-fast);
-    }
-
-    .subscribe-toggle input::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 16px;
-      height: 16px;
-      background: white;
-      border-radius: 50%;
-      transition: transform var(--transition-fast);
-    }
-
-    .subscribe-toggle input:checked {
-      background: var(--c-primary);
-    }
-
-    .subscribe-toggle input:checked::after {
-      transform: translateX(20px);
-    }
-
-    /* Upsells */
-    .cart-upsells {
+    .comparison-table tbody tr {
       border-top: 1px solid var(--c-border);
-      padding-top: var(--space-md);
+      background: rgba(0, 0, 0, 0.3);
     }
 
-    .upsells-title {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      letter-spacing: 0.05em;
-      margin-bottom: var(--space-md);
-    }
-
-    .upsell-item {
-      display: flex;
-      gap: var(--space-md);
-      align-items: center;
-      padding: var(--space-sm);
-      background: var(--c-bg-card);
-      border-radius: 8px;
-      margin-bottom: var(--space-sm);
-    }
-
-    .upsell-image {
-      width: 50px;
-      height: 50px;
-      border-radius: 6px;
-      background: var(--c-bg-elevated);
-    }
-
-    .upsell-info {
-      flex: 1;
-    }
-
-    .upsell-name {
-      font-size: 0.8125rem;
-      font-weight: 600;
-    }
-
-    .upsell-price {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+    .comparison-table tbody td {
       color: var(--c-text-muted);
     }
 
-    .upsell-add {
-      background: transparent;
-      border: 1px solid var(--c-primary);
-      color: var(--c-primary);
-      padding: var(--space-xs) var(--space-sm);
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-
-    .upsell-add:hover {
-      background: var(--c-primary);
-      color: var(--c-bg);
-    }
-
-    .cart-drawer-footer {
-      padding: var(--space-lg);
-      border-top: 1px solid var(--c-border);
-      background: var(--c-bg-card);
-    }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: var(--space-sm);
-      font-size: 1.125rem;
-    }
-
-    .cart-total-price {
-      font-family: var(--font-mono);
+    .comparison-table tbody td:nth-child(2) {
+      color: var(--c-cyan);
       font-weight: 700;
     }
 
-    .cart-savings {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.875rem;
-      color: var(--c-success);
-      margin-bottom: var(--space-md);
-    }
-
-    .cart-checkout-btn {
-      width: 100%;
-      padding: var(--space-md);
-      background: var(--c-primary);
-      color: var(--c-bg);
-      border: none;
-      border-radius: 8px;
-      font-family: var(--font-display);
-      font-size: 1.125rem;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      margin-bottom: var(--space-sm);
-    }
-
-    .cart-checkout-sub {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--c-text-muted);
-    }
-
-    .cart-empty {
-      text-align: center;
-      padding: var(--space-2xl);
-      color: var(--c-text-muted);
+    .comparison-table tbody td:nth-child(3) {
+      opacity: 0.5;
     }
 
     /* ========================================
        FOOTER
     ======================================== */
     .footer {
-      background: var(--c-bg-card);
-      padding: var(--space-3xl) var(--space-lg) var(--space-lg);
+      background: var(--c-panel);
       border-top: 1px solid var(--c-border);
-    }
-
-    .footer-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: var(--space-2xl);
-      margin-bottom: var(--space-2xl);
-    }
-
-    .footer-brand {
-      max-width: 300px;
+      padding: 48px 24px;
+      text-align: center;
     }
 
     .footer-logo {
       font-family: var(--font-display);
       font-size: 2rem;
-      color: var(--c-primary);
-      margin-bottom: var(--space-md);
-      letter-spacing: 0.05em;
+      color: var(--c-cyan);
+      margin-bottom: 16px;
+      letter-spacing: 0.1em;
     }
 
-    .footer-tagline {
-      color: var(--c-text-muted);
-      margin-bottom: var(--space-lg);
-      font-size: 0.9375rem;
-    }
-
-    .footer-social {
-      display: flex;
-      gap: var(--space-md);
-    }
-
-    .footer-social a {
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--c-border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--c-text);
-      transition: all var(--transition-fast);
-    }
-
-    .footer-social a:hover {
-      border-color: var(--c-primary);
-      color: var(--c-primary);
-    }
-
-    .footer-column h4 {
-      font-family: var(--font-display);
-      font-weight: 400;
-      margin-bottom: var(--space-md);
-      font-size: 1.125rem;
-      letter-spacing: 0.05em;
-    }
-
-    .footer-links {
-      list-style: none;
-    }
-
-    .footer-links li {
-      margin-bottom: var(--space-sm);
-    }
-
-    .footer-links a {
-      color: var(--c-text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color var(--transition-fast);
-    }
-
-    .footer-links a:hover {
-      color: var(--c-primary);
-    }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-top: var(--space-lg);
-      border-top: 1px solid var(--c-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.875rem;
-      color: var(--c-text-muted);
-    }
-
-    .payment-icons {
-      display: flex;
-      gap: var(--space-sm);
-    }
-
-    .payment-icon {
-      width: 40px;
-      height: 25px;
-      background: var(--c-bg-elevated);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.5rem;
+    .footer-text {
+      font-size: 13px;
       color: var(--c-text-dim);
     }
 
     /* ========================================
-       RESPONSIVE
+       MOBILE ADJUSTMENTS
     ======================================== */
-    @media (max-width: 1024px) {
-      .product-hero {
-        grid-template-columns: 1fr;
-        gap: var(--space-xl);
+    @media (max-width: 600px) {
+      .nav-inner {
+        padding: 0 16px;
       }
 
-      .product-gallery {
-        position: relative;
-        top: 0;
+      .product-grid {
+        padding: 16px;
+        gap: 24px;
       }
 
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .tier-card--featured .tier-inner {
+        padding: 20px 16px;
       }
 
-      .before-after-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .cta-btn {
+        padding: 18px 24px;
+        font-size: 1.25rem;
       }
 
-      .experts-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .reviews-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .confidence-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-xl);
-      }
-
-      .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .trust-bar-inner {
+      .trust-row {
         flex-direction: column;
-        gap: var(--space-xs);
+        gap: 8px;
       }
 
-      .trust-bar-divider {
-        display: none;
+      .features-section,
+      .comparison-section {
+        padding: 48px 16px;
       }
-
-      .nav-links {
-        display: none;
-      }
-
-      .mobile-menu-btn {
-        display: block;
-      }
-
-      .retailers-logos {
-        gap: var(--space-lg);
-      }
-
-      .product-title {
-        font-size: 2.25rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .before-after-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .experts-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .trust-icons-row {
-        grid-template-columns: 1fr;
-        gap: var(--space-md);
-      }
-
-      .sticky-atc-info {
-        display: none;
-      }
-
-      .sticky-atc-btn {
-        width: 100%;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .footer-brand {
-        max-width: 100%;
-      }
-
-      .footer-social {
-        justify-content: center;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        gap: var(--space-md);
-        text-align: center;
-      }
-    }
-
-    /* ========================================
-       ANIMATIONS
-    ======================================== */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .spinner-icon {
-      animation: spin 1s linear infinite;
     }
   </style>
 </head>
 <body>
+  <!-- Loader -->
+  <div class="loader" id="loader">
+    <div class="loader-top"></div>
+    <div class="loader-bottom"></div>
+    <div class="loader-line" id="loaderLine"></div>
+    <div class="loader-progress" id="loaderProgress">0%</div>
+  </div>
 
-  <!-- TRUST BAR -->
-  <div class="trust-bar">
-    <div class="trust-bar-inner">
-      <div class="trust-bar-item"><strong>726,000+</strong> players worldwide</div>
-      <span class="trust-bar-divider">|</span>
-      <div class="trust-bar-item">Free Returns until Jan 31</div>
-      <span class="trust-bar-divider">|</span>
-      <div class="trust-bar-item">1-Year Warranty</div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="./" class="nav-logo">NEOBALL</a>
+      <div class="nav-status">
+        <span class="signature-dot"></span>
+        BATCH 001: CLOSING SOON
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <section class="hero-wrap">
+  <main class="main">
+    <div class="product-grid">
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="gallery-main">
+          <span class="gallery-badge">Engineered in Lab</span>
+          <img id="mainImage" src="./images/ball-front.png" alt="Neoball Silent Basketball">
+        </div>
+        <div class="gallery-thumbnails">
+          <div class="thumbnail active" data-src="./images/ball-front.png">
+            <img src="./images/ball-front.png" alt="Ball front">
+          </div>
+          <div class="thumbnail" data-src="./balls/balls1.webp">
+            <img src="./balls/balls1.webp" alt="Ball texture 1">
+          </div>
+          <div class="thumbnail" data-src="./balls/balls2.webp">
+            <img src="./balls/balls2.webp" alt="Ball texture 2">
+          </div>
+          <div class="thumbnail" data-src="./balls/balls3.webp">
+            <img src="./balls/balls3.webp" alt="Ball texture 3">
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <!-- Partner Badge + Headline -->
+        <div class="partner-badge">
+          <span class="partner-badge-label">Official Partner</span>
+          <span class="partner-badge-name">Adam Harrington</span>
+          <span class="partner-badge-title">Ex-KD Trainer</span>
+        </div>
+
+        <div class="product-headline">
+          <h1>THE SILENT BALL SYSTEM</h1>
+          <p>Same protocol used by KD, Kyrie & 47 NBA Players.</p>
+        </div>
+
+        <div class="verified-rating">
+          <span class="stars">★★★★★</span>
+          <span class="count">4.9 (1,247 Reviews)</span>
+          <span class="badge">✓ Verified</span>
+        </div>
+
+        <!-- Size Selector - Cards -->
+        <div class="selector-group">
+          <div class="selector-label">1. Select Size</div>
+          <div class="size-grid">
+            <div class="size-card active" id="sizeCard7" onclick="selectSize('7')">
+              <div class="size-card-title">Size 7</div>
+              <div class="size-card-desc">Official Men's</div>
+            </div>
+            <div class="size-card" id="sizeCard6" onclick="selectSize('6')">
+              <div class="size-card-title">Size 6</div>
+              <div class="size-card-desc">Women's / Youth</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package Selector -->
+        <div class="selector-group">
+          <div class="selector-label">2. Choose Your Package</div>
+
+          <!-- Standard Package -->
+          <div class="pkg-standard" id="pkgStandard" onclick="selectPackage('standard')">
+            <div class="pkg-standard-title">Just The Ball</div>
+            <ul class="pkg-standard-list">
+              <li><i class="fas fa-check"></i> Stealth Ball</li>
+              <li><i class="fas fa-check"></i> Black Shipping Box</li>
+            </ul>
+            <div class="pkg-standard-price">$79</div>
+          </div>
+
+          <!-- D1 Blueprint Package -->
+          <div class="pkg-blueprint selected" id="pkgBlueprint" onclick="selectPackage('blueprint')">
+            <span class="pkg-blueprint-badge">Most Popular</span>
+            <div class="pkg-blueprint-inner">
+              <div class="pkg-blueprint-header">
+                <div>
+                  <div class="pkg-blueprint-title">D1 BLUEPRINT</div>
+                  <div class="pkg-blueprint-value">PRO SYSTEM · $645 Value</div>
+                </div>
+                <div class="pkg-blueprint-price">
+                  <div class="pkg-blueprint-price-amount">$168</div>
+                  <div class="pkg-blueprint-price-save">Save $477</div>
+                </div>
+              </div>
+
+              <!-- Feature Stack -->
+              <div class="feature-item">
+                <div class="feature-item-icon"><i class="fas fa-basketball-ball"></i></div>
+                <div class="feature-item-text">
+                  <div class="feature-item-title">Stealth Ball + Founders Box</div>
+                  <div class="feature-item-desc">Limited Edition Blue Collector's Box</div>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-item-icon"><i class="fas fa-moon"></i></div>
+                <div class="feature-item-text">
+                  <div class="feature-item-title">Sleep Mask</div>
+                  <div class="feature-item-desc">Recovery is part of training</div>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-item-icon"><i class="fas fa-mobile-alt"></i></div>
+                <div class="feature-item-text">
+                  <div class="feature-item-title">Harrington Protocol App</div>
+                  <div class="feature-item-desc">90-Day Handle Transformation ($197 Value)</div>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-item-icon"><i class="fas fa-crown"></i></div>
+                <div class="feature-item-text">
+                  <div class="feature-item-title">Inner Circle VIP</div>
+                  <div class="feature-item-desc">Monthly Live Calls with Adam ($97/mo Value)</div>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-item-icon"><i class="fas fa-file-alt"></i></div>
+                <div class="feature-item-text">
+                  <div class="feature-item-title">NIL & Recruiting Guide</div>
+                  <div class="feature-item-desc">Parent's Playbook for D1 Offers ($49 Value)</div>
+                </div>
+              </div>
+
+              <!-- D1 Guarantee -->
+              <div class="d1-guarantee">
+                <div class="d1-guarantee-title">
+                  <i class="fas fa-shield-alt"></i>
+                  D1 Guarantee
+                </div>
+                <div class="d1-guarantee-text">
+                  If you don't see measurable improvement in 90 days, we'll refund every penny. No questions.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <button class="cta-btn" id="ctaBtn">
+          <span id="ctaText">GET THE D1 BLUEPRINT</span>
+          <span id="ctaPrice">· $168</span>
+        </button>
+
+        <!-- Proof Chips -->
+        <div class="proof-chips">
+          <span class="chip">30-day trial</span>
+          <span class="chip">quiet guarantee</span>
+          <span class="chip">secure checkout</span>
+        </div>
+
+        <!-- Payment Icons -->
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-apple-pay"></i>
+          <i class="fab fa-google-pay"></i>
+        </div>
+      </div>
+    </div>
+  </main>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section reveal">
+    <div class="features-inner">
+      <h2 class="features-title">ENGINEERED FOR <span>MIDNIGHT.</span></h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔇</div>
+          <h3 class="feature-name">Whisper Quiet</h3>
+          <p class="feature-desc">Open-cell acoustics absorb impact noise. 80% quieter than regulation leather.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏀</div>
+          <h3 class="feature-name">True Grip</h3>
+          <p class="feature-desc">Authentic pebble texture. No slippery foam feel. Handles like game day.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔨</div>
+          <h3 class="feature-name">Iron Durability</h3>
+          <p class="feature-desc">Laser-sealed surface. Won't crumble, flake, or lose shape.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wall of Proof - Masonry Testimonials -->
+  <section class="wall-of-proof reveal">
+    <div class="wall-of-proof-inner">
+      <div class="wall-of-proof-header">
+        <h2 class="wall-of-proof-title">WALL OF <span>PROOF</span></h2>
+        <div class="wall-of-proof-rating">
+          <span class="stars">★★★★★</span>
+          <span class="text">4.9 from 482 reviews</span>
+        </div>
+      </div>
+
+      <!-- Hero Quote -->
+      <div class="hero-quote">
+        <div class="hero-quote-icon">
+          <i class="fas fa-quote-left"></i>
+        </div>
+        <h3 class="hero-quote-text">
+          "MY KIDS TRAINED AT 11PM.<br>
+          <span>AND NOBODY WOKE UP."</span>
+        </h3>
+        <div class="hero-quote-author">
+          <div class="hero-quote-author-line"></div>
+          <span class="hero-quote-author-name">Michelle T. • Manhattan, NYC</span>
+          <div class="hero-quote-author-line"></div>
+        </div>
+      </div>
+
+      <div class="proof-masonry">
+        <!-- iMessage DM #1 -->
+        <div class="proof-card proof-card--imessage">
+          <div class="header">
+            <i class="fab fa-instagram"></i>
+            <span>Direct Message</span>
+          </div>
+          <div class="bubble bubble--gray">My son just did his drills at 11pm. No complaints from neighbors.</div>
+          <div class="bubble bubble--blue">That's what we built it for 🙏</div>
+          <div class="timestamp">Yesterday</div>
+        </div>
+
+        <!-- Video Card #1 -->
+        <div class="proof-card proof-card--video">
+          <div class="video-placeholder">
+            <span>@hoops_dad<br>Silent dribble test</span>
+            <div class="play-btn"><i class="fas fa-play"></i></div>
+          </div>
+          <div class="video-caption">
+            <div class="title">"The neighbors can't believe it"</div>
+            <div class="handle">@hoops_dad • 24K views</div>
+          </div>
+        </div>
+
+        <!-- Review Card #1 -->
+        <div class="proof-card proof-card--review">
+          <div class="review-header">
+            <div class="reviewer">
+              <div class="reviewer-avatar">JM</div>
+              <span class="reviewer-name">Jordan M.</span>
+            </div>
+            <span class="verified-badge">✓ Verified</span>
+          </div>
+          <p class="review-text">Finally. A ball that actually feels like a basketball. My 12yo can practice handles at midnight without waking the baby.</p>
+          <div class="review-meta">Size 7 • 3 days ago</div>
+        </div>
+
+        <!-- iMessage DM #2 -->
+        <div class="proof-card proof-card--imessage">
+          <div class="header">
+            <i class="fab fa-twitter"></i>
+            <span>Direct Message</span>
+          </div>
+          <div class="bubble bubble--gray">Bro this thing is actually regulation weight??? 🤯</div>
+          <div class="bubble bubble--blue">22oz. Same as game ball.</div>
+          <div class="bubble bubble--gray">My son's handles are already tighter</div>
+          <div class="timestamp">2 hours ago</div>
+        </div>
+
+        <!-- Founder's Face Card (Trust Anchor) -->
+        <div class="proof-card proof-card--founder">
+          <div class="founder-img">👋</div>
+          <p class="founder-quote">"We built this because we were the kids getting yelled at for dribbling in the kitchen. If you don't love the handle, DM me personally. I'll refund you."</p>
+          <div class="founder-sig">— James, Co-Founder</div>
+        </div>
+
+        <!-- Photo Card -->
+        <div class="proof-card proof-card--photo">
+          <div class="photo-placeholder">
+            <span>📸 Customer photo</span>
+          </div>
+        </div>
+
+        <!-- Video Card #2 -->
+        <div class="proof-card proof-card--video">
+          <div class="video-placeholder">
+            <span>@mamba_mentality<br>11pm garage session</span>
+            <div class="play-btn"><i class="fas fa-play"></i></div>
+          </div>
+          <div class="video-caption">
+            <div class="title">"Wife approved 👍"</div>
+            <div class="handle">@mamba_mentality • 8.2K views</div>
+          </div>
+        </div>
+
+        <!-- Review Card #2 -->
+        <div class="proof-card proof-card--review">
+          <div class="review-header">
+            <div class="reviewer">
+              <div class="reviewer-avatar" style="background: var(--c-cyan);">TW</div>
+              <span class="reviewer-name">Tanya W.</span>
+            </div>
+            <span class="verified-badge">✓ Verified</span>
+          </div>
+          <p class="review-text">Got the pink one for my daughter. She loves it. Bounces great and she can practice after school without bothering the downstairs neighbors.</p>
+          <div class="review-meta">Size 6 Pink • 1 week ago</div>
+        </div>
+
+        <!-- iMessage DM #3 -->
+        <div class="proof-card proof-card--imessage">
+          <div class="header">
+            <i class="fab fa-instagram"></i>
+            <span>Direct Message</span>
+          </div>
+          <div class="bubble bubble--gray">Does it actually bounce like a real ball?</div>
+          <div class="bubble bubble--blue">98% energy return. Same as regulation.</div>
+          <div class="bubble bubble--gray">Just ordered. LFG 🔥</div>
+          <div class="timestamp">Just now</div>
+        </div>
+
+        <!-- Review Card #3 -->
+        <div class="proof-card proof-card--review">
+          <div class="review-header">
+            <div class="reviewer">
+              <div class="reviewer-avatar" style="background: #6366f1;">DR</div>
+              <span class="reviewer-name">Derek R.</span>
+            </div>
+            <span class="verified-badge">✓ Verified</span>
+          </div>
+          <p class="review-text">Apartment living + basketball = impossible. Until now. This is legit.</p>
+          <div class="review-meta">Size 7 • 5 days ago</div>
+        </div>
+      </div>
+
+      <button class="more-reviews-btn">See all 482 reviews →</button>
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section class="comparison-section reveal">
+    <div class="comparison-inner">
+      <h2 class="comparison-title">TOY VS. TOOL</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Neoball</th>
+            <th>Cheap Foam</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bounce Height</td>
+            <td>98% Return</td>
+            <td>Dead / Low</td>
+          </tr>
+          <tr>
+            <td>Weight</td>
+            <td>Regulation (22oz)</td>
+            <td>Light (8oz)</td>
+          </tr>
+          <tr>
+            <td>Sound Level</td>
+            <td>35 Decibels</td>
+            <td>Varies</td>
+          </tr>
+          <tr>
+            <td>App Access</td>
+            <td>INCLUDED</td>
+            <td>None</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Guarantee Section -->
+  <section class="guarantee-section reveal">
+    <div class="guarantee-bg-text">100%</div>
+    <div class="guarantee-inner">
+      <div class="guarantee-icon">🤝</div>
+      <h2 class="guarantee-title">THE <span>"FOUNDATIONS 10"</span> PROMISE</h2>
+      <p class="guarantee-subtitle">
+        We don't want your money if we don't change your game.<br>
+        But we don't accept returns from people who didn't do the work.
+      </p>
+
+      <div class="guarantee-steps">
+        <div class="guarantee-step">
+          <div class="guarantee-step-number">Step 01</div>
+          <h3 class="guarantee-step-title">LOCK IN.</h3>
+          <p class="guarantee-step-desc">Complete the 10-Day "Foundations" Program inside the YP App using your new Stealth Ball.</p>
+        </div>
+        <div class="guarantee-step-divider"></div>
+        <div class="guarantee-step">
+          <div class="guarantee-step-number">Step 02</div>
+          <h3 class="guarantee-step-title">LEVEL UP.</h3>
+          <p class="guarantee-step-desc">If your handle isn't tighter, send us your completion log.</p>
+        </div>
+        <div class="guarantee-step-divider"></div>
+        <div class="guarantee-step">
+          <div class="guarantee-step-number">Step 03</div>
+          <h3 class="guarantee-step-title">OR CASH OUT.</h3>
+          <p class="guarantee-step-desc">We credit you 100% of the purchase price. <strong>You keep the ball.</strong> No shipping back.</p>
+        </div>
+      </div>
+
+      <div class="guarantee-signature">
+        <div class="guarantee-signature-names">James & Mike</div>
+        <div class="guarantee-signature-title">Founders, YouthPerformance</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Protocol Specs (FAQ) -->
+  <section class="protocol-specs reveal">
+    <div class="protocol-specs-inner">
+      <h2 class="protocol-specs-title">PROTOCOL SPECS</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Is it actually silent? (My neighbors hate me)</span>
+          <i class="fas fa-plus"></i>
+        </button>
+        <div class="faq-answer">
+          Yes. We use <strong>GhostCore open-cell technology</strong>. It dissipates sound waves as heat rather than noise. It registers at ~35dB (whisper volume) compared to ~85dB for a standard leather ball.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Does it feel like a cheap foam toy?</span>
+          <i class="fas fa-plus"></i>
+        </button>
+        <div class="faq-answer">
+          No. Cheap foam is light (200g). The Neoball is <strong>Regulation Weight (600g for Size 7)</strong>. It is engineered to mimic the exact energy return of an inflated ball. Your muscle memory will transfer 1:1 to the court.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>How do I access the Training App?</span>
+          <i class="fas fa-plus"></i>
+        </button>
+        <div class="faq-answer">
+          Inside your Founders Box, you will find a <strong>Laser-Etched Black Card</strong>. Scan the QR code on the back to instantly unlock your Lifetime Membership. No monthly fees.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>What's the difference between Size 6 and Size 7?</span>
+          <i class="fas fa-plus"></i>
+        </button>
+        <div class="faq-answer">
+          <strong>Size 7</strong> is the official men's regulation size (29.5" circumference). <strong>Size 6</strong> is the women's/youth regulation size (28.5" circumference). Both have the same premium construction and silent technology.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Can I use it outside?</span>
+          <i class="fas fa-plus"></i>
+        </button>
+        <div class="faq-answer">
+          Yes, but we recommend <strong>indoor use for maximum durability</strong>. The surface is designed for hardwood, tile, and smooth garage floors. Outdoor concrete will wear it faster, but it can handle light outdoor sessions.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Founder Story Section -->
+  <section class="founder-story reveal">
+    <div class="founder-story-glow"></div>
+
+    <div class="founder-story-inner">
+      <!-- Photo Column -->
+      <div class="founder-photo-wrap">
+        <div class="founder-photo-glow"></div>
+        <div class="founder-photo">
+          <span class="founder-photo-placeholder">[PHOTO: James & Sons on Court]</span>
+        </div>
+        <p class="founder-photo-caption">James Scott • Founder & Dad</p>
+      </div>
+
+      <!-- Content Column -->
+      <div class="founder-content">
+        <h2 class="founder-headline">
+          YOUTH SPORTS<br>
+          <span class="founder-headline-fade">IS BROKEN.</span>
+        </h2>
+
+        <div class="founder-prose">
+          <p>
+            <span class="founder-drop-quote">"</span>
+            I've spent nearly two decades training NBA stars and world-class athletes. But when it came to my own sons, I saw the truth.
+          </p>
+          <p>
+            Youth sports has become a trap: <strong>More games. More pressure. More injuries.</strong> It prioritizes short-term wins over long-term development.
+          </p>
+          <p>
+            So, I adapted the exact methods I use with the pros.
+            <span class="highlight">Not watered down—just smarter.</span>
+            Safer. Designed for how young athletes actually grow.
+          </p>
+          <p>
+            This isn't just a ball. It's the foundation your child needs, but the system wasn't providing.
+          </p>
+        </div>
+
+        <div class="founder-pullquote">
+          <p>"WE BELIEVE EVERY YOUTH ATHLETE DESERVES WORLD-CLASS TRAINING, AND EVERY FAMILY SHOULD BE ABLE TO AFFORD IT."</p>
+        </div>
+
+        <div class="founder-signature">
+          <div class="founder-sig-name">Coach James</div>
+          <div class="founder-sig-title">Co-Founder, YP</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Buy Bar -->
+  <div class="sticky-bar" id="stickyBar">
+    <div class="sticky-bar-inner">
+      <div class="sticky-bar-info">
+        <div class="sticky-bar-title">NEOBALL <span id="stickyTierName">D1 BLUEPRINT</span></div>
+        <div class="sticky-bar-subtitle">90-Day D1 Guarantee</div>
+      </div>
+      <div class="sticky-bar-right">
+        <div class="sticky-bar-price" id="stickyPrice">$168</div>
+        <button class="sticky-bar-btn" id="stickyBtn" onclick="document.getElementById('ctaBtn').scrollIntoView({behavior: 'smooth', block: 'center'})">
+          GET THE BLUEPRINT
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- HEADER -->
-  <header class="header" id="header">
-    <div class="header-inner">
-      <a href="/" class="logo"><img src="images/neoballyp.png" alt="Neoball by YP" style="height: 40px;"></a>
-
-      <nav>
-        <ul class="nav-links">
-          <li><a href="#shop">Shop</a></li>
-          <li><a href="#technology">Technology</a></li>
-          <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#faq">FAQ</a></li>
-        </ul>
-      </nav>
-
-      <div class="header-actions">
-        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 01-8 0"></path>
-          </svg>
-          <span class="cart-count" id="cartCount">0</span>
-        </button>
-
-        <button class="mobile-menu-btn" aria-label="Menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- PROMO BAR -->
-  <div class="promo-bar">
-    Black Friday: Buy 1, Get 1 FREE! <a href="#">Learn More</a>
-  </div>
-
-  <!-- RETAILERS BAR -->
-  <div class="retailers-bar">
-    <div class="retailers-bar-label">#1 BASKETBALL BRAND AVAILABLE AT</div>
-    <div class="retailers-logos">
-      <span class="retailer-placeholder">DICK'S</span>
-      <span class="retailer-placeholder">FOOT LOCKER</span>
-      <span class="retailer-placeholder">FINISH LINE</span>
-      <span class="retailer-placeholder">ACADEMY</span>
-    </div>
-  </div>
-
-  <!-- PRODUCT HERO -->
-  <section class="product-hero" id="productHero">
-    <!-- Gallery -->
-    <div class="product-gallery">
-      <div class="gallery-main" id="galleryMain">
-        <span class="gallery-badge gallery-badge-holiday">HOLIDAY SALE</span>
-        <img src="./balls/balls1.png" alt="Neoball Pro Basketball" id="mainImage">
-      </div>
-
-      <div class="gallery-thumbnails" id="galleryThumbnails">
-        <div class="thumbnail active" data-index="0">
-          <img src="./balls/balls1.png" alt="Front view">
-        </div>
-        <div class="thumbnail video-thumb" data-index="1" data-video="true">
-          <img src="./balls/balls2.png" alt="Video">
-        </div>
-        <div class="thumbnail" data-index="2">
-          <img src="./balls/balls3.png" alt="Before/After">
-        </div>
-        <div class="thumbnail" data-index="3">
-          <img src="./balls/balls4.png" alt="Detail view">
-        </div>
-        <div class="thumbnail" data-index="4">
-          <img src="./balls/balls5.png" alt="Angle view">
-        </div>
-      </div>
-    </div>
-
-    <!-- Product Info -->
-    <div class="product-info">
-      <div class="product-badges">
-        <span class="badge badge-holiday">HOLIDAY SALE</span>
-      </div>
-
-      <h1 class="product-title">NEOBALL PRO BASKETBALL</h1>
-      <p class="product-subtitle">Premium grip technology meets iconic design. The ball that elevates your game.</p>
-
-      <div class="product-rating">
-        <div class="stars">★★★★★</div>
-        <span class="rating-text">4.9</span>
-        <span class="review-count" data-scroll-to="reviews">2,847 Reviews</span>
-      </div>
-
-      <div class="product-pricing">
-        <div class="price-row">
-          <span class="price-current">$78</span>
-          <span class="price-original">$88</span>
-        </div>
-        <p class="financing-note">Starting at <strong>$7.42/mo</strong> or 0% APR with Affirm. <a href="#" style="color: var(--c-primary);">Prequalify now</a></p>
-      </div>
-
-      <!-- Benefits List -->
-      <ul class="benefits-list">
-        <li>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20,6 9,17 4,12"></polyline>
-          </svg>
-          HyperGrip Technology - 40% more control
-        </li>
-        <li>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20,6 9,17 4,12"></polyline>
-          </svg>
-          Indoor/Outdoor versatility
-        </li>
-        <li>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20,6 9,17 4,12"></polyline>
-          </svg>
-          Trusted by 726,000+ players
-        </li>
-        <li>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20,6 9,17 4,12"></polyline>
-          </svg>
-          1-Year warranty included
-        </li>
-      </ul>
-
-      <!-- Promo Banner -->
-      <div class="promo-banner">
-        <span class="promo-banner-text"><span>Black Friday:</span> Buy 1, Get 1 Free!</span>
-        <a href="#" class="promo-banner-link">Learn More</a>
-      </div>
-
-      <!-- Add to Cart -->
-      <div class="atc-section">
-        <button class="atc-btn" id="addToCartBtn">
-          <span class="btn-text">ADD TO CART – SHIPS TODAY</span>
-          <span class="spinner">
-            <svg class="spinner-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
-            </svg>
-          </span>
-        </button>
-        <p class="atc-subtext">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="1" y="3" width="22" height="18" rx="2"></rect>
-            <line x1="1" y1="10" x2="23" y2="10"></line>
-          </svg>
-          Pay in 4 interest-free payments with Shop Pay
-        </p>
-      </div>
-
-      <!-- Trust Icons Row -->
-      <div class="trust-icons-row">
-        <div class="trust-icon-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
-            <polyline points="9,22 9,12 15,12 15,22"></polyline>
-          </svg>
-          <span>Free 60-Day Returns</span>
-        </div>
-        <div class="trust-icon-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-          </svg>
-          <span>1-Year Warranty</span>
-        </div>
-        <div class="trust-icon-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="1" y="3" width="15" height="13"></rect>
-            <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
-            <circle cx="5.5" cy="18.5" r="2.5"></circle>
-            <circle cx="18.5" cy="18.5" r="2.5"></circle>
-          </svg>
-          <span>Free Expedited Shipping</span>
-        </div>
-      </div>
-
-      <!-- Awards Section -->
-      <div class="awards-section">
-        <div class="awards-title">27+ AWARDS AND COUNTING</div>
-        <div class="awards-logos">
-          <span class="award-placeholder">ESPN</span>
-          <span class="award-placeholder">SLAM</span>
-          <span class="award-placeholder">SI</span>
-          <span class="award-placeholder">BLEACHER</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BEFORE/AFTER SECTION -->
-  <section class="before-after-section">
-    <div class="before-after-inner">
-      <div class="before-after-header">
-        <span class="section-tag">Real Results</span>
-        <h2 class="section-title">SEE THE DIFFERENCE</h2>
-        <p class="section-subtitle">Players report improved performance in just weeks of switching to Neoball.</p>
-      </div>
-
-      <div class="tabs-nav">
-        <button class="tab-btn active" data-tab="handles">Ball Handling</button>
-        <button class="tab-btn" data-tab="shooting">Shooting</button>
-        <button class="tab-btn" data-tab="control">Control</button>
-        <button class="tab-btn" data-tab="durability">Durability</button>
-      </div>
-
-      <div class="tab-content active" data-tab-content="handles">
-        <div class="before-after-grid">
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Marcus J.</div>
-              <div class="before-after-duration">After 4 weeks</div>
-            </div>
-          </div>
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">DeShawn W.</div>
-              <div class="before-after-duration">After 6 weeks</div>
-            </div>
-          </div>
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Sarah T.</div>
-              <div class="before-after-duration">After 8 weeks</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-content" data-tab-content="shooting">
-        <div class="before-after-grid">
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Tyler R.</div>
-              <div class="before-after-duration">After 3 weeks</div>
-            </div>
-          </div>
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">James K.</div>
-              <div class="before-after-duration">After 5 weeks</div>
-            </div>
-          </div>
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Mike L.</div>
-              <div class="before-after-duration">After 4 weeks</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-content" data-tab-content="control">
-        <div class="before-after-grid">
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Chris P.</div>
-              <div class="before-after-duration">After 2 weeks</div>
-            </div>
-          </div>
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Andre M.</div>
-              <div class="before-after-duration">After 6 weeks</div>
-            </div>
-          </div>
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Jordan H.</div>
-              <div class="before-after-duration">After 4 weeks</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-content" data-tab-content="durability">
-        <div class="before-after-grid">
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Standard Ball</div>
-              <div class="before-after-duration">After 6 months outdoor</div>
-            </div>
-          </div>
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Neoball Pro</div>
-              <div class="before-after-duration">After 6 months outdoor</div>
-            </div>
-          </div>
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before">IMG</div>
-              <div class="after">IMG</div>
-            </div>
-            <div class="before-after-info">
-              <div class="before-after-name">Grip Comparison</div>
-              <div class="before-after-duration">Day 1 vs 1 Year</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERTS SECTION -->
-  <section class="experts-section">
-    <div class="section-header">
-      <span class="section-tag">Expert Endorsed</span>
-      <h2 class="section-title">TRUSTED BY THE PROS</h2>
-      <p class="section-subtitle">Professional trainers and coaches recommend Neoball for serious players.</p>
-    </div>
-
-    <div class="experts-grid">
-      <div class="expert-card">
-        <div class="expert-photo">PHOTO</div>
-        <div class="expert-name">Coach Mike Williams</div>
-        <div class="expert-title">NBA Skills Trainer</div>
-        <p class="expert-quote">"The grip consistency is unlike anything I've seen. My players improve faster with Neoball."</p>
-      </div>
-      <div class="expert-card">
-        <div class="expert-photo">PHOTO</div>
-        <div class="expert-name">Dr. Sarah Chen</div>
-        <div class="expert-title">Sports Biomechanist</div>
-        <p class="expert-quote">"The weight distribution and surface texture are scientifically optimized for performance."</p>
-      </div>
-      <div class="expert-card">
-        <div class="expert-photo">PHOTO</div>
-        <div class="expert-name">James "The Shot" Davis</div>
-        <div class="expert-title">Former Pro Player</div>
-        <p class="expert-quote">"I wish this ball existed when I was playing. It's a game changer for ball handling."</p>
-      </div>
-      <div class="expert-card">
-        <div class="expert-photo">PHOTO</div>
-        <div class="expert-name">Lisa Rodriguez</div>
-        <div class="expert-title">WNBA Coach</div>
-        <p class="expert-quote">"We use Neoball exclusively for training. The results speak for themselves."</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- QUIZ CTA SECTION -->
-  <section class="quiz-section">
-    <div class="quiz-inner">
-      <span class="section-tag">Find Your Ball</span>
-      <h2 class="quiz-title">NOT SURE WHICH BALL IS RIGHT FOR YOU?</h2>
-      <p class="quiz-subtitle">Take our 60-second quiz to get personalized recommendations based on your play style and needs.</p>
-      <a href="#" class="quiz-btn">TAKE THE QUIZ</a>
-    </div>
-  </section>
-
-  <!-- FEATURES SECTION -->
-  <section class="features-section" id="technology">
-    <div class="section-header">
-      <span class="section-tag">Technology</span>
-      <h2 class="section-title">INSIDE THE INNOVATION</h2>
-      <p class="section-subtitle">Every element engineered for peak performance</p>
-    </div>
-
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M12 2a10 10 0 0 1 0 20"></path>
-          </svg>
-        </div>
-        <h3 class="feature-title">HYPERGRIP SURFACE</h3>
-        <p class="feature-description">Proprietary microfiber composite provides 40% more grip in all conditions.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-            <path d="M2 17l10 5 10-5"></path>
-            <path d="M2 12l10 5 10-5"></path>
-          </svg>
-        </div>
-        <h3 class="feature-title">AEROCORE CONSTRUCTION</h3>
-        <p class="feature-description">Precision-balanced core delivers consistent bounce and flight path.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.24 12.24a6 6 0 00-8.49-8.49L5 10.5V19h8.5z"></path>
-            <line x1="16" y1="8" x2="2" y2="22"></line>
-            <line x1="17.5" y1="15" x2="9" y2="15"></line>
-          </svg>
-        </div>
-        <h3 class="feature-title">DURASHELL EXTERIOR</h3>
-        <p class="feature-description">Military-grade materials built to last 3x longer than standard balls.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 3v18"></path>
-            <path d="M3 12h18"></path>
-            <circle cx="12" cy="12" r="9"></circle>
-          </svg>
-        </div>
-        <h3 class="feature-title">TRUETOUCH CHANNELS</h3>
-        <p class="feature-description">Ergonomic channel design for natural ball handling and control.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2"></path>
-            <path d="M12 20v2"></path>
-            <path d="M4.93 4.93l1.41 1.41"></path>
-            <path d="M17.66 17.66l1.41 1.41"></path>
-            <path d="M2 12h2"></path>
-            <path d="M20 12h2"></path>
-            <path d="M6.34 17.66l-1.41 1.41"></path>
-            <path d="M19.07 4.93l-1.41 1.41"></path>
-          </svg>
-        </div>
-        <h3 class="feature-title">NIGHTGLOW TECH</h3>
-        <p class="feature-description">High-visibility design performs in any lighting condition.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
-          </svg>
-        </div>
-        <h3 class="feature-title">PERFORMANCE TESTED</h3>
-        <p class="feature-description">Validated by 500+ pro players across 20+ countries.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- REVIEWS SECTION -->
-  <section class="reviews-section" id="reviews">
-    <div class="reviews-header">
-      <div class="section-header" style="text-align: left; margin: 0;">
-        <span class="section-tag">Reviews</span>
-        <h2 class="section-title">WHAT PLAYERS SAY</h2>
-      </div>
-      <div class="reviews-summary">
-        <div class="reviews-score">4.9</div>
-        <div class="reviews-meta">
-          <div class="stars" style="font-size: 1.25rem;">★★★★★</div>
-          <div style="color: var(--c-text-muted);">Based on 2,847 reviews</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="review-header">
-          <div>
-            <div class="reviewer-name">Marcus J.</div>
-            <div class="reviewer-verified">✓ Verified Buyer</div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <div class="review-title">Game changer</div>
-        <p class="review-text">The grip on this ball is insane. I've tried every premium ball out there and nothing comes close. My handles have improved noticeably since switching.</p>
-        <div class="review-date">December 10, 2025</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-header">
-          <div>
-            <div class="reviewer-name">Sarah T.</div>
-            <div class="reviewer-verified">✓ Verified Buyer</div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <div class="review-title">Perfect for outdoor courts</div>
-        <p class="review-text">Finally a ball that holds up on asphalt AND feels great. Most outdoor balls are bricks but this one has real touch. Worth every penny.</p>
-        <div class="review-date">December 8, 2025</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-header">
-          <div>
-            <div class="reviewer-name">DeShawn W.</div>
-            <div class="reviewer-verified">✓ Verified Buyer</div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <div class="review-title">Bought 3 more</div>
-        <p class="review-text">Started with one, now I have them at home, work, and in my car. The consistency of the bounce and the feel is just chef's kiss. 10/10.</p>
-        <div class="review-date">December 5, 2025</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONFIDENCE SECTION -->
-  <section class="confidence-section">
-    <div class="confidence-inner">
-      <h2 class="confidence-title">SHOP WITH TOTAL CONFIDENCE</h2>
-      <div class="confidence-grid">
-        <div class="confidence-item">
-          <div class="confidence-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
-              <polyline points="9,22 9,12 15,12 15,22"></polyline>
-            </svg>
-          </div>
-          <h4>60-DAY FREE RETURNS</h4>
-          <p>Not satisfied? Return it within 60 days for a full refund. We'll even cover the shipping.</p>
-        </div>
-        <div class="confidence-item">
-          <div class="confidence-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <polyline points="9,12 11,14 15,10"></polyline>
-            </svg>
-          </div>
-          <h4>1-YEAR WARRANTY</h4>
-          <p>Your purchase is protected. If anything goes wrong, we'll replace it free of charge.</p>
-        </div>
-        <div class="confidence-item">
-          <div class="confidence-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12,6 12,12 16,14"></polyline>
-            </svg>
-          </div>
-          <h4>FAST FREE SHIPPING</h4>
-          <p>Orders ship within 1-2 business days. Free expedited shipping on all orders.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ SECTION -->
-  <section class="faq-section" id="faq">
-    <div class="section-header">
-      <span class="section-tag">FAQ</span>
-      <h2 class="section-title">GOT QUESTIONS?</h2>
-    </div>
-
-    <div class="faq-container">
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>What size should I get?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            Size 7 (29.5") is the official men's size used in NBA, NCAA, and most adult leagues. Size 6 (28.5") is the official women's size. Size 5 (27.5") is recommended for youth players ages 9-11. When in doubt, Size 7 is the most versatile choice for adult recreational play.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>Is this ball good for indoor and outdoor?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            Yes! The Neoball Pro is specifically engineered for both surfaces. Our DuraShell exterior provides excellent abrasion resistance for outdoor courts while maintaining the soft touch you need for indoor play. It's the only ball you need.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>What's your return policy?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            We offer a 60-day money-back guarantee. If you're not completely satisfied with your Neoball, return it within 60 days for a full refund, no questions asked. We'll even cover return shipping.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>How does the Buy 1 Get 1 Free offer work?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            Simply add one Neoball Pro to your cart and you'll automatically receive a second one free! The free ball will be added during checkout. This offer is valid for a limited time during our Black Friday promotion. Mix and match sizes available.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>How long does shipping take?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            Orders ship within 1-2 business days. Free expedited shipping takes 2-4 business days. Express shipping (1-2 days) is available at checkout for an additional fee. International shipping is available to 50+ countries.
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>What does the warranty cover?</span>
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            Our 1-year warranty covers manufacturing defects including delamination, air leakage, and shape deformation under normal use. Simply contact us with photos and we'll send a replacement. Extended 2-year warranty available with registration.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer class="footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="footer-logo">NEOBALL</div>
-        <p class="footer-tagline">Lock In. Level Up. The future of basketball, engineered for players who demand more.</p>
-        <div class="footer-social">
-          <a href="#" aria-label="Instagram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-              <circle cx="12" cy="12" r="4"></circle>
-              <circle cx="18" cy="6" r="1" fill="currentColor"></circle>
-            </svg>
-          </a>
-          <a href="#" aria-label="Twitter">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-            </svg>
-          </a>
-          <a href="#" aria-label="TikTok">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"></path>
-            </svg>
-          </a>
-          <a href="#" aria-label="YouTube">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"></path>
-              <polygon points="9.75,15.02 15.5,11.75 9.75,8.48"></polygon>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="footer-column">
-        <h4>SHOP</h4>
-        <ul class="footer-links">
-          <li><a href="#">Pro Basketball</a></li>
-          <li><a href="#">Elite Basketball</a></li>
-          <li><a href="#">Bundles</a></li>
-          <li><a href="#">Accessories</a></li>
-          <li><a href="#">Gift Cards</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>SUPPORT</h4>
-        <ul class="footer-links">
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Shipping Info</a></li>
-          <li><a href="#">Returns & Exchanges</a></li>
-          <li><a href="#">Warranty</a></li>
-          <li><a href="#">Track Order</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>COMPANY</h4>
-        <ul class="footer-links">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Our Story</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Press</a></li>
-          <li><a href="#">Affiliate Program</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>&copy; 2025 Neoball. All rights reserved.</p>
-      <div class="payment-icons">
-        <div class="payment-icon">VISA</div>
-        <div class="payment-icon">MC</div>
-        <div class="payment-icon">AMEX</div>
-        <div class="payment-icon">PYPL</div>
-        <div class="payment-icon">SHOP</div>
-      </div>
-    </div>
+    <div class="footer-logo">NEOBALL</div>
+    <p class="footer-text">&copy; 2024 Neoball. All rights reserved.</p>
   </footer>
 
-  <!-- STICKY ADD TO CART -->
-  <div class="sticky-atc" id="stickyAtc">
-    <div class="sticky-atc-inner">
-      <div class="sticky-atc-info">
-        <img src="./balls/balls1.png" alt="Neoball" class="sticky-atc-image">
-        <div>
-          <div class="sticky-atc-title">NEOBALL PRO</div>
-          <div class="sticky-atc-price">
-            <span class="current">$78</span>
-            <span class="original">$88</span>
-          </div>
-        </div>
-      </div>
-      <button class="sticky-atc-btn" id="stickyAtcBtn">ADD TO CART – SHIPS TODAY</button>
-    </div>
-  </div>
 
-  <!-- CART DRAWER -->
-  <div class="cart-drawer-overlay" id="cartOverlay"></div>
-  <div class="cart-drawer" id="cartDrawer">
-    <div class="cart-drawer-header">
-      <span class="cart-drawer-title">YOUR CART (<span id="drawerCartCount">0</span>)</span>
-      <button class="cart-drawer-close" id="cartClose">&times;</button>
-    </div>
-
-    <!-- Free Shipping Progress -->
-    <div class="shipping-progress">
-      <p class="shipping-progress-text">You're <strong>$36</strong> away from FREE shipping!</p>
-      <div class="shipping-progress-bar">
-        <div class="shipping-progress-fill" id="shippingProgressFill"></div>
-      </div>
-    </div>
-
-    <div class="cart-drawer-items" id="cartItems">
-      <div class="cart-empty">Your cart is empty</div>
-    </div>
-
-    <div class="cart-drawer-footer">
-      <!-- Subscribe & Save -->
-      <div class="subscribe-save" id="subscribeSave" style="display: none;">
-        <div class="subscribe-header">
-          <span class="subscribe-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M23 4v6h-6"></path>
-              <path d="M1 20v-6h6"></path>
-              <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"></path>
-            </svg>
-            Subscribe & Save
-          </span>
-          <span class="subscribe-discount">SAVE 15%</span>
-        </div>
-        <p class="subscribe-desc">Get a new ball every 6 months and save 15% on every order.</p>
-        <label class="subscribe-toggle">
-          <input type="checkbox" id="subscribeToggle">
-          <span>Enable subscription</span>
-        </label>
-      </div>
-
-      <!-- Upsells -->
-      <div class="cart-upsells" id="cartUpsells" style="display: none;">
-        <div class="upsells-title">COMPLETE YOUR SETUP</div>
-        <div class="upsell-item">
-          <div class="upsell-image"></div>
-          <div class="upsell-info">
-            <div class="upsell-name">Ball Pump Pro</div>
-            <div class="upsell-price">$24.99</div>
-          </div>
-          <button class="upsell-add">ADD</button>
-        </div>
-        <div class="upsell-item">
-          <div class="upsell-image"></div>
-          <div class="upsell-info">
-            <div class="upsell-name">Grip Enhancer Spray</div>
-            <div class="upsell-price">$14.99</div>
-          </div>
-          <button class="upsell-add">ADD</button>
-        </div>
-      </div>
-
-      <div class="cart-savings" id="cartSavings" style="display: none;">
-        <span>You're saving</span>
-        <span id="savingsAmount">$100</span>
-      </div>
-
-      <div class="cart-total">
-        <span>Total</span>
-        <span class="cart-total-price" id="cartTotal">$0</span>
-      </div>
-
-      <button class="cart-checkout-btn">CHECKOUT</button>
-      <p class="cart-checkout-sub">Taxes and shipping calculated at checkout</p>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT -->
+  <!-- Main Scripts -->
   <script>
-    // ========================================
-    // STATE
-    // ========================================
-    const state = {
-      cart: [],
-      quantity: 1,
-      price: 78,
-      originalPrice: 88
-    };
+    // Loader Animation
+    const loader = document.getElementById('loader');
+    const loaderLine = document.getElementById('loaderLine');
+    const loaderProgress = document.getElementById('loaderProgress');
 
-    // ========================================
-    // DOM ELEMENTS
-    // ========================================
-    const elements = {
-      cartBtn: document.getElementById('cartBtn'),
-      cartCount: document.getElementById('cartCount'),
-      cartDrawer: document.getElementById('cartDrawer'),
-      cartOverlay: document.getElementById('cartOverlay'),
-      cartClose: document.getElementById('cartClose'),
-      cartItems: document.getElementById('cartItems'),
-      cartTotal: document.getElementById('cartTotal'),
-      drawerCartCount: document.getElementById('drawerCartCount'),
-      addToCartBtn: document.getElementById('addToCartBtn'),
-      stickyAtc: document.getElementById('stickyAtc'),
-      stickyAtcBtn: document.getElementById('stickyAtcBtn'),
-      productHero: document.getElementById('productHero'),
-      mainImage: document.getElementById('mainImage'),
-      thumbnails: document.querySelectorAll('.thumbnail'),
-      faqItems: document.querySelectorAll('.faq-item'),
-      tabBtns: document.querySelectorAll('.tab-btn'),
-      tabContents: document.querySelectorAll('.tab-content'),
-      shippingProgressFill: document.getElementById('shippingProgressFill'),
-      subscribeSave: document.getElementById('subscribeSave'),
-      cartUpsells: document.getElementById('cartUpsells'),
-      cartSavings: document.getElementById('cartSavings')
-    };
+    let progress = 0;
+    loader.classList.add('active');
 
-    // ========================================
-    // GALLERY
-    // ========================================
-    const galleryImages = [
-      './balls/balls1.png',
-      './balls/balls2.png',
-      './balls/balls3.png',
-      './balls/balls4.png',
-      './balls/balls5.png'
-    ];
+    function updateLoader() {
+      progress += Math.random() * 15 + 5;
+      if (progress > 100) progress = 100;
 
-    elements.thumbnails.forEach((thumb, index) => {
-      thumb.addEventListener('click', () => {
-        elements.thumbnails.forEach(t => t.classList.remove('active'));
-        thumb.classList.add('active');
-        elements.mainImage.src = galleryImages[index];
-      });
-    });
+      loaderLine.style.transform = `translateY(-50%) scaleX(${progress / 100})`;
+      loaderProgress.textContent = Math.round(progress) + '%';
 
-    // ========================================
-    // TABS (Before/After)
-    // ========================================
-    elements.tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tabId = btn.dataset.tab;
-
-        // Update buttons
-        elements.tabBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // Update content
-        elements.tabContents.forEach(content => {
-          content.classList.remove('active');
-          if (content.dataset.tabContent === tabId) {
-            content.classList.add('active');
-          }
-        });
-      });
-    });
-
-    // ========================================
-    // ADD TO CART
-    // ========================================
-    function addToCart() {
-      const btn = elements.addToCartBtn;
-      btn.classList.add('loading');
-
-      setTimeout(() => {
-        const item = {
-          id: 'neoball-pro',
-          name: 'Neoball Pro Basketball',
-          quantity: 1,
-          price: state.price,
-          originalPrice: state.originalPrice
-        };
-
-        // Check if item already exists
-        const existingIndex = state.cart.findIndex(i => i.id === item.id);
-        if (existingIndex > -1) {
-          state.cart[existingIndex].quantity += 1;
-        } else {
-          state.cart.push(item);
-        }
-
-        updateCartUI();
-        openCartDrawer();
-        btn.classList.remove('loading');
-      }, 800);
-    }
-
-    elements.addToCartBtn.addEventListener('click', addToCart);
-    elements.stickyAtcBtn.addEventListener('click', addToCart);
-
-    // ========================================
-    // CART UI
-    // ========================================
-    function updateCartUI() {
-      const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
-      const totalPrice = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      const totalSavings = state.cart.reduce((sum, item) => sum + ((item.originalPrice - item.price) * item.quantity), 0);
-
-      elements.cartCount.textContent = totalItems;
-      elements.drawerCartCount.textContent = totalItems;
-      elements.cartTotal.textContent = `$${totalPrice}`;
-
-      // Update shipping progress (free shipping at $75)
-      const shippingThreshold = 75;
-      const remaining = Math.max(0, shippingThreshold - totalPrice);
-      const progress = Math.min(100, (totalPrice / shippingThreshold) * 100);
-      elements.shippingProgressFill.style.width = `${progress}%`;
-
-      if (state.cart.length === 0) {
-        elements.cartItems.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
-        elements.subscribeSave.style.display = 'none';
-        elements.cartUpsells.style.display = 'none';
-        elements.cartSavings.style.display = 'none';
+      if (progress < 100) {
+        setTimeout(updateLoader, 100 + Math.random() * 100);
       } else {
-        elements.cartItems.innerHTML = state.cart.map(item => `
-          <div class="cart-item">
-            <img src="./balls/balls1.png" alt="${item.name}" class="cart-item-image">
-            <div class="cart-item-details">
-              <div class="cart-item-title">${item.name}</div>
-              <div class="cart-item-variant">Size 7 • Qty: ${item.quantity}</div>
-              <div class="cart-item-price">$${item.price * item.quantity}</div>
-            </div>
-          </div>
-        `).join('');
-
-        // Show subscribe & save, upsells, and savings
-        elements.subscribeSave.style.display = 'block';
-        elements.cartUpsells.style.display = 'block';
-        elements.cartSavings.style.display = 'flex';
-        document.getElementById('savingsAmount').textContent = `$${totalSavings}`;
-      }
-    }
-
-    // ========================================
-    // CART DRAWER
-    // ========================================
-    function openCartDrawer() {
-      elements.cartDrawer.classList.add('open');
-      elements.cartOverlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeCartDrawer() {
-      elements.cartDrawer.classList.remove('open');
-      elements.cartOverlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    elements.cartBtn.addEventListener('click', openCartDrawer);
-    elements.cartClose.addEventListener('click', closeCartDrawer);
-    elements.cartOverlay.addEventListener('click', closeCartDrawer);
-
-    // ========================================
-    // STICKY ADD TO CART
-    // ========================================
-    const heroObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        elements.stickyAtc.classList.toggle('visible', !entry.isIntersecting);
-      });
-    }, { threshold: 0 });
-
-    heroObserver.observe(elements.productHero);
-
-    // ========================================
-    // FAQ ACCORDION
-    // ========================================
-    elements.faqItems.forEach(item => {
-      const question = item.querySelector('.faq-question');
-      question.addEventListener('click', () => {
-        const isOpen = item.classList.contains('open');
-        elements.faqItems.forEach(i => i.classList.remove('open'));
-        if (!isOpen) {
-          item.classList.add('open');
-        }
-      });
-    });
-
-    // ========================================
-    // SMOOTH SCROLL
-    // ========================================
-    document.querySelectorAll('[data-scroll-to]').forEach(el => {
-      el.addEventListener('click', () => {
-        const target = document.getElementById(el.dataset.scrollTo);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-
-    // ========================================
-    // HEADER HIDE ON SCROLL
-    // ========================================
-    let lastScrollY = 0;
-    const header = document.getElementById('header');
-
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        header.classList.add('hidden');
-      } else {
-        header.classList.remove('hidden');
-      }
-      lastScrollY = currentScrollY;
-    });
-
-    // ========================================
-    // UPSELL ADD BUTTONS
-    // ========================================
-    document.querySelectorAll('.upsell-add').forEach(btn => {
-      btn.addEventListener('click', function() {
-        this.textContent = 'ADDED';
-        this.style.background = 'var(--c-success)';
-        this.style.borderColor = 'var(--c-success)';
-        this.style.color = 'var(--c-bg)';
         setTimeout(() => {
-          this.textContent = 'ADD';
-          this.style.background = '';
-          this.style.borderColor = '';
-          this.style.color = '';
-        }, 2000);
+          loader.classList.add('reveal');
+          setTimeout(() => {
+            loader.classList.add('hidden');
+          }, 800);
+        }, 300);
+      }
+    }
+
+    // Start loader after fonts load
+    document.fonts.ready.then(() => {
+      setTimeout(updateLoader, 200);
+    });
+
+    // State
+    let currentSize = '7';
+    let selectedPackage = 'blueprint';
+
+    // DOM Elements
+    const sizeCard7 = document.getElementById('sizeCard7');
+    const sizeCard6 = document.getElementById('sizeCard6');
+    const pkgStandard = document.getElementById('pkgStandard');
+    const pkgBlueprint = document.getElementById('pkgBlueprint');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaText = document.getElementById('ctaText');
+    const ctaPrice = document.getElementById('ctaPrice');
+    const stickyBar = document.getElementById('stickyBar');
+    const stickyBtn = document.getElementById('stickyBtn');
+
+    // Size Selection
+    function selectSize(size) {
+      currentSize = size;
+
+      // Toggle card states
+      sizeCard7.classList.toggle('active', size === '7');
+      sizeCard6.classList.toggle('active', size === '6');
+    }
+
+    // Package Selection
+    function selectPackage(pkg) {
+      selectedPackage = pkg;
+
+      // Update package card states
+      pkgStandard.classList.toggle('selected', pkg === 'standard');
+      pkgBlueprint.classList.toggle('selected', pkg === 'blueprint');
+
+      // Update CTA button
+      const stickyPrice = document.getElementById('stickyPrice');
+      const stickyTierName = document.getElementById('stickyTierName');
+
+      if (pkg === 'blueprint') {
+        ctaText.textContent = 'GET THE D1 BLUEPRINT';
+        ctaPrice.textContent = '· $168';
+        if (stickyPrice) stickyPrice.textContent = '$168';
+        if (stickyTierName) stickyTierName.textContent = 'D1 BLUEPRINT';
+      } else {
+        ctaText.textContent = 'GET THE BALL';
+        ctaPrice.textContent = '· $79';
+        if (stickyPrice) stickyPrice.textContent = '$79';
+        if (stickyTierName) stickyTierName.textContent = 'STANDARD';
+      }
+    }
+
+    // Sticky Bar - Show when scrolled past CTA
+    const ctaObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          stickyBar.classList.remove('visible');
+        } else {
+          stickyBar.classList.add('visible');
+        }
+      });
+    }, { threshold: 0, rootMargin: '-100px 0px 0px 0px' });
+
+    ctaObserver.observe(ctaBtn);
+
+    // Thumbnail Gallery
+    document.querySelectorAll('.thumbnail').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+        document.getElementById('mainImage').src = thumb.dataset.src;
       });
     });
 
-    // ========================================
-    // INIT
-    // ========================================
-    updateCartUI();
-  </script>
+    // Scroll Reveal - Subtle fade in
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in');
+            observer.unobserve(entry.target);
+          }
+        }
+      }, { threshold: 0.12 });
 
-  <!-- Splide JS for carousel (ready for future enhancement) -->
-  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+      reveals.forEach(el => observer.observe(el));
+    })();
+
+    // FAQ Accordion Toggle
+    function toggleFaq(btn) {
+      const faqItem = btn.parentElement;
+      const icon = btn.querySelector('i');
+      const isOpen = faqItem.classList.contains('open');
+
+      // Close all other FAQs
+      document.querySelectorAll('.faq-item.open').forEach(item => {
+        item.classList.remove('open');
+        item.querySelector('i').classList.remove('fa-minus');
+        item.querySelector('i').classList.add('fa-plus');
+      });
+
+      // Toggle current
+      if (!isOpen) {
+        faqItem.classList.add('open');
+        icon.classList.remove('fa-plus');
+        icon.classList.add('fa-minus');
+      }
+    }
+  </script>
 </body>
 </html>
