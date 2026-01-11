@@ -601,15 +601,16 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: #fff;
-      background: linear-gradient(110deg, #FF1493 0%, #FF69B4 45%, #FF1493 55%, #FF1493 100%);
+      background: linear-gradient(110deg, #00F6E0 0%, #00D4C4 45%, #00F6E0 55%, #00F6E0 100%);
       background-size: 200% 100%;
       border: none;
       border-radius: 12px;
       cursor: pointer;
       text-decoration: none;
       overflow: hidden;
+      color: #0a0a0a;
       box-shadow:
-        0 0 20px rgba(255, 20, 147, 0.4),
+        0 0 20px rgba(0, 246, 224, 0.4),
         0 4px 15px rgba(0, 0, 0, 0.3);
       transition: all 0.3s ease;
     }
@@ -643,9 +644,9 @@
     .neoball-btn:hover {
       transform: translateX(-50%) translateY(-2px) scale(1.02);
       box-shadow:
-        0 0 40px rgba(255, 20, 147, 0.8),
-        0 0 80px rgba(255, 20, 147, 0.5),
-        0 0 120px rgba(255, 20, 147, 0.3),
+        0 0 40px rgba(0, 246, 224, 0.8),
+        0 0 80px rgba(0, 246, 224, 0.5),
+        0 0 120px rgba(0, 246, 224, 0.3),
         0 8px 30px rgba(0, 0, 0, 0.3);
     }
 
@@ -1207,14 +1208,14 @@
     .waitlist-modal__badge {
       display: inline-block;
       padding: 6px 16px;
-      background: rgba(255, 20, 147, 0.1);
-      border: 1px solid rgba(255, 20, 147, 0.3);
+      background: rgba(0, 246, 224, 0.1);
+      border: 1px solid rgba(0, 246, 224, 0.3);
       border-radius: 999px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #FF1493;
+      color: #00F6E0;
       margin-bottom: 16px;
     }
 
@@ -1307,16 +1308,44 @@
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
+      position: relative;
     }
 
     .waitlist-size:hover {
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(0, 246, 224, 0.4);
+      background: rgba(0, 246, 224, 0.03);
     }
 
     .waitlist-size--active {
       border-color: #00F6E0;
       background: rgba(0, 246, 224, 0.1);
+      box-shadow: 0 0 20px rgba(0, 246, 224, 0.3), inset 0 0 15px rgba(0, 246, 224, 0.05);
+    }
+
+    /* Checkmark for active state */
+    .waitlist-size--active::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 20px;
+      height: 20px;
+      background: #00F6E0;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: bold;
+      color: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: checkPop 0.3s ease;
+    }
+
+    @keyframes checkPop {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
 
     .waitlist-size__value {
@@ -1327,6 +1356,7 @@
 
     .waitlist-size--active .waitlist-size__value {
       color: #00F6E0;
+      text-shadow: 0 0 10px rgba(0, 246, 224, 0.5);
     }
 
     .waitlist-size__desc {
@@ -1334,6 +1364,10 @@
       font-size: 11px;
       color: rgba(255, 255, 255, 0.5);
       margin-top: 4px;
+    }
+
+    .waitlist-size--active .waitlist-size__desc {
+      color: rgba(0, 246, 224, 0.8);
     }
 
     .waitlist-form__input {
@@ -1415,7 +1449,7 @@
     .waitlist-form__submit {
       width: 100%;
       padding: 16px;
-      background: linear-gradient(135deg, #FF1493, rgba(255, 20, 147, 0.8));
+      background: linear-gradient(135deg, #00F6E0, rgba(0, 246, 224, 0.8));
       border: none;
       border-radius: 8px;
       font-family: 'Inter', sans-serif;
@@ -1423,16 +1457,16 @@
       font-size: 15px;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #fff;
+      color: #0a0a0a;
       cursor: pointer;
-      box-shadow: 0 0 30px rgba(255, 20, 147, 0.4);
+      box-shadow: 0 0 30px rgba(0, 246, 224, 0.4);
       transition: all 0.3s;
     }
 
     .waitlist-form__submit:hover:not(:disabled) {
-      background: linear-gradient(135deg, #00F6E0, rgba(0, 246, 224, 0.8));
+      background: linear-gradient(135deg, #00D4C4, rgba(0, 200, 180, 0.9));
       color: #0a0a0a;
-      box-shadow: 0 0 40px rgba(0, 246, 224, 0.5);
+      box-shadow: 0 0 40px rgba(0, 246, 224, 0.6);
     }
 
     .waitlist-form__submit:disabled {
@@ -1483,7 +1517,7 @@
     .waitlist-reveal__card {
       width: 200px;
       height: 260px;
-      background: linear-gradient(180deg, rgba(30, 30, 30, 1) 0%, rgba(10, 10, 10, 1) 100%);
+      background: linear-gradient(180deg, rgba(30, 30, 30, 1) 0%, rgba(15, 15, 15, 1) 100%);
       border: 2px solid rgba(0, 246, 224, 0.5);
       border-radius: 16px;
       padding: 24px;
@@ -1495,6 +1529,70 @@
         0 0 60px rgba(0, 246, 224, 0.3),
         inset 0 0 30px rgba(0, 246, 224, 0.1);
       animation: cardGlow 2s ease-in-out infinite alternate;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Holographic FIFA-style shimmer overlay */
+    .waitlist-reveal__card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 20%,
+        rgba(0, 246, 224, 0.05) 35%,
+        rgba(255, 215, 0, 0.08) 40%,
+        rgba(0, 246, 224, 0.1) 45%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(0, 246, 224, 0.1) 55%,
+        rgba(255, 215, 0, 0.08) 60%,
+        rgba(0, 246, 224, 0.05) 65%,
+        transparent 80%
+      );
+      background-size: 300% 300%;
+      animation: holoShimmer 4s ease-in-out infinite;
+      pointer-events: none;
+      border-radius: 14px;
+    }
+
+    /* Prismatic edge glow */
+    .waitlist-reveal__card::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(
+        45deg,
+        #00F6E0,
+        #00D4C4,
+        #FFD700,
+        #00F6E0,
+        #FF69B4,
+        #00F6E0
+      );
+      background-size: 400% 400%;
+      border-radius: 18px;
+      z-index: -1;
+      animation: holoBorder 6s ease-in-out infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes holoShimmer {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    @keyframes holoBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     @keyframes cardGlow {
@@ -1572,7 +1670,7 @@
       width: 160px;
       height: 200px;
       margin: 0 auto 24px;
-      background: linear-gradient(180deg, rgba(30, 30, 30, 1) 0%, rgba(10, 10, 10, 1) 100%);
+      background: linear-gradient(180deg, rgba(30, 30, 30, 1) 0%, rgba(15, 15, 15, 1) 100%);
       border: 1px solid rgba(0, 246, 224, 0.3);
       border-radius: 12px;
       padding: 16px;
@@ -1581,6 +1679,32 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 0 30px rgba(0, 246, 224, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Holographic shimmer for result card */
+    .waitlist-result__card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 30%,
+        rgba(0, 246, 224, 0.05) 40%,
+        rgba(255, 215, 0, 0.06) 45%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 215, 0, 0.06) 55%,
+        rgba(0, 246, 224, 0.05) 60%,
+        transparent 70%
+      );
+      background-size: 250% 250%;
+      animation: holoShimmer 5s ease-in-out infinite;
+      pointer-events: none;
+      border-radius: 11px;
     }
 
     .waitlist-result__logo {
@@ -1617,7 +1741,7 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 20px;
       letter-spacing: 0.05em;
-      color: #FF1493;
+      color: #00F6E0;
       margin: 0;
     }
 
@@ -1659,7 +1783,7 @@
 
     .waitlist-result__progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #00F6E0, #FF1493);
+      background: linear-gradient(90deg, #00F6E0, #00D4C4);
       border-radius: 4px;
       transition: width 0.5s ease;
     }
@@ -1754,14 +1878,14 @@
       height: 20px;
     }
 
-    /* Skip the Line */
+    /* Skip the Line - Founders Gold */
     .waitlist-result__skip {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 16px;
-      background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(0, 246, 224, 0.1));
-      border: 1px solid rgba(255, 20, 147, 0.2);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 180, 0, 0.05));
+      border: 1px solid rgba(255, 215, 0, 0.3);
       border-radius: 12px;
       margin-top: 24px;
     }
@@ -1788,19 +1912,21 @@
 
     .waitlist-result__skip-btn {
       padding: 10px 20px;
-      background: #FF1493;
+      background: linear-gradient(135deg, #FFD700, #F5A623);
       border-radius: 8px;
       font-family: 'Inter', sans-serif;
       font-weight: 700;
       font-size: 14px;
-      color: #fff;
+      color: #0a0a0a;
       text-decoration: none;
       transition: all 0.2s;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
     }
 
     .waitlist-result__skip-btn:hover {
-      background: #00F6E0;
-      color: #0a0a0a;
+      background: linear-gradient(135deg, #FFE44D, #FFD700);
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+      transform: translateY(-1px);
     }
 
     /* Dashboard link */
@@ -2057,7 +2183,7 @@
 
           <!-- Submit button -->
           <button type="submit" class="waitlist-form__submit" id="submitBtn" disabled>
-            ENTER THE DRAFT
+            DECLARE ELIGIBILITY
           </button>
         </form>
 
@@ -2156,7 +2282,7 @@
             <p class="waitlist-result__skip-title">Skip the Line</p>
             <p class="waitlist-result__skip-desc">Secure your ball + jump to top 100</p>
           </div>
-          <a href="https://shop.youthperformance.com/products/neoball" target="_blank" rel="noopener" class="waitlist-result__skip-btn">$149</a>
+          <a href="https://shop.youthperformance.com/products/neoball" target="_blank" rel="noopener" class="waitlist-result__skip-btn">$168</a>
         </div>
 
         <!-- Dashboard link -->
@@ -2614,7 +2740,7 @@
         readyCheckbox.checked = false;
         submitBtn.disabled = true;
         formError.style.display = 'none';
-        submitBtn.textContent = 'ENTER THE DRAFT';
+        submitBtn.textContent = 'DECLARE ELIGIBILITY';
 
         // Reset phases
         phaseForm.style.display = 'block';
@@ -2747,14 +2873,16 @@
 
       function shareTwitter() {
         const link = getReferralLink();
-        const text = 'Just locked in my spot for NeoBall - silent basketball so I can train anywhere. Get in before it\'s sold out';
+        const position = waitlistResult?.effectivePosition || 0;
+        const text = `Just declared for the NeoBall Alpha 8 Draft 🐺\n\n#${position} in line for the LA training camp with James Scott + Adam Harrington.\n\n888 spots. Top 8 get flown out.`;
         const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(link)}`;
         window.open(url, '_blank', 'noopener,noreferrer');
       }
 
       function shareSms() {
         const link = getReferralLink();
-        const text = `Yo check this out - silent basketball so you can train anywhere. Use my link: ${link}`;
+        const position = waitlistResult?.effectivePosition || 0;
+        const text = `Yo I just got #${position} in the NeoBall Alpha 8 Draft. They're flying the top 8 to LA to train with pro coaches. Use my link and let's both climb the board: ${link}`;
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const smsUrl = isIOS ? `sms:&body=${encodeURIComponent(text)}` : `sms:?body=${encodeURIComponent(text)}`;
         window.location.href = smsUrl;
@@ -2763,8 +2891,8 @@
       function shareEmail() {
         const link = getReferralLink();
         const position = waitlistResult?.effectivePosition || 0;
-        const subject = 'Check out NeoBall - Silent Basketball';
-        const body = `Hey,\n\nI just got on the waitlist for NeoBall - it's a silent basketball so you can train anywhere without the noise.\n\nI'm #${position} on the waitlist. Use my link to join:\n${link}\n\nLet's get our spots!`;
+        const subject = 'I\'m in the NeoBall Alpha 8 Draft - join me';
+        const body = `Yo,\n\nJust declared for the NeoBall Alpha 8 Draft - I'm #${position} right now.\n\nThey're flying the TOP 8 referrers to LA for a $4,999 training camp with James Scott (Adam Sandler's trainer) and Adam Harrington (Kobe's shooting coach).\n\nUse my link to join and help me climb:\n${link}\n\n888 spots total. Let's get it.`;
         window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       }
 
@@ -2786,7 +2914,7 @@
         // Show loading state
         formError.style.display = 'none';
         submitBtn.disabled = true;
-        submitBtn.textContent = 'ENTERING DRAFT...';
+        submitBtn.textContent = 'DECLARING...';
         submitBtn.classList.add('loading');
 
         try {
@@ -2802,14 +2930,14 @@
             formError.textContent = result.error || 'Something went wrong';
             formError.style.display = 'block';
             submitBtn.disabled = false;
-            submitBtn.textContent = 'ENTER THE DRAFT';
+            submitBtn.textContent = 'DECLARE ELIGIBILITY';
             submitBtn.classList.remove('loading');
           }
         } catch (error) {
           formError.textContent = 'Something went wrong. Please try again.';
           formError.style.display = 'block';
           submitBtn.disabled = false;
-          submitBtn.textContent = 'ENTER THE DRAFT';
+          submitBtn.textContent = 'DECLARE ELIGIBILITY';
           submitBtn.classList.remove('loading');
         }
       }
