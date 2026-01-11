@@ -582,38 +582,42 @@
       }
     }
 
+    /* ========================================
+       ANIMATED SHINY BUTTON (Eldora UI Style)
+       ======================================== */
     .neoball-btn {
       position: fixed;
-      bottom: 8%;
+      bottom: 12%;
       left: 50%;
       transform: translateX(-50%);
       z-index: 130;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 20, 147, 0.85);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      color: #fff;
-      border: 1px solid rgba(255, 20, 147, 0.6);
-      padding: 16px 44px;
+      padding: 16px 48px;
       font-family: 'Inter', sans-serif;
       font-weight: 700;
       font-size: 16px;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
+      color: #fff;
+      background: linear-gradient(135deg, #FF1493 0%, #FF69B4 50%, #FF1493 100%);
+      background-size: 200% 200%;
+      border: none;
+      border-radius: 12px;
       cursor: pointer;
-      box-shadow:
-        0 0 20px rgba(255, 20, 147, 0.4),
-        0 4px 24px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      border-radius: 8px;
       text-decoration: none;
       overflow: hidden;
+      isolation: isolate;
+      animation: shinyButtonGlow 3s ease-in-out infinite, shinyButtonBg 4s ease infinite;
+      box-shadow:
+        0 0 20px rgba(255, 20, 147, 0.5),
+        0 0 40px rgba(255, 20, 147, 0.3),
+        0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    /* Gradient sweep overlay */
+    /* Shimmer sweep animation */
     .neoball-btn::before {
       content: '';
       position: absolute;
@@ -622,44 +626,105 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(
-        90deg,
+        120deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.2) 50%,
+        transparent 30%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 70%,
         transparent 100%
       );
-      transition: left 0.6s ease;
+      animation: shinyButtonSweep 2.5s ease-in-out infinite;
+      z-index: 1;
     }
 
-    /* Bottom accent line */
+    /* Rotating border glow */
     .neoball-btn::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #00f6e0, transparent);
-      transition: width 0.4s ease;
+      inset: -2px;
+      border-radius: 14px;
+      background: conic-gradient(
+        from 0deg,
+        #FF1493,
+        #FF69B4,
+        #FFB6C1,
+        #FF69B4,
+        #FF1493
+      );
+      z-index: -1;
+      animation: shinyButtonRotate 3s linear infinite;
+      opacity: 0.7;
+    }
+
+    /* Inner text needs relative for z-index stacking */
+    .neoball-btn > span {
+      position: relative;
+    }
+
+    @keyframes shinyButtonSweep {
+      0% {
+        left: -100%;
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        left: 100%;
+        opacity: 0;
+      }
+    }
+
+    @keyframes shinyButtonGlow {
+      0%, 100% {
+        box-shadow:
+          0 0 20px rgba(255, 20, 147, 0.5),
+          0 0 40px rgba(255, 20, 147, 0.3),
+          0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+      50% {
+        box-shadow:
+          0 0 30px rgba(255, 20, 147, 0.7),
+          0 0 60px rgba(255, 20, 147, 0.4),
+          0 0 80px rgba(255, 20, 147, 0.2),
+          0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    @keyframes shinyButtonBg {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    @keyframes shinyButtonRotate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     .neoball-btn:hover {
-      background: rgba(0, 246, 224, 0.9);
-      color: #0a0a0a;
-      border-color: rgba(0, 246, 224, 0.8);
-      transform: translateX(-50%) translateY(-2px);
+      transform: translateX(-50%) translateY(-3px) scale(1.02);
       box-shadow:
-        0 0 40px rgba(0, 246, 224, 0.5),
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 0 40px rgba(255, 20, 147, 0.8),
+        0 0 80px rgba(255, 20, 147, 0.5),
+        0 0 120px rgba(255, 20, 147, 0.3),
+        0 8px 30px rgba(0, 0, 0, 0.3);
     }
 
     .neoball-btn:hover::before {
-      left: 100%;
+      animation: shinyButtonSweep 1.5s ease-in-out infinite;
     }
 
     .neoball-btn:hover::after {
-      width: 70%;
+      opacity: 1;
+      animation: shinyButtonRotate 2s linear infinite;
     }
 
     .neoball-btn:active {
@@ -668,9 +733,14 @@
 
     @media (max-width: 767px) {
       .neoball-btn {
-        padding: 12px 30px;
+        padding: 14px 36px;
         font-size: 14px;
-        bottom: 5%;
+        bottom: 10%;
+        border-radius: 10px;
+      }
+
+      .neoball-btn::after {
+        border-radius: 12px;
       }
 
       .neoball-logo-link {
@@ -869,10 +939,10 @@
       }
 
       .neoball-btn {
-        bottom: 7%;
-        padding: 16px 44px;
-        font-size: 16px;
-        letter-spacing: 0.18em;
+        bottom: 10%;
+        padding: 18px 52px;
+        font-size: 17px;
+        letter-spacing: 0.16em;
       }
     }
 
@@ -1200,6 +1270,722 @@
       .deco-ball--7 { bottom: 10%; left: 15%; }
       .deco-ball--8 { top: 35%; right: 2%; }
     }
+
+    /* ========================================
+       WAITLIST MODAL - Glassmorphism
+       ======================================== */
+    .waitlist-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .waitlist-modal.open {
+      display: flex;
+    }
+
+    .waitlist-modal__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .waitlist-modal__glass {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(100, 150, 255, 0.04) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .waitlist-modal__close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 24px;
+      z-index: 10;
+      transition: color 0.2s;
+    }
+
+    .waitlist-modal__close:hover {
+      color: #fff;
+    }
+
+    .waitlist-phase {
+      padding: 32px;
+    }
+
+    /* Modal Header */
+    .waitlist-modal__header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .waitlist-modal__badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(255, 20, 147, 0.1);
+      border: 1px solid rgba(255, 20, 147, 0.3);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #FF1493;
+      margin-bottom: 16px;
+    }
+
+    .waitlist-modal__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 0.08em;
+      color: #fff;
+      margin: 0;
+    }
+
+    .waitlist-modal__subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #00F6E0;
+      margin: 8px 0 4px;
+    }
+
+    .waitlist-modal__desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0;
+    }
+
+    /* Social Proof */
+    .waitlist-modal__proof {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 16px;
+    }
+
+    .waitlist-modal__proof span {
+      color: #00F6E0;
+    }
+
+    /* Referrer Badge */
+    .waitlist-modal__referrer {
+      text-align: center;
+      padding: 12px;
+      background: rgba(0, 246, 224, 0.05);
+      border: 1px solid rgba(0, 246, 224, 0.2);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #00F6E0;
+      margin-bottom: 24px;
+    }
+
+    .waitlist-modal__referrer::before {
+      content: '';
+      margin-right: 8px;
+    }
+
+    /* Form */
+    .waitlist-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .waitlist-form__field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .waitlist-form__label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .waitlist-form__sizes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .waitlist-size {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .waitlist-size:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .waitlist-size--active {
+      border-color: #00F6E0;
+      background: rgba(0, 246, 224, 0.1);
+    }
+
+    .waitlist-size__value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: #fff;
+    }
+
+    .waitlist-size--active .waitlist-size__value {
+      color: #00F6E0;
+    }
+
+    .waitlist-size__desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+    }
+
+    .waitlist-form__input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .waitlist-form__input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .waitlist-form__input:focus {
+      border-color: #00F6E0;
+    }
+
+    /* Checkbox */
+    .waitlist-form__checkbox {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .waitlist-form__checkbox input {
+      display: none;
+    }
+
+    .waitlist-form__checkmark {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .waitlist-form__checkbox:hover .waitlist-form__checkmark {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .waitlist-form__checkbox input:checked + .waitlist-form__checkmark {
+      background: #00F6E0;
+      border-color: #00F6E0;
+    }
+
+    .waitlist-form__checkbox input:checked + .waitlist-form__checkmark::after {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 9px;
+      border: solid #0a0a0a;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translateY(-1px);
+    }
+
+    /* Error */
+    .waitlist-form__error {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #FF4444;
+      text-align: center;
+      margin: 0;
+    }
+
+    /* Submit */
+    .waitlist-form__submit {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #FF1493, rgba(255, 20, 147, 0.8));
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(255, 20, 147, 0.4);
+      transition: all 0.3s;
+    }
+
+    .waitlist-form__submit:hover:not(:disabled) {
+      background: linear-gradient(135deg, #00F6E0, rgba(0, 246, 224, 0.8));
+      color: #0a0a0a;
+      box-shadow: 0 0 40px rgba(0, 246, 224, 0.5);
+    }
+
+    .waitlist-form__submit:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .waitlist-form__submit.loading {
+      pointer-events: none;
+    }
+
+    .waitlist-modal__footer {
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 16px;
+    }
+
+    /* ========================================
+       REVEAL PHASE
+       ======================================== */
+    .waitlist-reveal {
+      position: relative;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .waitlist-reveal__scan {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00F6E0, transparent);
+      animation: scanLine 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scanLine {
+      0%, 100% { top: 0; opacity: 0; }
+      50% { top: 100%; opacity: 1; }
+    }
+
+    .waitlist-reveal__card {
+      width: 200px;
+      height: 260px;
+      background: linear-gradient(180deg, rgba(30, 30, 30, 1) 0%, rgba(10, 10, 10, 1) 100%);
+      border: 2px solid rgba(0, 246, 224, 0.5);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 60px rgba(0, 246, 224, 0.3),
+        inset 0 0 30px rgba(0, 246, 224, 0.1);
+      animation: cardGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes cardGlow {
+      0% { box-shadow: 0 0 30px rgba(0, 246, 224, 0.2), inset 0 0 20px rgba(0, 246, 224, 0.05); }
+      100% { box-shadow: 0 0 60px rgba(0, 246, 224, 0.4), inset 0 0 30px rgba(0, 246, 224, 0.1); }
+    }
+
+    .waitlist-reveal__logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: #00F6E0;
+      margin-bottom: 16px;
+    }
+
+    .waitlist-reveal__rank-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 8px;
+    }
+
+    .waitlist-reveal__rank {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(0, 246, 224, 0.5);
+    }
+
+    .waitlist-reveal__tier {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .waitlist-reveal__emoji {
+      font-size: 28px;
+    }
+
+    .waitlist-reveal__tier-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 4px;
+    }
+
+    .waitlist-reveal__footer {
+      position: absolute;
+      bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .waitlist-reveal__status {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 32px;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* ========================================
+       RESULT PHASE
+       ======================================== */
+    .waitlist-result__card {
+      width: 160px;
+      height: 200px;
+      margin: 0 auto 24px;
+      background: linear-gradient(180deg, rgba(30, 30, 30, 1) 0%, rgba(10, 10, 10, 1) 100%);
+      border: 1px solid rgba(0, 246, 224, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px rgba(0, 246, 224, 0.2);
+    }
+
+    .waitlist-result__logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: #00F6E0;
+      margin-bottom: 8px;
+    }
+
+    .waitlist-result__rank {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: #fff;
+    }
+
+    .waitlist-result__tier {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Verdict */
+    .waitlist-result__verdict {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .waitlist-result__verdict h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.05em;
+      color: #FF1493;
+      margin: 0;
+    }
+
+    .waitlist-result__verdict.alpha8 h3 {
+      color: #00FF88;
+    }
+
+    .waitlist-result__verdict p {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 8px 0 0;
+    }
+
+    /* Progress */
+    .waitlist-result__progress {
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 24px;
+    }
+
+    .waitlist-result__progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 8px;
+    }
+
+    .waitlist-result__progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .waitlist-result__progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00F6E0, #FF1493);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .waitlist-result__progress-hint {
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 8px 0 0;
+    }
+
+    /* Referral */
+    .waitlist-result__referral {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+    }
+
+    .waitlist-result__referral-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      color: #fff;
+      text-align: center;
+      margin: 0 0 4px;
+    }
+
+    .waitlist-result__referral-title::before {
+      content: '';
+      margin-right: 8px;
+    }
+
+    .waitlist-result__referral-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      margin: 0 0 16px;
+    }
+
+    .waitlist-result__link {
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 246, 224, 0.3);
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .waitlist-result__link span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #00F6E0;
+      word-break: break-all;
+      display: block;
+      text-align: center;
+    }
+
+    /* Share buttons */
+    .waitlist-result__share {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .waitlist-share-btn {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.2s;
+    }
+
+    .waitlist-share-btn:hover {
+      border-color: rgba(0, 246, 224, 0.5);
+      background: rgba(0, 246, 224, 0.1);
+      color: #00F6E0;
+    }
+
+    .waitlist-share-btn.copied {
+      border-color: #00FF88;
+      color: #00FF88;
+    }
+
+    .waitlist-share-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Skip the Line */
+    .waitlist-result__skip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(0, 246, 224, 0.1));
+      border: 1px solid rgba(255, 20, 147, 0.2);
+      border-radius: 12px;
+      margin-top: 24px;
+    }
+
+    .waitlist-result__skip-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      margin: 0;
+    }
+
+    .waitlist-result__skip-title::before {
+      content: '';
+      margin-right: 6px;
+    }
+
+    .waitlist-result__skip-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 4px 0 0;
+    }
+
+    .waitlist-result__skip-btn {
+      padding: 10px 20px;
+      background: #FF1493;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .waitlist-result__skip-btn:hover {
+      background: #00F6E0;
+      color: #0a0a0a;
+    }
+
+    /* Dashboard link */
+    .waitlist-result__dashboard {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      border: 1px solid rgba(0, 246, 224, 0.3);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #00F6E0;
+      text-decoration: none;
+      margin-top: 16px;
+      transition: all 0.2s;
+    }
+
+    .waitlist-result__dashboard:hover {
+      background: rgba(0, 246, 224, 0.1);
+    }
+
+    /* Close button */
+    .waitlist-result__close {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      margin-top: 8px;
+      transition: color 0.2s;
+    }
+
+    .waitlist-result__close:hover {
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -1319,7 +2105,7 @@
     <div class="hero-quote__attribution">according to the kids</div>
   </a>
 
-  <a class="neoball-btn" id="buyBtn" href="./pdp.html" aria-label="Buy Neoball">BUY NOW</a>
+  <button class="neoball-btn" id="draftBtn" type="button" aria-label="Enter the Draft">ENTER THE DRAFT</button>
 
   <!-- Front balls layer (in front of UI) -->
   <div id="ballsFront" class="balls-layer"></div>
@@ -1331,6 +2117,177 @@
       <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookieAccept">Accept</button>
       <button class="cookie-banner__btn cookie-banner__btn--reject" id="cookieReject">Reject All</button>
       <button class="cookie-banner__close" id="cookieClose" aria-label="Close">&times;</button>
+    </div>
+  </div>
+
+  <!-- Waitlist Modal -->
+  <div class="waitlist-modal" id="waitlistModal" role="dialog" aria-label="Join the Draft">
+    <div class="waitlist-modal__backdrop" id="modalBackdrop"></div>
+    <div class="waitlist-modal__glass">
+      <!-- Close button -->
+      <button class="waitlist-modal__close" id="modalClose" aria-label="Close">&times;</button>
+
+      <!-- PHASE 1: Form -->
+      <div class="waitlist-phase" id="phaseForm">
+        <div class="waitlist-modal__header">
+          <div class="waitlist-modal__badge">Alpha 8 Draft</div>
+          <h2 class="waitlist-modal__title">THE DRAFT</h2>
+          <p class="waitlist-modal__subtitle">888 FOUNDERS EDITION</p>
+          <p class="waitlist-modal__desc">Only the top wolves make the cut.</p>
+        </div>
+
+        <!-- Social proof -->
+        <div class="waitlist-modal__proof" id="socialProof" style="display: none;">
+          <span id="proofCount">0</span> athletes in the draft
+        </div>
+
+        <!-- Referrer badge (shown if referred) -->
+        <div class="waitlist-modal__referrer" id="referrerBadge" style="display: none;">
+          You were invited by a Pack member
+        </div>
+
+        <form class="waitlist-form" id="waitlistForm">
+          <!-- Size selector -->
+          <div class="waitlist-form__field">
+            <label class="waitlist-form__label">Select Size</label>
+            <div class="waitlist-form__sizes">
+              <button type="button" class="waitlist-size" data-size="6">
+                <span class="waitlist-size__value">6"</span>
+                <span class="waitlist-size__desc">Youth / Handles</span>
+              </button>
+              <button type="button" class="waitlist-size waitlist-size--active" data-size="7">
+                <span class="waitlist-size__value">7"</span>
+                <span class="waitlist-size__desc">Official / Game</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Email input -->
+          <div class="waitlist-form__field">
+            <label class="waitlist-form__label" for="waitlistEmail">Email</label>
+            <input type="email" id="waitlistEmail" class="waitlist-form__input" placeholder="your@email.com" required>
+          </div>
+
+          <!-- Commitment checkbox -->
+          <label class="waitlist-form__checkbox">
+            <input type="checkbox" id="waitlistReady">
+            <span class="waitlist-form__checkmark"></span>
+            <span>I'm ready to do the work.</span>
+          </label>
+
+          <!-- Error message -->
+          <p class="waitlist-form__error" id="formError" style="display: none;"></p>
+
+          <!-- Submit button -->
+          <button type="submit" class="waitlist-form__submit" id="submitBtn" disabled>
+            ENTER THE DRAFT
+          </button>
+        </form>
+
+        <p class="waitlist-modal__footer">Top 8 referrers win the LA training trip. $4,999 value.</p>
+      </div>
+
+      <!-- PHASE 2: Revealing -->
+      <div class="waitlist-phase" id="phaseRevealing" style="display: none;">
+        <div class="waitlist-reveal">
+          <!-- Scan line effect -->
+          <div class="waitlist-reveal__scan"></div>
+
+          <!-- Pack Card -->
+          <div class="waitlist-reveal__card">
+            <div class="waitlist-reveal__logo">NEOBALL</div>
+            <div class="waitlist-reveal__rank-label">YOUR RANK</div>
+            <div class="waitlist-reveal__rank" id="revealRank">#0</div>
+            <div class="waitlist-reveal__tier">
+              <span class="waitlist-reveal__emoji" id="revealEmoji"></span>
+              <span class="waitlist-reveal__tier-name" id="revealTierName">The Recruit</span>
+            </div>
+            <div class="waitlist-reveal__footer">ALPHA 8 DRAFT</div>
+          </div>
+
+          <p class="waitlist-reveal__status">Calculating your position...</p>
+        </div>
+      </div>
+
+      <!-- PHASE 3: Revealed -->
+      <div class="waitlist-phase" id="phaseRevealed" style="display: none;">
+        <!-- Mini Pack Card -->
+        <div class="waitlist-result__card">
+          <div class="waitlist-result__logo">NEOBALL</div>
+          <div class="waitlist-result__rank" id="finalRank">#1</div>
+          <div class="waitlist-result__tier">
+            <span id="finalEmoji"></span>
+            <span id="finalTierName">Recruit</span>
+          </div>
+        </div>
+
+        <!-- Verdict -->
+        <div class="waitlist-result__verdict" id="resultVerdict">
+          <h3 id="verdictTitle">YOU ARE NOT IN THE ALPHA 8.</h3>
+          <p id="verdictSubtitle">You are losing. Share to climb.</p>
+        </div>
+
+        <!-- Progress bar (if next tier exists) -->
+        <div class="waitlist-result__progress" id="progressSection" style="display: none;">
+          <div class="waitlist-result__progress-header">
+            <span id="progressLabel">Progress to Pack Runner</span>
+            <span id="progressCount">0/3</span>
+          </div>
+          <div class="waitlist-result__progress-bar">
+            <div class="waitlist-result__progress-fill" id="progressFill"></div>
+          </div>
+          <p class="waitlist-result__progress-hint" id="progressHint">3 more referrals to unlock</p>
+        </div>
+
+        <!-- Referral section -->
+        <div class="waitlist-result__referral">
+          <h3 class="waitlist-result__referral-title">GROW THE PACK</h3>
+          <p class="waitlist-result__referral-desc">Each friend = +10 spots up</p>
+
+          <div class="waitlist-result__link" id="referralLinkBox">
+            <span id="referralLink">https://neoball.co/w/XXXXXXXX</span>
+          </div>
+
+          <!-- Share buttons -->
+          <div class="waitlist-result__share">
+            <button class="waitlist-share-btn" id="copyLinkBtn" title="Copy link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+              </svg>
+            </button>
+            <button class="waitlist-share-btn" id="shareTwitterBtn" title="Share on X">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </button>
+            <button class="waitlist-share-btn" id="shareSmsBtn" title="Share via text">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </button>
+            <button class="waitlist-share-btn" id="shareEmailBtn" title="Share via email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Skip the Line -->
+        <div class="waitlist-result__skip">
+          <div class="waitlist-result__skip-info">
+            <p class="waitlist-result__skip-title">Skip the Line</p>
+            <p class="waitlist-result__skip-desc">Secure your ball + jump to top 100</p>
+          </div>
+          <a href="https://shop.youthperformance.com/products/neoball" target="_blank" rel="noopener" class="waitlist-result__skip-btn">$149</a>
+        </div>
+
+        <!-- Dashboard link -->
+        <a href="#" id="dashboardLink" class="waitlist-result__dashboard">VIEW FULL DASHBOARD &rarr;</a>
+
+        <!-- Close button -->
+        <button class="waitlist-result__close" id="resultClose">Close</button>
+      </div>
     </div>
   </div>
 
@@ -1658,6 +2615,411 @@
       acceptBtn?.addEventListener('click', () => hideBanner('accepted'));
       rejectBtn?.addEventListener('click', () => hideBanner('rejected'));
       closeBtn?.addEventListener('click', () => hideBanner('dismissed'));
+    })();
+  </script>
+
+  <!-- Waitlist Modal Logic -->
+  <script>
+    (function initWaitlistModal() {
+      // ========================================
+      // CONFIG & STATE
+      // ========================================
+      const CONVEX_URL = 'https://lovable-heron-569.convex.cloud';
+
+      // Wolf Pack tier thresholds
+      const TIER_THRESHOLDS = [
+        { refs: 0, emoji: '', label: 'Recruit' },
+        { refs: 3, emoji: '', label: 'Pack Runner' },
+        { refs: 5, emoji: '', label: 'Rising Wolf' },
+        { refs: 10, emoji: '', label: 'Elite Wolf' },
+        { refs: 25, emoji: '', label: 'Alpha' },
+        { refs: 50, emoji: '', label: 'Legend' }
+      ];
+
+      // State
+      let selectedSize = '7';
+      let waitlistResult = null;
+      let referrerCode = null;
+
+      // Check for referrer code in URL (e.g., /w/ABCD1234)
+      const pathMatch = window.location.pathname.match(/\/w\/([A-Z0-9]{8})/i);
+      if (pathMatch) {
+        referrerCode = pathMatch[1].toUpperCase();
+      }
+
+      // ========================================
+      // DOM ELEMENTS
+      // ========================================
+      const modal = document.getElementById('waitlistModal');
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const modalClose = document.getElementById('modalClose');
+      const draftBtn = document.getElementById('draftBtn');
+
+      // Phases
+      const phaseForm = document.getElementById('phaseForm');
+      const phaseRevealing = document.getElementById('phaseRevealing');
+      const phaseRevealed = document.getElementById('phaseRevealed');
+
+      // Form elements
+      const waitlistForm = document.getElementById('waitlistForm');
+      const emailInput = document.getElementById('waitlistEmail');
+      const readyCheckbox = document.getElementById('waitlistReady');
+      const submitBtn = document.getElementById('submitBtn');
+      const formError = document.getElementById('formError');
+      const sizeButtons = document.querySelectorAll('.waitlist-size');
+      const socialProof = document.getElementById('socialProof');
+      const proofCount = document.getElementById('proofCount');
+      const referrerBadge = document.getElementById('referrerBadge');
+
+      // Reveal elements
+      const revealRank = document.getElementById('revealRank');
+      const revealEmoji = document.getElementById('revealEmoji');
+      const revealTierName = document.getElementById('revealTierName');
+
+      // Result elements
+      const finalRank = document.getElementById('finalRank');
+      const finalEmoji = document.getElementById('finalEmoji');
+      const finalTierName = document.getElementById('finalTierName');
+      const verdictTitle = document.getElementById('verdictTitle');
+      const verdictSubtitle = document.getElementById('verdictSubtitle');
+      const resultVerdict = document.getElementById('resultVerdict');
+      const progressSection = document.getElementById('progressSection');
+      const progressLabel = document.getElementById('progressLabel');
+      const progressCount = document.getElementById('progressCount');
+      const progressFill = document.getElementById('progressFill');
+      const progressHint = document.getElementById('progressHint');
+      const referralLink = document.getElementById('referralLink');
+      const dashboardLink = document.getElementById('dashboardLink');
+
+      // Share buttons
+      const copyLinkBtn = document.getElementById('copyLinkBtn');
+      const shareTwitterBtn = document.getElementById('shareTwitterBtn');
+      const shareSmsBtn = document.getElementById('shareSmsBtn');
+      const shareEmailBtn = document.getElementById('shareEmailBtn');
+      const resultClose = document.getElementById('resultClose');
+
+      // ========================================
+      // CONVEX API
+      // ========================================
+      async function callConvexMutation(path, args) {
+        try {
+          const response = await fetch(`${CONVEX_URL}/api/mutation`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path, args, format: 'json' })
+          });
+          const data = await response.json();
+          return data.value || data;
+        } catch (error) {
+          console.error('[Waitlist] Mutation error:', error);
+          throw error;
+        }
+      }
+
+      async function callConvexQuery(path, args) {
+        try {
+          const params = new URLSearchParams({ path, args: JSON.stringify(args), format: 'json' });
+          const response = await fetch(`${CONVEX_URL}/api/query?${params}`);
+          const data = await response.json();
+          return data.value || data;
+        } catch (error) {
+          console.error('[Waitlist] Query error:', error);
+          return null;
+        }
+      }
+
+      async function joinWaitlist(email, size, referrer) {
+        return callConvexMutation('waitlist:joinWaitlist', {
+          email,
+          product: 'neoball',
+          size,
+          referrerCode: referrer || undefined,
+          metadata: {
+            userAgent: navigator.userAgent,
+            timestamp: Date.now(),
+            referrer: document.referrer || null
+          }
+        });
+      }
+
+      async function getStats() {
+        return callConvexQuery('waitlist:getStats', { product: 'neoball' });
+      }
+
+      // ========================================
+      // MODAL FUNCTIONS
+      // ========================================
+      function openModal() {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        resetModal();
+        loadStats();
+
+        // Show referrer badge if applicable
+        if (referrerCode) {
+          referrerBadge.style.display = 'block';
+        }
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      function resetModal() {
+        // Reset form
+        emailInput.value = '';
+        readyCheckbox.checked = false;
+        submitBtn.disabled = true;
+        formError.style.display = 'none';
+        submitBtn.textContent = 'ENTER THE DRAFT';
+
+        // Reset phases
+        phaseForm.style.display = 'block';
+        phaseRevealing.style.display = 'none';
+        phaseRevealed.style.display = 'none';
+
+        // Reset size selection
+        selectedSize = '7';
+        sizeButtons.forEach(btn => {
+          btn.classList.toggle('waitlist-size--active', btn.dataset.size === '7');
+        });
+      }
+
+      async function loadStats() {
+        try {
+          const stats = await getStats();
+          if (stats && stats.totalCount > 0) {
+            proofCount.textContent = stats.totalCount.toLocaleString();
+            socialProof.style.display = 'block';
+          }
+        } catch (e) {
+          console.log('[Waitlist] Could not load stats');
+        }
+      }
+
+      function showPhase(phase) {
+        phaseForm.style.display = phase === 'form' ? 'block' : 'none';
+        phaseRevealing.style.display = phase === 'revealing' ? 'block' : 'none';
+        phaseRevealed.style.display = phase === 'revealed' ? 'block' : 'none';
+      }
+
+      // ========================================
+      // RANK REVEAL ANIMATION
+      // ========================================
+      function animateRankReveal(targetRank, tier) {
+        showPhase('revealing');
+
+        // Set tier info
+        revealEmoji.textContent = tier?.emoji || '';
+        revealTierName.textContent = tier?.label || 'Recruit';
+
+        // Animate rank counter
+        const duration = 2000;
+        const steps = 60;
+        const stepDuration = duration / steps;
+        let currentStep = 0;
+
+        const interval = setInterval(() => {
+          currentStep++;
+          const progress = currentStep / steps;
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          const currentRank = Math.floor(targetRank * easeOut);
+          revealRank.textContent = `#${currentRank.toLocaleString()}`;
+
+          if (currentStep >= steps) {
+            clearInterval(interval);
+            revealRank.textContent = `#${targetRank.toLocaleString()}`;
+
+            // Transition to revealed phase after a brief pause
+            setTimeout(() => {
+              showResultPhase();
+            }, 500);
+          }
+        }, stepDuration);
+      }
+
+      function showResultPhase() {
+        showPhase('revealed');
+
+        if (!waitlistResult) return;
+
+        const position = waitlistResult.effectivePosition || waitlistResult.basePosition || 1;
+        const tier = waitlistResult.tier;
+        const nextTier = waitlistResult.nextTier;
+        const referralCount = waitlistResult.referralCount || 0;
+        const code = waitlistResult.referralCode;
+        const isInAlpha8 = position <= 8;
+
+        // Update card
+        finalRank.textContent = `#${position.toLocaleString()}`;
+        finalEmoji.textContent = tier?.emoji || '';
+        finalTierName.textContent = tier?.label || 'Recruit';
+
+        // Update verdict
+        if (isInAlpha8) {
+          resultVerdict.classList.add('alpha8');
+          verdictTitle.textContent = "YOU'RE IN THE ALPHA 8!";
+          verdictSubtitle.textContent = 'Keep sharing to hold your spot.';
+        } else {
+          resultVerdict.classList.remove('alpha8');
+          verdictTitle.textContent = 'YOU ARE NOT IN THE ALPHA 8.';
+          verdictSubtitle.textContent = 'You are losing. Share to climb.';
+        }
+
+        // Update progress bar
+        if (nextTier) {
+          progressSection.style.display = 'block';
+          const tierInfo = TIER_THRESHOLDS.find(t => t.label === nextTier.label);
+          progressLabel.textContent = `Progress to ${tierInfo?.emoji || ''} ${nextTier.label}`;
+          progressCount.textContent = `${referralCount}/${nextTier.threshold}`;
+          const percentage = Math.min(100, (referralCount / nextTier.threshold) * 100);
+          progressFill.style.width = `${percentage}%`;
+          progressHint.textContent = `${nextTier.referralsNeeded} more referrals to unlock`;
+        } else {
+          progressSection.style.display = 'none';
+        }
+
+        // Update referral link
+        const link = `https://neoball.co/w/${code}`;
+        referralLink.textContent = link;
+        dashboardLink.href = `/dashboard?code=${code}`;
+      }
+
+      // ========================================
+      // SHARE FUNCTIONS
+      // ========================================
+      function getReferralLink() {
+        return waitlistResult?.referralCode
+          ? `https://neoball.co/w/${waitlistResult.referralCode}`
+          : 'https://neoball.co';
+      }
+
+      function copyLink() {
+        const link = getReferralLink();
+        navigator.clipboard.writeText(link).then(() => {
+          copyLinkBtn.classList.add('copied');
+          setTimeout(() => copyLinkBtn.classList.remove('copied'), 2000);
+        });
+      }
+
+      function shareTwitter() {
+        const link = getReferralLink();
+        const text = 'Just locked in my spot for NeoBall - silent basketball so I can train anywhere. Get in before it\'s sold out';
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(link)}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+
+      function shareSms() {
+        const link = getReferralLink();
+        const text = `Yo check this out - silent basketball so you can train anywhere. Use my link: ${link}`;
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const smsUrl = isIOS ? `sms:&body=${encodeURIComponent(text)}` : `sms:?body=${encodeURIComponent(text)}`;
+        window.location.href = smsUrl;
+      }
+
+      function shareEmail() {
+        const link = getReferralLink();
+        const position = waitlistResult?.effectivePosition || 0;
+        const subject = 'Check out NeoBall - Silent Basketball';
+        const body = `Hey,\n\nI just got on the waitlist for NeoBall - it's a silent basketball so you can train anywhere without the noise.\n\nI'm #${position} on the waitlist. Use my link to join:\n${link}\n\nLet's get our spots!`;
+        window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      }
+
+      // ========================================
+      // FORM HANDLING
+      // ========================================
+      function updateSubmitState() {
+        const emailValid = emailInput.value && emailInput.validity.valid;
+        const isReady = readyCheckbox.checked;
+        submitBtn.disabled = !(emailValid && isReady);
+      }
+
+      async function handleSubmit(e) {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        if (!email) return;
+
+        // Show loading state
+        formError.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'ENTERING DRAFT...';
+        submitBtn.classList.add('loading');
+
+        try {
+          const result = await joinWaitlist(email, selectedSize, referrerCode);
+
+          if (result.success) {
+            waitlistResult = result;
+            animateRankReveal(
+              result.effectivePosition || result.basePosition || 1,
+              result.tier
+            );
+          } else {
+            formError.textContent = result.error || 'Something went wrong';
+            formError.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'ENTER THE DRAFT';
+            submitBtn.classList.remove('loading');
+          }
+        } catch (error) {
+          formError.textContent = 'Something went wrong. Please try again.';
+          formError.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'ENTER THE DRAFT';
+          submitBtn.classList.remove('loading');
+        }
+      }
+
+      // ========================================
+      // EVENT LISTENERS
+      // ========================================
+      // Open modal
+      draftBtn?.addEventListener('click', openModal);
+
+      // Close modal
+      modalClose?.addEventListener('click', closeModal);
+      modalBackdrop?.addEventListener('click', (e) => {
+        if (e.target === modalBackdrop && phaseForm.style.display !== 'none') {
+          closeModal();
+        }
+      });
+      resultClose?.addEventListener('click', closeModal);
+
+      // ESC key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) {
+          closeModal();
+        }
+      });
+
+      // Size selection
+      sizeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectedSize = btn.dataset.size;
+          sizeButtons.forEach(b => b.classList.remove('waitlist-size--active'));
+          btn.classList.add('waitlist-size--active');
+        });
+      });
+
+      // Form validation
+      emailInput?.addEventListener('input', updateSubmitState);
+      readyCheckbox?.addEventListener('change', updateSubmitState);
+
+      // Form submission
+      waitlistForm?.addEventListener('submit', handleSubmit);
+
+      // Share buttons
+      copyLinkBtn?.addEventListener('click', copyLink);
+      shareTwitterBtn?.addEventListener('click', shareTwitter);
+      shareSmsBtn?.addEventListener('click', shareSms);
+      shareEmailBtn?.addEventListener('click', shareEmail);
+
+      // Auto-open modal if on referral page
+      if (referrerCode) {
+        setTimeout(openModal, 500);
+      }
     })();
   </script>
 </body>
