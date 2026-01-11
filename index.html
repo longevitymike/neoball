@@ -594,124 +594,54 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 16px 48px;
+      padding: 18px 52px;
       font-family: 'Inter', sans-serif;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 17px;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       color: #fff;
-      background: linear-gradient(135deg, #FF1493 0%, #FF69B4 50%, #FF1493 100%);
-      background-size: 200% 200%;
+      background: linear-gradient(110deg, #FF1493 0%, #FF69B4 45%, #FF1493 55%, #FF1493 100%);
+      background-size: 200% 100%;
       border: none;
       border-radius: 12px;
       cursor: pointer;
       text-decoration: none;
-      overflow: visible;
-      isolation: isolate;
-      animation: shinyButtonGlow 3s ease-in-out infinite, shinyButtonBg 4s ease infinite;
+      overflow: hidden;
       box-shadow:
-        0 0 20px rgba(255, 20, 147, 0.5),
-        0 0 40px rgba(255, 20, 147, 0.3),
-        0 4px 20px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+        0 0 20px rgba(255, 20, 147, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
     }
 
-    /* Shimmer sweep animation */
+    /* Shimmer sweep - the glowing line that runs through */
     .neoball-btn::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
-      width: 100%;
+      width: 50%;
       height: 100%;
       background: linear-gradient(
-        120deg,
-        transparent 0%,
-        transparent 30%,
-        rgba(255, 255, 255, 0.4) 50%,
-        transparent 70%,
-        transparent 100%
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
       );
-      animation: shinyButtonSweep 2.5s ease-in-out infinite;
-      z-index: 1;
+      animation: shimmerSweep 2s ease-in-out infinite;
     }
 
-    /* Rotating border glow */
-    .neoball-btn::after {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 15px;
-      background: conic-gradient(
-        from 0deg,
-        #00F6E0,
-        #FF1493,
-        #00F6E0,
-        #FF1493,
-        #00F6E0
-      );
-      z-index: -1;
-      animation: shinyButtonRotate 2s linear infinite;
-      opacity: 1;
-      filter: blur(2px);
-    }
-
-    /* Inner text needs relative for z-index stacking */
-    .neoball-btn > span {
-      position: relative;
-    }
-
-    @keyframes shinyButtonSweep {
+    @keyframes shimmerSweep {
       0% {
-        left: -100%;
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
+        left: -50%;
       }
       100% {
-        left: 100%;
-        opacity: 0;
-      }
-    }
-
-    @keyframes shinyButtonGlow {
-      0%, 100% {
-        box-shadow:
-          0 0 20px rgba(255, 20, 147, 0.5),
-          0 0 40px rgba(255, 20, 147, 0.3),
-          0 4px 20px rgba(0, 0, 0, 0.3);
-      }
-      50% {
-        box-shadow:
-          0 0 30px rgba(255, 20, 147, 0.7),
-          0 0 60px rgba(255, 20, 147, 0.4),
-          0 0 80px rgba(255, 20, 147, 0.2),
-          0 4px 20px rgba(0, 0, 0, 0.3);
-      }
-    }
-
-    @keyframes shinyButtonBg {
-      0%, 100% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-    }
-
-    @keyframes shinyButtonRotate {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
+        left: 150%;
       }
     }
 
     .neoball-btn:hover {
-      transform: translateX(-50%) translateY(-3px) scale(1.02);
+      transform: translateX(-50%) translateY(-2px) scale(1.02);
       box-shadow:
         0 0 40px rgba(255, 20, 147, 0.8),
         0 0 80px rgba(255, 20, 147, 0.5),
@@ -720,12 +650,7 @@
     }
 
     .neoball-btn:hover::before {
-      animation: shinyButtonSweep 1.5s ease-in-out infinite;
-    }
-
-    .neoball-btn:hover::after {
-      opacity: 1;
-      animation: shinyButtonRotate 2s linear infinite;
+      animation: shimmerSweep 1.2s ease-in-out infinite;
     }
 
     .neoball-btn:active {
@@ -738,10 +663,6 @@
         font-size: 14px;
         bottom: 10%;
         border-radius: 10px;
-      }
-
-      .neoball-btn::after {
-        border-radius: 12px;
       }
 
       .neoball-logo-link {
