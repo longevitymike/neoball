@@ -1831,15 +1831,17 @@
     .waitlist-result__referral-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 18px;
-      letter-spacing: 0.05em;
-      color: #fff;
+      letter-spacing: 0.08em;
+      color: #00F6E0;
       text-align: center;
       margin: 0 0 4px;
+      text-shadow: 0 0 10px rgba(0, 246, 224, 0.5);
     }
 
     .waitlist-result__referral-title::before {
-      content: '';
+      content: '💎';
       margin-right: 8px;
+      filter: drop-shadow(0 0 4px rgba(0, 246, 224, 0.8));
     }
 
     .waitlist-result__referral-desc {
@@ -2280,13 +2282,13 @@
           <div class="waitlist-result__progress-bar">
             <div class="waitlist-result__progress-fill" id="progressFill"></div>
           </div>
-          <p class="waitlist-result__progress-hint" id="progressHint">3 more referrals to unlock</p>
+          <p class="waitlist-result__progress-hint" id="progressHint">3 more shards to unlock next tier</p>
         </div>
 
-        <!-- Referral section -->
+        <!-- Referral section - THE SHARD DROP -->
         <div class="waitlist-result__referral">
-          <h3 class="waitlist-result__referral-title">GROW THE PACK</h3>
-          <p class="waitlist-result__referral-desc">Each friend = +10 spots up</p>
+          <h3 class="waitlist-result__referral-title">THE SHARD DROP</h3>
+          <p class="waitlist-result__referral-desc">Grant access. Collect Shards. Jump the line.</p>
 
           <div class="waitlist-result__link" id="referralLinkBox">
             <span id="referralLink">https://neoball.co/w/XXXXXXXX</span>
@@ -2915,7 +2917,7 @@
       function shareTwitter() {
         const link = getReferralLink();
         const position = waitlistResult?.effectivePosition || 0;
-        const text = `Just declared for the NeoBall Alpha 8 Draft 🐺\n\n#${position} in line for the LA training camp with James Scott + Adam Harrington.\n\n888 spots. Top 8 get flown out.`;
+        const text = `💎 SHARD DROP #${position}\n\nJust fractured into the NeoBall Alpha 8 Draft. Top 8 get flown to LA.\n\nGrab a shard. Jump the line.`;
         const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(link)}`;
         window.open(url, '_blank', 'noopener,noreferrer');
       }
@@ -2923,7 +2925,7 @@
       function shareSms() {
         const link = getReferralLink();
         const position = waitlistResult?.effectivePosition || 0;
-        const text = `Yo I just got #${position} in the NeoBall Alpha 8 Draft. They're flying the top 8 to LA to train with pro coaches. Use my link and let's both climb the board: ${link}`;
+        const text = `💎 Shard Drop - I'm #${position} in the NeoBall Alpha 8 Draft. Each referral = +10 shards. Top 8 get flown to LA to train with Kobe's shooting coach. Grab a shard: ${link}`;
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const smsUrl = isIOS ? `sms:&body=${encodeURIComponent(text)}` : `sms:?body=${encodeURIComponent(text)}`;
         window.location.href = smsUrl;
@@ -2932,8 +2934,8 @@
       function shareEmail() {
         const link = getReferralLink();
         const position = waitlistResult?.effectivePosition || 0;
-        const subject = 'I\'m in the NeoBall Alpha 8 Draft - join me';
-        const body = `Yo,\n\nJust declared for the NeoBall Alpha 8 Draft - I'm #${position} right now.\n\nThey're flying the TOP 8 referrers to LA for a $4,999 training camp with James Scott (Adam Sandler's trainer) and Adam Harrington (Kobe's shooting coach).\n\nUse my link to join and help me climb:\n${link}\n\n888 spots total. Let's get it.`;
+        const subject = '💎 Shard Drop - NeoBall Alpha 8 Draft';
+        const body = `Yo,\n\nI'm dropping you a shard.\n\nJust fractured into the NeoBall Alpha 8 Draft - I'm #${position}.\n\nTop 8 referrers get flown to LA for a $4,999 training camp with James Scott + Adam Harrington (Kobe's shooting coach).\n\nEach shard you collect = +10 spots up the board.\n\nGrab your shard:\n${link}\n\n888 Founders spots. Let's climb.`;
         window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       }
 
