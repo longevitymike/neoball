@@ -966,122 +966,6 @@
       }
     }
 
-    /* Cookie Consent Banner */
-    .cookie-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 10001;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 14px 20px;
-      background: #f5f5f5;
-      border-top: 1px solid #ddd;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      transform: translateY(0);
-      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    }
-
-    .cookie-banner.hidden {
-      transform: translateY(100%);
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .cookie-banner__text {
-      flex: 1;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #1a1a1a;
-      line-height: 1.4;
-    }
-
-    .cookie-banner__actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .cookie-banner__btn {
-      padding: 10px 20px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: inherit;
-    }
-
-    .cookie-banner__btn--accept {
-      background: #00FFFF;
-      color: #0a0a0a;
-    }
-
-    .cookie-banner__btn--accept:hover {
-      background: #00e5e5;
-      box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
-    }
-
-    .cookie-banner__btn--reject {
-      background: #e0e0e0;
-      color: #333;
-    }
-
-    .cookie-banner__btn--reject:hover {
-      background: #d0d0d0;
-    }
-
-    .cookie-banner__close {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      font-size: 18px;
-      color: #666;
-      transition: all 0.2s ease;
-      margin-left: 4px;
-    }
-
-    .cookie-banner__close:hover {
-      background: #e0e0e0;
-      border-color: #999;
-    }
-
-    @media (max-width: 600px) {
-      .cookie-banner {
-        flex-wrap: wrap;
-        padding: 12px 16px;
-        gap: 12px;
-      }
-
-      .cookie-banner__text {
-        flex-basis: 100%;
-        font-size: 10px;
-      }
-
-      .cookie-banner__actions {
-        width: 100%;
-        justify-content: flex-end;
-      }
-
-      .cookie-banner__btn {
-        padding: 8px 14px;
-        font-size: 11px;
-      }
-    }
-
     /* Ball layer wrappers */
     .balls-layer {
       position: fixed;
@@ -2110,16 +1994,6 @@
   <!-- Front balls layer (in front of UI) -->
   <div id="ballsFront" class="balls-layer"></div>
 
-  <!-- Cookie Consent Banner -->
-  <div class="cookie-banner hidden" id="cookieBanner" role="dialog" aria-label="Cookie consent">
-    <p class="cookie-banner__text">This website uses cookies to improve your browsing experience.</p>
-    <div class="cookie-banner__actions">
-      <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookieAccept">Accept</button>
-      <button class="cookie-banner__btn cookie-banner__btn--reject" id="cookieReject">Reject All</button>
-      <button class="cookie-banner__close" id="cookieClose" aria-label="Close">&times;</button>
-    </div>
-  </div>
-
   <!-- Waitlist Modal -->
   <div class="waitlist-modal" id="waitlistModal" role="dialog" aria-label="Join the Draft">
     <div class="waitlist-modal__backdrop" id="modalBackdrop"></div>
@@ -2581,41 +2455,6 @@
         revealSite();
       }
     }
-  </script>
-
-  <!-- Cookie Consent Logic -->
-  <script>
-    (function initCookieBanner() {
-      const banner = document.getElementById('cookieBanner');
-      const acceptBtn = document.getElementById('cookieAccept');
-      const rejectBtn = document.getElementById('cookieReject');
-      const closeBtn = document.getElementById('cookieClose');
-
-      if (!banner) return;
-
-      const STORAGE_KEY = 'neoball_cookie_consent';
-
-      // Check if user already made a choice
-      const consent = localStorage.getItem(STORAGE_KEY);
-      if (consent) {
-        banner.classList.add('hidden');
-        return;
-      }
-
-      // Show banner after loader reveals
-      setTimeout(() => {
-        banner.classList.remove('hidden');
-      }, 3000);
-
-      function hideBanner(choice) {
-        localStorage.setItem(STORAGE_KEY, choice);
-        banner.classList.add('hidden');
-      }
-
-      acceptBtn?.addEventListener('click', () => hideBanner('accepted'));
-      rejectBtn?.addEventListener('click', () => hideBanner('rejected'));
-      closeBtn?.addEventListener('click', () => hideBanner('dismissed'));
-    })();
   </script>
 
   <!-- Waitlist Modal Logic -->
